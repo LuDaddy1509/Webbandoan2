@@ -29,50 +29,9 @@
   </head>
 
   <body>
-    <div class="wrapper d-flex align-items-stretch">
-      <nav id="sidebar">
-        <div class="custom-menu">
-          <button
-            type="button"
-            id="sidebarCollapse"
-            class="btn btn-primary"
-          ></button>
-        </div>
-        <div class="img bg-wrap text-center py-4">
-          <div class="user-logo">
-            <div class="inner-logo">
-              <img src="assets/img/logo.png" alt="logo" />
-            </div>
-          </div>
-        </div>
-        <ul class="list-unstyled components mb-5">
-          <li>
-            <a href="admin.html"
-              ><i class="fa-light fa-house"></i> Trang tổng quan</a
-            >
-          </li>
-          <li class="active">
-            <a href="adminproduct.html"
-              ><i class="fa-light fa-pot-food"></i> Sản phẩm</a
-            >
-          </li>
-          <li>
-            <a href="admincustomer.html"
-              ><i class="fa-light fa-users"></i> Khách hàng</a
-            >
-          </li>
-          <li>
-            <a href="adminorder.html"
-              ><i class="fa-light fa-basket-shopping"></i> Đơn hàng</a
-            >
-          </li>
-          <li>
-            <a href="adminstatistical.html"
-              ><i class="fa-light fa-chart-simple"></i> Thống kê</a
-            >
-          </li>
-        </ul>
-      </nav>
+    <?php
+    include_once "includes/headeradmin.php";
+    ?>
 
       <!-- adminproduct  -->
 
@@ -104,10 +63,10 @@
             </form>
           </div>
           <div class="admin-control-right">
-            <a href="adminproduct.html" class="inner-nut"
+            <a href="adminproduct.php" class="inner-nut"
               ><i class="fa-light fa-rotate-right"></i> Làm mới</a
             >
-            <a href="adminaddproduct.html" class="inner-nut">
+            <a href="adminaddproduct.php" class="inner-nut">
               <i class="fa-light fa-plus"></i> Thêm món mới
             </a>
           </div>
