@@ -29,7 +29,7 @@
   </head>
 
   <body>
-  <!-- Header -->
+  <!-- Header --> 
     <?php
     include "includes/header.php";
     ?>
