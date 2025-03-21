@@ -1,5 +1,8 @@
  <!-- header top  -->
-
+<?php
+ob_start();
+session_start();
+?>
  <header class="header-top">
       <div class="container">
         <div class="inner-wrap">
@@ -102,39 +105,77 @@
               </button>
             </div>
             <div class="modal-body">
-              <form action="">
-                <div class="row">
-                  <div class="col-12">
-                    <div class="form-group">
-                      <label for="sdt">Số điện thoại</label>
-                      <input
-                        type="text"
-                        id="sdt"
-                        class="form-control"
-                        placeholder="Nhập số điện thoại"
-                      />
-                    </div>
-                  </div>
-                  <div class="col-12">
-                    <div class="form-group">
-                      <label for="mk">Mật khẩu</label>
-                      <input
-                        type="password"
-                        id="mk"
-                        class="form-control"
-                        placeholder="Nhập mật khẩu"
-                      />
-                    </div>
-                  </div>
-                  <div class="col-12">
-                    <a href="login.html" class="button"> Đăng nhập </a>
-                  </div>
-                </div>
-              </form>
+            <form action="" method="post">
+    <div class="row">
+        <div class="col-12">
+            <div class="form-group">
+                <label for="sdt">Số điện thoại</label>
+                <input type="tel" id="sdt" class="form-control" name="PhoneNumber" 
+                       placeholder="Nhập số điện thoại" required autocomplete="off"/>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group">
+                <label for="mk">Mật khẩu</label>
+                <input type="password" id="mk" class="form-control" name="password" 
+                       placeholder="Nhập mật khẩu" required autocomplete="off"/>
+            </div>
+        </div>
+        <div class="col-12">
+            <button type="submit" class="button" name="dangnhap"> Đăng nhập </button>
+        </div>
+    </div>
+</form>
+              <?php
+              if(isset($_GET['error'])){
+                echo '<h5 style="color:red;">' ,$_GET['error'] . '</h5>';
+              }
+              ?>
             </div>
           </div>
         </div>
       </div>
+      <?php
+include "connect.php"; // Kết nối CSDL
+
+if (isset($_POST['dangnhap'])) {
+  $PhoneNumber = mysqli_real_escape_string($conn, $_POST['PhoneNumber']);
+  $password = mysqli_real_escape_string($conn, $_POST['password']);
+
+    if (empty($PhoneNumber) || empty($password)) {
+        header("Location: index.php?error=Vui lòng nhập đủ thông tin!");
+        exit();
+    }
+
+    // Kiểm tra số điện thoại trong CSDL
+    $sql = "SELECT * FROM khachhang WHERE sodienthoai = '$PhoneNumber' AND matkhau='$password';";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+
+        // Kiểm tra mật khẩu (nếu mật khẩu đã mã hóa trong DB)
+        if ($password == $row['matkhau']) {
+            $_SESSION['PhoneNumber'] = $row['sodienthoai'];
+            $_SESSION['tenkh'] = $row['tenkh'];
+
+            header("Location: login.php"); // Chuyển đến trang admin
+            exit();
+        } else {
+            echo "sai mật khẩu";
+            exit();
+        }
+    } else {
+      echo "sdt không tồn tại";
+        exit();
+    }
+
+    $stmt->close();
+}
+$conn->close();
+?>
+
+
 
       <!-- End Modal login -->
 
@@ -165,7 +206,7 @@
               </button>
             </div>
             <div class="modal-body">
-              <form action="">
+              <form action="" method="post">
                 <div class="row">
                   <div class="col-12">
                     <div class="form-group">
@@ -174,6 +215,7 @@
                         type="text"
                         id="name"
                         class="form-control"
+                        name="name"
                         placeholder="VD: Thành Đại"
                       />
                     </div>
@@ -185,6 +227,7 @@
                         type="text"
                         id="sdt2"
                         class="form-control"
+                        name="sdt"
                         placeholder="Nhập số điện thoại"
                       />
                     </div>
@@ -196,37 +239,73 @@
                         type="text"
                         id="dc"
                         class="form-control"
+                        name="diachi"
                         placeholder="Nhập địa chỉ"
                       />
                     </div>
                   </div>
                   <div class="col-12">
                     <div class="form-group">
-                      <label for="mk2">Mật khẩu</label>
+                      <label for="mk2">Email</label>
                       <input
-                        type="password"
+                        type="text"
                         id="mk2"
                         class="form-control"
-                        placeholder="Nhập mật khẩu"
+                        name="email"
+                        placeholder="Nhập địa chỉ email"
                       />
                     </div>
                   </div>
                   <div class="col-12">
                     <div class="form-group">
-                      <label for="nhapmk">Nhập lại Mật khẩu</label>
+                      <label for="nhapmk"> Mật khẩu</label>
                       <input
                         type="password"
                         id="nhapmk"
                         class="form-control"
-                        placeholder="Nhập lại mật khẩu"
+                        name="matkhau"
+                        placeholder=" Nhập mật khẩu"
                       />
                     </div>
                   </div>
                   <div class="col-12">
-                    <button class="button" onclick="dangKi()">Đăng kí</button>
+                    <button class="button" onclick="dangKi()" name="dangky">Đăng kí</button>
                   </div>
                 </div>
               </form>
+              <?php
+              include "connect.php";
+              if(isset($_POST['dangky'])){
+                $name = $_POST['name'];
+                $sdt = $_POST['sdt'];
+                $diachi = $_POST['diachi']; 
+                  $password = $_POST['matkhau'];
+                  $email = $_POST['email'];
+                  $sql = "SELECT * FROM Khachhang WHERE sodienthoai = ?";
+                  $stmt = $conn->prepare($sql);
+                  $stmt->bind_param("s",$sdt);
+                  $stmt->execute();
+                  $result = $stmt -> get_result();
+                if($result->num_rows > 0){
+                  echo "Số điện thoai đã tồn tại xin vui lòng sữ dung số điên thoại khác!";
+                }
+                else{
+                  $sql_insert =" INSERT INTO Khachhang(tenkh,matkhau,diachi,sodienthoai,Email) VALUES(?,?,?,?,?);";
+                  $stmt_insert = $conn->prepare($sql_insert);
+                  $stmt_insert->bind_param("sssss",$name,$password,$diachi,$sdt,$email);
+                  if($stmt_insert->execute()){
+                    $_SESSION['PhonneNumber'] = $sdt;
+                    $_SESSION['tenkh'] = $name;
+                    echo "Đắng ký tài khoản thàng công! $name";
+                    header("location: login.php");
+                    exit();
+                  }
+                  else{
+                    echo "Đắng ký tài khoản thất bại";
+                  }
+                }
+                }
+              ?>
             </div>
           </div>
         </div>
@@ -303,28 +382,28 @@
         <div class="inner-menu">
           <ul>
             <li>
-              <a href="index.php">TRANG CHỦ</a>
+              <a href="index.html">TRANG CHỦ</a>
             </li>
             <li>
-              <a href="timkiemnangcao.php">MÓN CHAY</a>
+              <a href="timkiemnangcao.html">MÓN CHAY</a>
             </li>
             <li>
-              <a href="timkiemnangcao.php">MÓN MẶN</a>
+              <a href="timkiemnangcao.html">MÓN MẶN</a>
             </li>
             <li>
-              <a href="timkiemnangcao.php">MÓN LẨU</a>
+              <a href="timkiemnangcao.html">MÓN LẨU</a>
             </li>
             <li>
-              <a href="timkiemnangcao.php">MÓN ĂN VẶT</a>
+              <a href="timkiemnangcao.html">MÓN ĂN VẶT</a>
             </li>
             <li>
-              <a href="timkiemnangcao.php">MÓN TRÁNG MIỆNG</a>
+              <a href="timkiemnangcao.html">MÓN TRÁNG MIỆNG</a>
             </li>
             <li>
-              <a href="timkiemnangcao-2.php">NƯỚC UỐNG</a>
+              <a href="timkiemnangcao-2.html">NƯỚC UỐNG</a>
             </li>
             <li>
-              <a href="timkiemnangcao.php">HẢI SẢN</a>
+              <a href="timkiemnangcao.html">HẢI SẢN</a>
             </li>
           </ul>
         </div>

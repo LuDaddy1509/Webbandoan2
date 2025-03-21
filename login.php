@@ -71,7 +71,16 @@
                 aria-expanded="false"
               >
                 <div class="inner-register">Tài khoản</div>
-                <div class="nav-link dropdown-toggle">Thanh</div>
+                <div class="nav-link dropdown-toggle">
+                <?php
+                session_start();
+                include "connect.php";
+                echo "<p class='username'>" . $_SESSION['tenkh'] . "</p>";
+                if(!isset($_SESSION['PhoneNumber'])){
+                  header('location:index.php');
+                }
+                ?>
+                </div>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <a class="dropdown-item" href="account.html"
                     ><i class="fa-regular fa-circle-user"></i>Tài khoản của
@@ -80,10 +89,10 @@
                   <a class="dropdown-item" href="productss.html"
                     ><i class="fa-solid fa-cart-shopping"></i>Đơn hàng đã mua</a
                   >
-                  <a class="dropdown-item" href="index.html"
+                  <a href="logout.php">
+                  <button class="dropdown-item"
                     ><i class="fa-solid fa-right-from-bracket"></i>Thoát tài
-                    khoản</a
-                  >
+                    khoản</button></a>
                 </div>
               </a>
             </div>
@@ -129,7 +138,7 @@
               </button>
             </div>
             <div class="modal-body">
-              <form action="">
+              <form action="" method="post" id="dntk">
                 <div class="row">
                   <div class="col-12">
                     <div class="form-group">
@@ -138,6 +147,7 @@
                         type="text"
                         id="sdt"
                         class="form-control"
+                        name="PhoneNumber"
                         placeholder="Nhập số điện thoại"
                       />
                     </div>
@@ -149,12 +159,13 @@
                         type="password"
                         id="mk"
                         class="form-control"
+                        name="password"
                         placeholder="Nhập mật khẩu"
                       />
                     </div>
                   </div>
                   <div class="col-12">
-                    <a href="login.html" class="button"> Đăng nhập </a>
+                    <button type="submit" class="button">Đăng Nhập</button>
                   </div>
                 </div>
               </form>
@@ -256,10 +267,10 @@
         <div class="inner-menu">
           <ul>
             <li>
-              <a href="login.html">TRANG CHỦ</a>
+              <a href="login.php">TRANG CHỦ</a>
             </li>
             <li>
-              <a href="timkiemnangcao-login.html">MÓN CHAY</a>
+              <a href="timkiemnangcao-login.php">MÓN CHAY</a>
             </li>
             <li>
               <a href="timkiemnangcao-login.html">MÓN MẶN</a>
