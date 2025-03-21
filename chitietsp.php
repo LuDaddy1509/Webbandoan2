@@ -104,67 +104,12 @@
                 <div class="inner-thongtin">
                   <div class="inner-nut">
                     <button class="inner-mt inner-mt-active">Mô tả</button>
-                    <button class="inner-mt">Đánh giá</button>
                   </div>
                   <div class="inner-mota">
                     <div class="inner-nd">
-                      <h2 class="inner-title">1. NGUYÊN LIỆU</h2>
-                      <ul>
-                        <li>Xương bò (xương ống, đuôi, sườn)</li>
-                        <li>Gừng, hành tím</li>
-                        <li>Quế, hạt mùi, thảo quả, đinh hương, hồi, tiêu</li>
-                        <li>Muối, đường phèn, nước mắm</li>
-                        <li>Mía lau (tuỳ chọn)</li>
-                        <li>Bánh phở tươi</li>
-                        <li>Thịt bò (thăn, gầu, bắp, tái, nạm, gân)</li>
-                        <li>Hành lá, ngò rí</li>
-                        <li>Chanh, ớt</li>
-                        <li>Bánh quẩy (tuỳ chọn)</li>
-                        <li>Tương ớt, tương đen, dầu hào (tuỳ chọn)</li>
-                      </ul>
+                    <?php echo $row['Describtion'] ?>
                     </div>
-                    <div class="inner-nd">
-                      <h2 class="inner-title">2. HƯƠNG VỊ</h2>
-                      <p class="inner-desc">
-                        Phở là một món ăn đậm đà hương vị, hấp dẫn ngay từ lần
-                        thử đầu tiên. Nước dùng trong vắt, ngọt tự nhiên từ
-                        xương bò hầm lâu, hòa quyện với các gia vị đặc trưng như
-                        quế, hồi, thảo quả, tạo nên một hương vị ấm áp, thanh
-                        thoát nhưng đầy lôi cuốn. Khi thưởng thức, bạn sẽ cảm
-                        nhận được độ mềm mại của từng sợi bánh phở tươi, kết hợp
-                        hoàn hảo với thịt bò mềm, ngọt, có thể là tái, nạm hay
-                        gầu tùy khẩu vị. Một ít hành lá, ngò rí, và lát chanh
-                        tươi giúp làm nổi bật hương vị, trong khi một chút ớt
-                        cay nồng thêm phần kích thích. Món phở không chỉ là bữa
-                        ăn, mà là một trải nghiệm đầy cảm xúc, từ vị ngọt thanh
-                        của nước dùng đến sự hòa quyện hoàn hảo giữa các nguyên
-                        liệu tươi ngon.
-                      </p>
-                    </div>
-                    <div class="inner-nd">
-                      <h2 class="inner-title">3. DINH DƯỠNG</h2>
-                      <ul>
-                        <li>Năng lượng (calo): Khoảng 350-450 kcal/bát.</li>
-                        <li>
-                          Chất đạm (protein): 20-30 gram, chủ yếu từ thịt bò.
-                        </li>
-                        <li>
-                          Chất béo: 10-15 gram, tùy thuộc vào phần thịt bò (thịt
-                          nạm, gầu, hoặc tái).
-                        </li>
-                        <li>
-                          Carbohydrate: 40-50 gram từ bánh phở (tinh bột).
-                        </li>
-                        <li>
-                          Chất xơ: Khoảng 1-2 gram từ rau thơm và hành tây.
-                        </li>
-                        <li>
-                          Vitamin và khoáng chất: Phở bò cung cấp một số vitamin
-                          A (từ rau), vitamin C (từ chanh và rau thơm), canxi,
-                          sắt (từ thịt bò và gia vị).
-                        </li>
-                      </ul>
-                    </div>
+                    
                   </div>
                 </div>
               </div>
@@ -262,230 +207,57 @@ $conn->close();
               </p>
             </div>
           </div>
-          <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
+          <?php
+// Kết nối đến database
+include "connect.php";
+
+// Kiểm tra kết nối
+if ($conn->connect_error) {
+    die("Kết nối thất bại: " . $conn->connect_error);
+}
+
+// Lấy 4 sản phẩm ngẫu nhiên
+$sql = "SELECT * FROM sanpham ORDER BY RAND() LIMIT 4";
+$result = $conn->query($sql);
+
+// Hiển thị sản phẩm
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        echo '
+        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
             <div class="inner-item">
-              <a href="chitietsp.html" class="inner-img">
-                <img src="assets/img/products/banhmi.webp" />
+              <a href="chitietsp.php?id='.$row['ID'].'" class="inner-img">
+                <img src="'.$row['Image'].'" />
               </a>
               <div class="inner-info">
-                <div class="inner-ten">Bánh mì</div>
-                <div class="inner-gia">20.000 ₫</div>
-                <a href="chitietsp.html" class="inner-muahang">
+                <div class="inner-ten">'.$row['Name'].'</div>
+                <div class="inner-gia">'.number_format($row['Price'], 0, ',', '.').'.000₫</div>
+                <a href="chitietsp.php?id='.$row['ID'].'" class="inner-muahang">
                   <i class="fa-solid fa-cart-plus"></i> ĐẶT MÓN
                 </a>
               </div>
             </div>
-          </div>
-          <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
-            <div class="inner-item">
-              <a href="chitietsp.html" class="inner-img">
-                <img src="assets/img/products/buncha.jpg" />
-              </a>
-              <div class="inner-info">
-                <div class="inner-ten">Bún chả Hà Nội</div>
-                <div class="inner-gia">50.000 ₫</div>
-                <a href="chitietsp.html" class="inner-muahang">
-                  <i class="fa-solid fa-cart-plus"></i> ĐẶT MÓN
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
-            <div class="inner-item">
-              <a href="chitietsp.html" class="inner-img">
-                <img src="assets/img/products/caolau.jpg" />
-              </a>
-              <div class="inner-info">
-                <div class="inner-ten">Cao lầu</div>
-                <div class="inner-gia">40.000 ₫</div>
-                <a href="chitietsp.html" class="inner-muahang">
-                  <i class="fa-solid fa-cart-plus"></i> ĐẶT MÓN
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
-            <div class="inner-item">
-              <a href="chitietsp.html" class="inner-img">
-                <img src="assets/img/products/goicuon.jpg" />
-              </a>
-              <div class="inner-info">
-                <div class="inner-ten">Gỏi cuốn</div>
-                <div class="inner-gia">30.000 ₫</div>
-                <a href="chitietsp.html" class="inner-muahang">
-                  <i class="fa-solid fa-cart-plus"></i> ĐẶT MÓN
-                </a>
-              </div>
-            </div>
-          </div>
+        </div>';
+    }
+} else {
+    echo "Không có sản phẩm nào!";
+}
+
+$conn->close();
+?>
+
+
+
+
+
+
         </div>
       </div>
     </div>
 
     <!-- End SanPham-->
+<?php
+include_once "includes/footer.php";
+?>
 
-    <!-- Footer-top -->
-
-    <div class="Footer-top">
-      <div class="container">
-        <div class="row">
-          <div class="col-xl-4 col-lg-4 col-md-12">
-            <div class="inner-logo">
-              <img src="assets/img/logo.png" alt="logo" />
-            </div>
-          </div>
-          <div class="col-xl-3 col-lg-3 col-md-6">
-            <div class="inner-text">
-              <div class="inner-chu1">Đăng ký nhận tin</div>
-              <div class="inner-chu2">Nhận thông tin mới nhất từ chúng tôi</div>
-            </div>
-          </div>
-          <div class="col-xl-5 col-lg-5 col-md-6">
-            <form action="" class="inner-form">
-              <input type="text" placeholder="Nhập email của bạn" />
-              <button class="inner-sub">
-                ĐĂNG KÝ <i class="fa-solid fa-arrow-right"></i>
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- End Footer-top -->
-
-    <!-- Footer-middle -->
-
-    <div class="Footer-middle">
-      <div class="container">
-        <div class="row">
-          <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
-            <div class="inner-text">Về chúng tôi</div>
-            <p class="inner-desc">
-              Đặc Sản 3 Miền là thương hiệu được thành lập vào năm 2023 với tiêu
-              chí đặt chất lượng sản phẩm lên hàng đầu.
-            </p>
-            <div class="inner-icon">
-              <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-              <a href="#"><i class="fa-brands fa-twitter"></i></a>
-              <a href="#"><i class="fa-brands fa-instagram"></i></a>
-              <a href="#"><i class="fa-brands fa-tiktok"></i></a>
-            </div>
-          </div>
-          <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-            <div class="inner-text">liên kết</div>
-            <ul>
-              <li>
-                <a href="#"
-                  ><i class="fa-solid fa-arrow-right"></i>Về chúng tôi</a
-                >
-              </li>
-              <li>
-                <a href="#"><i class="fa-solid fa-arrow-right"></i>Thực đơn</a>
-              </li>
-              <li>
-                <a href="#"
-                  ><i class="fa-solid fa-arrow-right"></i>Điều khoản</a
-                >
-              </li>
-              <li>
-                <a href="#"><i class="fa-solid fa-arrow-right"></i>Liên Hệ</a>
-              </li>
-              <li>
-                <a href="#"><i class="fa-solid fa-arrow-right"></i>Tin tức</a>
-              </li>
-            </ul>
-          </div>
-          <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-            <div class="inner-text">thực đơn</div>
-            <ul class="inner-menu">
-              <li>
-                <a href="#"><i class="fa-solid fa-arrow-right"></i>Điểm tâm</a>
-              </li>
-              <li>
-                <a href="#"><i class="fa-solid fa-arrow-right"></i>Món chay</a>
-              </li>
-              <li>
-                <a href="#"><i class="fa-solid fa-arrow-right"></i>Món mặn</a>
-              </li>
-              <li>
-                <a href="#"><i class="fa-solid fa-arrow-right"></i>Nước uống</a>
-              </li>
-              <li>
-                <a href="#"
-                  ><i class="fa-solid fa-arrow-right"></i>Tráng miệng</a
-                >
-              </li>
-            </ul>
-          </div>
-          <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-            <div class="inner-text">liên hệ</div>
-            <div class="inner-contact">
-              <div class="inner-icon">
-                <i class="fa-solid fa-location-dot"></i>
-              </div>
-              <div class="inner-diachi">
-                <div class="inner-chu1">40/15 Tô Hiệu, P. Tân Thới Hòa</div>
-                <div class="inner-chu2">Quận Tân Phú, TP Hồ Chí Minh</div>
-              </div>
-            </div>
-            <div class="inner-contact">
-              <div class="inner-icon">
-                <i class="fa-solid fa-phone"></i>
-              </div>
-              <div class="inner-diachi">
-                <div class="inner-chu1">0123 456 789</div>
-                <div class="inner-chu2">0987 654 321</div>
-              </div>
-            </div>
-            <div class="inner-contact">
-              <div class="inner-icon">
-                <i class="fa-regular fa-envelope"></i>
-              </div>
-              <div class="inner-diachi">
-                <div class="inner-chu1">hđkn@gmail.com</div>
-                <div class="inner-chu2">gacon@domain.com</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- End Footer-middle -->
-
-    <!-- Footer-bottom -->
-
-    <div class="Footer-bottom">
-      <div class="container">
-        <div class="row">
-          <div class="col-xl-12">
-            <div class="inner-end">
-              Copyright 2023 ĐS3M. All Rights Reserved.
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- End Footer-bottom -->
-
-    <script
-      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
-      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-      crossorigin="anonymous"
-    ></script>
-
-    <script src="assets/js/main.js"></script>
-  </body>
 </html>

@@ -28,275 +28,9 @@
   </head>
 
   <body>
-    <!-- header top  -->
-
-    <header class="header-top">
-      <div class="container">
-        <div class="inner-wrap">
-          <div class="inner-left">
-            <a href="login.html"
-              ><img src="assets/img/logo.png" alt="logo"
-            /></a>
-          </div>
-
-          <div class="inner-middle">
-            <form action="" class="inner-find">
-              <input type="text" placeholder="Tìm Kiếm món ăn..." />
-              <a href="timkiem-login.html" class="inner-button-find">
-                <i class="fa-solid fa-magnifying-glass"></i>
-              </a>
-            </form>
-          </div>
-
-          <div class="inner-right">
-            <div class="inner-account">
-              <a
-                class="inner-icon"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                <i class="fa-regular fa-user"></i>
-              </a>
-              <a
-                class="inner-info"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                <div class="inner-register">Tài khoản</div>
-                <div class="nav-link dropdown-toggle">
-                <?php
-                session_start();
-                include "connect.php";
-                echo "<p class='username'>" . $_SESSION['tenkh'] . "</p>";
-                if(!isset($_SESSION['PhoneNumber'])){
-                  header('location:index.php');
-                }
-                ?>
-                </div>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="account.html"
-                    ><i class="fa-regular fa-circle-user"></i>Tài khoản của
-                    tôi</a
-                  >
-                  <a class="dropdown-item" href="productss.html"
-                    ><i class="fa-solid fa-cart-shopping"></i>Đơn hàng đã mua</a
-                  >
-                  <a href="logout.php">
-                  <button class="dropdown-item"
-                    ><i class="fa-solid fa-right-from-bracket"></i>Thoát tài
-                    khoản</button></a>
-                </div>
-              </a>
-            </div>
-            <div
-              class="inner-shopping"
-              data-toggle="modal"
-              data-target="#cartModal"
-            >
-              <div class="inner-icon">
-                <i class="fa-solid fa-basket-shopping"></i>
-                <span class="inner-so">2</span>
-              </div>
-              <span class="inner-text-shopping">Giỏ hàng</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Modal login -->
-
-      <div
-        class="modal fade modal-form"
-        id="exampleModal"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="inner-title">Đăng nhập tài khoản</h5>
-              <p class="inner-desc">
-                Đăng nhập thành viên để mua hàng và nhận những ưu đãi đặc biệt
-                từ chúng tôi
-              </p>
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form action="" method="post" id="dntk">
-                <div class="row">
-                  <div class="col-12">
-                    <div class="form-group">
-                      <label for="sdt">Số điện thoại</label>
-                      <input
-                        type="text"
-                        id="sdt"
-                        class="form-control"
-                        name="PhoneNumber"
-                        placeholder="Nhập số điện thoại"
-                      />
-                    </div>
-                  </div>
-                  <div class="col-12">
-                    <div class="form-group">
-                      <label for="mk">Mật khẩu</label>
-                      <input
-                        type="password"
-                        id="mk"
-                        class="form-control"
-                        name="password"
-                        placeholder="Nhập mật khẩu"
-                      />
-                    </div>
-                  </div>
-                  <div class="col-12">
-                    <button type="submit" class="button">Đăng Nhập</button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- End Modal login -->
-
-      <!-- Modal shopping -->
-
-      <div
-        class="modal fade right"
-        id="cartModal"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="cartModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <div class="inner-shopping">
-                <div class="inner-icon">
-                  <i class="fa-solid fa-basket-shopping"></i>
-                </div>
-                <span class="inner-text-shopping">Giỏ hàng</span>
-              </div>
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <div class="cart-item">
-                <div class="inner-product">
-                  <img src="assets/img/products/banhmi.webp" alt="Product 1" />
-                  <div class="inner-gia">20.000 ₫</div>
-                </div>
-                <div class="inner-info">
-                  <div class="inner-ten">Bánh mì</div>
-                  <div class="buttons_added">
-                    <input class="minus is-form" type="button" value="-" />
-                    <input class="input-qty" type="text" value="1" />
-                    <input class="plus is-form" type="button" value="+" />
-                  </div>
-                </div>
-              </div>
-              <div class="cart-item">
-                <div class="inner-product">
-                  <img src="assets/img/products/bunbohue.jpg" alt="Product 2" />
-                  <div class="inner-gia">50.000 ₫</div>
-                </div>
-                <div class="inner-info">
-                  <div class="inner-ten">Bún bò Huế</div>
-                  <div class="buttons_added">
-                    <input class="minus is-form" type="button" value="-" />
-                    <input class="input-qty" type="text" value="1" />
-                    <input class="plus is-form" type="button" value="+" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <div class="inner-tong">
-                <div class="inner-text-tong">Tổng tiền:</div>
-                <div class="inner-gia-tong">70.000 ₫</div>
-              </div>
-              <div class="inner-nut">
-                <button
-                  type="button"
-                  class="inner-tm"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <i class="fa-solid fa-plus"></i>Thêm món
-                </button>
-                <a href="thanhtoan.html" class="inner-tt">Thanh toán</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- End Modal shopping -->
-    </header>
-
-    <!-- End header top  -->
-
-    <!-- header bottom  -->
-
-    <header class="header-bottom">
-      <div class="container">
-        <div class="inner-menu">
-          <ul>
-            <li>
-              <a href="login.php">TRANG CHỦ</a>
-            </li>
-            <li>
-              <a href="timkiemnangcao-login.php">MÓN CHAY</a>
-            </li>
-            <li>
-              <a href="timkiemnangcao-login.html">MÓN MẶN</a>
-            </li>
-            <li>
-              <a href="timkiemnangcao-login.html">MÓN LẨU</a>
-            </li>
-            <li>
-              <a href="timkiemnangcao-login.html">MÓN ĂN VẶT</a>
-            </li>
-            <li>
-              <a href="timkiemnangcao-login.html">MÓN TRÁNG MIỆNG</a>
-            </li>
-            <li>
-              <a href="timkiemnangcao-login.html">NƯỚC UỐNG</a>
-            </li>
-            <li>
-              <a href="timkiemnangcao-login.html">MÓN KHÁC</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </header>
-
-    <!-- End header bottom  -->
-
+  <?php
+  include_once "includes/headerlogin.php";
+  ?>
     <!-- Banner -->
 
     <div class="Banner">
@@ -363,437 +97,109 @@
     </div>
 
     <!-- End Service -->
+    <?php
+    include "connect.php";
 
-    <!-- Products -->
-    <div class="Products">
-      <div class="container">
-        <div class="row">
-          <div class="col-xl-12">
-            <div class="inner-title">Khám phá thực đơn của chúng tôi</div>
+    // Số sản phẩm trên mỗi trang
+    $limit = 12;
+
+    // Xác định trang hiện tại (mặc định là 1)
+    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+    $page = max($page, 1); // Đảm bảo trang không nhỏ hơn 1
+
+    // Tính OFFSET
+    $offset = ($page - 1) * $limit;
+
+    // Truy vấn danh sách sản phẩm theo phân trang
+    $stmt = $conn->prepare("SELECT * FROM sanpham LIMIT ? OFFSET ?");
+    $stmt->bind_param("ii", $limit, $offset);
+    $stmt->execute();
+    $result = $stmt->get_result();
+     // Lấy tổng số sản phẩm để tính tổng số trang (chỉ cần tính 1 lần)
+     $total_result = $conn->query("SELECT COUNT(*) as total FROM sanpham");
+     $total_row = $total_result->fetch_assoc();
+     $total_products = $total_row['total'];
+     $total_pages = ($total_products > 0) ? ceil($total_products / $limit) : 1;
+?>
+
+      <!-- Products -->
+
+
+      <div class="Products">
+          <div class="container">
+              <div class="row">
+                  <div class="col-xl-12">
+                      <div class="inner-title">Khám phá thực đơn của chúng tôi</div>
+                  </div> 
+
+                  <?php while ($row = $result->fetch_assoc()): ?>
+                  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
+                      <div class="inner-item">
+                          <a href="chitietsp.php?id=<?= $row['ID']; ?>" class="inner-img">
+                              <img src="<?= htmlspecialchars($row['Image']); ?>" />
+                          </a>
+                          <div class="inner-info">
+                              <div class="inner-ten"><?= htmlspecialchars($row['Name']); ?></div>
+                              <div class="inner-gia"><?= number_format($row['Price']); ?>.000 ₫</div>
+                              <a href="chitietsp.php?id=<?= $row['ID']; ?>" class="inner-muahang">
+                                  <i class="fa-solid fa-cart-plus"></i> ĐẶT MÓN
+                              </a>
+                          </div>
+                      </div>
+                  </div>
+                  <?php endwhile; ?>
+              </div> <!-- Đóng row đúng chỗ -->
           </div>
-          <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
-            <div class="inner-item">
-              <a href="chitietsp-login.html" class="inner-img">
-                <img src="assets/img/products/phobo.jpg" />
-              </a>
-              <div class="inner-info">
-                <div class="inner-ten">Phở Bò</div>
-                <div class="inner-gia">50.000 ₫</div>
-                <a href="chitietsp-login.html" class="inner-muahang">
-                  <i class="fa-solid fa-cart-plus"></i> ĐẶT MÓN
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
-            <div class="inner-item">
-              <a href="chitietsp-login.html" class="inner-img">
-                <img src="assets/img/products/banhmi.webp" />
-              </a>
-              <div class="inner-info">
-                <div class="inner-ten">Bánh mì</div>
-                <div class="inner-gia">20.000 ₫</div>
-                <a href="chitietsp-login.html" class="inner-muahang">
-                  <i class="fa-solid fa-cart-plus"></i> ĐẶT MÓN
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
-            <div class="inner-item">
-              <a href="chitietsp-login.html" class="inner-img">
-                <img src="assets/img/products/buncha.jpg" />
-              </a>
-              <div class="inner-info">
-                <div class="inner-ten">Bún chả Hà Nội</div>
-                <div class="inner-gia">50.000 ₫</div>
-                <a href="chitietsp-login.html" class="inner-muahang">
-                  <i class="fa-solid fa-cart-plus"></i> ĐẶT MÓN
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
-            <div class="inner-item">
-              <a href="chitietsp-login.html" class="inner-img">
-                <img src="assets/img/products/banhxeo.jpg" />
-              </a>
-              <div class="inner-info">
-                <div class="inner-ten">Bánh xèo miền Tây</div>
-                <div class="inner-gia">30.000 ₫</div>
-                <a href="chitietsp-login.html" class="inner-muahang">
-                  <i class="fa-solid fa-cart-plus"></i> ĐẶT MÓN
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
-            <div class="inner-item">
-              <a href="chitietsp-login.html" class="inner-img">
-                <img src="assets/img/products/goicuon.jpg" />
-              </a>
-              <div class="inner-info">
-                <div class="inner-ten">Gỏi cuốn</div>
-                <div class="inner-gia">30.000 ₫</div>
-                <a href="chitietsp-login.html" class="inner-muahang">
-                  <i class="fa-solid fa-cart-plus"></i> ĐẶT MÓN
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
-            <div class="inner-item">
-              <a href="chitietsp-login.html" class="inner-img">
-                <img src="assets/img/products/caolau.jpg" />
-              </a>
-              <div class="inner-info">
-                <div class="inner-ten">Cao lầu</div>
-                <div class="inner-gia">40.000 ₫</div>
-                <a href="chitietsp-login.html" class="inner-muahang">
-                  <i class="fa-solid fa-cart-plus"></i> ĐẶT MÓN
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
-            <div class="inner-item">
-              <a href="chitietsp-login.html" class="inner-img">
-                <img src="assets/img/products/bunbohue.jpg" />
-              </a>
-              <div class="inner-info">
-                <div class="inner-ten">Bún bò Huế</div>
-                <div class="inner-gia">50.000 ₫</div>
-                <a href="chitietsp-login.html" class="inner-muahang">
-                  <i class="fa-solid fa-cart-plus"></i> ĐẶT MÓN
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
-            <div class="inner-item">
-              <a href="chitietsp-login.html" class="inner-img">
-                <img src="assets/img/products/hutieu.jpg" />
-              </a>
-              <div class="inner-info">
-                <div class="inner-ten">Hủ tiếu</div>
-                <div class="inner-gia">30.000 ₫</div>
-                <a href="chitietsp-login.html" class="inner-muahang">
-                  <i class="fa-solid fa-cart-plus"></i> ĐẶT MÓN
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
-            <div class="inner-item">
-              <a href="chitietsp-login.html" class="inner-img">
-                <img src="assets/img/products/chaca.jpg" />
-              </a>
-              <div class="inner-info">
-                <div class="inner-ten">Chả cá Lã Vọng</div>
-                <div class="inner-gia">40.000 ₫</div>
-                <a href="chitietsp-login.html" class="inner-muahang">
-                  <i class="fa-solid fa-cart-plus"></i> ĐẶT MÓN
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
-            <div class="inner-item">
-              <a href="chitietsp-login.html" class="inner-img">
-                <img src="assets/img/products/miquang.jpg" />
-              </a>
-              <div class="inner-info">
-                <div class="inner-ten">Mì Quảng</div>
-                <div class="inner-gia">40.000 ₫</div>
-                <a href="chitietsp-login.html" class="inner-muahang">
-                  <i class="fa-solid fa-cart-plus"></i> ĐẶT MÓN
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
-            <div class="inner-item">
-              <a href="chitietsp-login.html" class="inner-img">
-                <img src="assets/img/products/comtam.jpeg" />
-              </a>
-              <div class="inner-info">
-                <div class="inner-ten">Cơm tấm</div>
-                <div class="inner-gia">50.000 ₫</div>
-                <a href="chitietsp-login.html" class="inner-muahang">
-                  <i class="fa-solid fa-cart-plus"></i> ĐẶT MÓN
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
-            <div class="inner-item">
-              <a href="chitietsp-login.html" class="inner-img">
-                <img src="assets/img/products/banhbotloc.webp" />
-              </a>
-              <div class="inner-info">
-                <div class="inner-ten">Bánh bột lọc Huế</div>
-                <div class="inner-gia">30.000 ₫</div>
-                <a href="chitietsp-login.html" class="inner-muahang">
-                  <i class="fa-solid fa-cart-plus"></i> ĐẶT MÓN
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
 
-      <!-- Modal order -->
+              <!-- Đóng Products -->
 
-      <div
-        class="modal fade"
-        id="exampleModalCenter"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="exampleModalCenterTitle"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <div class="inner-hinh">
-                <img src="assets/img/products/phobo.jpg" />
-              </div>
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <div class="inner-name">Phở bò</div>
-              <div class="inner-info">
-                <div class="inner-gia">50.000 ₫</div>
-                <div class="inner-sl">
-                  <input class="inner-dau" type="button" value="-" />
-                  <span class="inner-so">1</span>
-                  <input class="inner-dau" type="button" value="+" />
-                </div>
-              </div>
-              <p class="inner-desc">
-                Phở là món ăn đặc trưng của Việt Nam với nước dùng trong vắt,
-                đậm đà từ xương và gia vị. Sợi phở mềm, thường được ăn kèm với
-                thịt bò hoặc gà thái mỏng, rau thơm, chanh và ớt. Vị thanh mát,
-                thơm ngon của phở khiến người ăn dễ dàng mê mẩn ngay từ lần thử
-                đầu tiên. Phở không chỉ ngon mà còn mang đậm hương vị truyền
-                thống của ẩm thực Việt.
-              </p>
-            </div>
-            <div class="modal-footer">
-              <div class="inner-giaca">
-                <div class="inner-chu">Thành tiền</div>
-                <div class="inner-so">50.000 ₫</div>
-              </div>
-              <div class="inner-thanhtoan">
-                <button type="button" class="inner-nut1" onclick="thanhToan()">
-                  Thêm vào giỏ hàng <i class="fa-solid fa-basket-shopping"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- End Modal order -->
+      
     </div>
 
-    <!-- End Products -->
-
-    <!-- Pagination -->
-
-    <div class="Pagination">
-      <div class="container">
+    <!-- Phân trang -->
+<div class="Pagination">
+    <div class="container">
         <ul>
-          <li>
-            <a href="login.html" class="inner-trang trang-chinh"> 1 </a>
-          </li>
-          <li>
-            <a href="login.html" class="inner-trang"> 2 </a>
-          </li>
-          <li>
-            <a href="login.html" class="inner-trang"> 3 </a>
-          </li>
-          <li>
-            <a href="login.html" class="inner-trang"> 4 </a>
-          </li>
-          <li>
-            <a href="login.html" class="inner-trang"> 5 </a>
-          </li>
+            <?php
+            // Hiển thị nút trang đầu tiên
+            if ($page >= 1) {
+                echo '<li><a href="?page=1" class="inner-trang">1</a></li>';
+            }
+
+            // Hiển thị dấu "..." nếu trang hiện tại lớn hơn 3
+            if ($page > 3) {
+                echo '<li><span>...</span></li>';
+            }
+
+            // Tính toán phạm vi các trang cần hiển thị
+            $start_page = max(2, $page - 1); // Bắt đầu từ trang 2 hoặc trang hiện tại trừ 1
+            $end_page = min($total_pages - 1, $page + 1); // Kết thúc ở trang cuối cùng trừ 1 hoặc trang hiện tại cộng 1
+
+            // Hiển thị các trang trong phạm vi
+            for ($i = $start_page; $i <= $end_page; $i++) {
+                $active_class = ($i == $page) ? 'trang-chinh' : '';
+                echo '<li><a href="?page=' . $i . '" class="inner-trang ' . $active_class . '">' . $i . '</a></li>';
+            }
+
+            // Hiển thị dấu "..." nếu trang hiện tại nhỏ hơn tổng số trang trừ 2
+            if ($page < $total_pages - 2) {
+                echo '<li><span>...</span></li>';
+            }
+
+            // Hiển thị nút trang cuối cùng
+            if ($page < $total_pages) {
+                echo '<li><a href="?page=' . $total_pages . '" class="inner-trang">' . $total_pages . '</a></li>';
+            }
+            ?>
         </ul>
-      </div>
     </div>
+</div>
+<!-- Đóng phân trang -->
 
-    <!-- End Pagination -->
-
-    <!-- Footer-top -->
-
-    <div class="Footer-top">
-      <div class="container">
-        <div class="row">
-          <div class="col-xl-4 col-lg-4 col-md-12">
-            <div class="inner-logo">
-              <img src="assets/img/logo.png" alt="logo" />
-            </div>
-          </div>
-          <div class="col-xl-3 col-lg-3 col-md-6">
-            <div class="inner-text">
-              <div class="inner-chu1">Đăng ký nhận tin</div>
-              <div class="inner-chu2">Nhận thông tin mới nhất từ chúng tôi</div>
-            </div>
-          </div>
-          <div class="col-xl-5 col-lg-5 col-md-6">
-            <form action="" class="inner-form">
-              <input type="text" placeholder="Nhập email của bạn" />
-              <button class="inner-sub">
-                ĐĂNG KÝ <i class="fa-solid fa-arrow-right"></i>
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- End Footer-top -->
-
-    <!-- Footer-middle -->
-
-    <div class="Footer-middle">
-      <div class="container">
-        <div class="row">
-          <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
-            <div class="inner-text">Về chúng tôi</div>
-            <p class="inner-desc">
-              Đặc Sản 3 Miền là thương hiệu được thành lập vào năm 2023 với tiêu
-              chí đặt chất lượng sản phẩm lên hàng đầu.
-            </p>
-            <div class="inner-icon">
-              <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-              <a href="#"><i class="fa-brands fa-twitter"></i></a>
-              <a href="#"><i class="fa-brands fa-instagram"></i></a>
-              <a href="#"><i class="fa-brands fa-tiktok"></i></a>
-            </div>
-          </div>
-          <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-            <div class="inner-text">liên kết</div>
-            <ul>
-              <li>
-                <a href="#"
-                  ><i class="fa-solid fa-arrow-right"></i>Về chúng tôi</a
-                >
-              </li>
-              <li>
-                <a href="#"><i class="fa-solid fa-arrow-right"></i>Thực đơn</a>
-              </li>
-              <li>
-                <a href="#"
-                  ><i class="fa-solid fa-arrow-right"></i>Điều khoản</a
-                >
-              </li>
-              <li>
-                <a href="#"><i class="fa-solid fa-arrow-right"></i>Liên Hệ</a>
-              </li>
-              <li>
-                <a href="#"><i class="fa-solid fa-arrow-right"></i>Tin tức</a>
-              </li>
-            </ul>
-          </div>
-          <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-            <div class="inner-text">thực đơn</div>
-            <ul class="inner-menu">
-              <li>
-                <a href="#"><i class="fa-solid fa-arrow-right"></i>Điểm tâm</a>
-              </li>
-              <li>
-                <a href="#"><i class="fa-solid fa-arrow-right"></i>Món chay</a>
-              </li>
-              <li>
-                <a href="#"><i class="fa-solid fa-arrow-right"></i>Món mặn</a>
-              </li>
-              <li>
-                <a href="#"><i class="fa-solid fa-arrow-right"></i>Nước uống</a>
-              </li>
-              <li>
-                <a href="#"
-                  ><i class="fa-solid fa-arrow-right"></i>Tráng miệng</a
-                >
-              </li>
-            </ul>
-          </div>
-          <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-            <div class="inner-text">liên hệ</div>
-            <div class="inner-contact">
-              <div class="inner-icon">
-                <i class="fa-solid fa-location-dot"></i>
-              </div>
-              <div class="inner-diachi">
-                <div class="inner-chu1">40/15 Tô Hiệu, P. Tân Thới Hòa</div>
-                <div class="inner-chu2">Quận Tân Phú, TP Hồ Chí Minh</div>
-              </div>
-            </div>
-            <div class="inner-contact">
-              <div class="inner-icon">
-                <i class="fa-solid fa-phone"></i>
-              </div>
-              <div class="inner-diachi">
-                <div class="inner-chu1">0123 456 789</div>
-                <div class="inner-chu2">0987 654 321</div>
-              </div>
-            </div>
-            <div class="inner-contact">
-              <div class="inner-icon">
-                <i class="fa-regular fa-envelope"></i>
-              </div>
-              <div class="inner-diachi">
-                <div class="inner-chu1">hđkn@gmail.com</div>
-                <div class="inner-chu2">gacon@domain.com</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- End Footer-middle -->
-
-    <!-- Footer-bottom -->
-
-    <div class="Footer-bottom">
-      <div class="container">
-        <div class="row">
-          <div class="col-xl-12">
-            <div class="inner-end">
-              Copyright 2023 ĐS3M. All Rights Reserved.
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- End Footer-bottom -->
-
-    <script
-      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
-      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-      crossorigin="anonymous"
-    ></script>
-
-    <script src="assets/js/main.js"></script>
+   <!-- Footer -->
+    <?php
+    include_once "includes/footer.php";
+     ?>
   </body>
 </html>
