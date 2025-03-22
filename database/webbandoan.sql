@@ -92,6 +92,7 @@ CREATE TABLE `khachhang` (
   `diachi` varchar(100) NOT NULL,
   `sodienthoai` varchar(20) NOT NULL,
   `Email` varchar(255) DEFAULT NULL
+  'Status' TINYINT(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
