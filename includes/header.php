@@ -1,51 +1,47 @@
  <!-- header top  -->
-<?php
-ob_start();
-session_start();
-?>
- <header class="header-top">
-      <div class="container">
-        <div class="inner-wrap">
-          <div class="inner-left">
-            <a href="index.php"
-              ><img src="assets/img/logo.png" alt="logo"
-            /></a>
-          </div>
 
-          <div class="inner-middle">
-            <form action="" class="inner-find">
-              <input type="text" placeholder="Tìm Kiếm món ăn..." />
-              <a href="timkiem.html" class="inner-button-find">
-                <i class="fa-solid fa-magnifying-glass"></i>
+    <header>
+      <div class="header-middle">
+        <div class="container">
+          <div class="header-middle-left">
+            <div class="header-logo">
+              <a href="index.php">
+                <img
+                  src="./assets/img/logo.png"
+                  alt=""
+                  class="header-logo-img"
+                />
               </a>
+            </div>
+          </div>
+          <div class="header-middle-center">
+            <form action="" class="form-search">
+              <span class="search-btn"
+                ><i class="fa-light fa-magnifying-glass"></i
+              ></span>
+              <input
+                type="text"
+                class="form-search-input"
+                placeholder="Tìm kiếm món ăn..."
+                oninput="searchProducts()"
+              />
+              <button class="filter-btn">
+                <i class="fa-light fa-filter-list"></i><span>Lọc</span>
+              </button>
             </form>
           </div>
-
-          <div class="inner-right">
-            <div class="inner-account">
-              <a
-                class="inner-icon"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                <i class="fa-regular fa-user"></i>
-              </a>
-              <a
-                class="inner-info"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                <div class="inner-register">Đăng nhập / Đăng ký</div>
-                <div class="nav-link dropdown-toggle">Tài khoản</div>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <div class="header-middle-right">
+            <ul class="header-middle-right-list">
+              <li class="header-middle-right-item dropdown open">
+                <i class="fa-light fa-user"></i>
+                <div class="auth-container">
+                  <span class="text-dndk">Đăng nhập / Đăng ký</span>
+                  <span class="text-tk"
+                    >Tài khoản <i class="fa-sharp fa-solid fa-caret-down"></i
+                  ></span>
+                </div>
+                <ul class="header-middle-right-menu">
+                  <li>
                   <a
                     class="dropdown-item"
                     href="#"
@@ -53,32 +49,31 @@ session_start();
                     data-target="#exampleModal"
                     ><i class="fa-solid fa-right-to-bracket"></i>Đăng nhập</a
                   >
-                  <a
+                  </li>
+                  <li>
+                    <a
                     class="dropdown-item"
                     href="#"
                     data-toggle="modal"
                     data-target="#exampleModal-2"
                     ><i class="fa-solid fa-user-plus"></i>Đăng kí</a
                   >
+                  </li>
+                </ul>
+              </li>
+              <li class="header-middle-right-item open" data-toggle="modal"  
+              data-target="#cartModal">
+                <div class="cart-icon-menu">
+                  <i class="fa-light fa-basket-shopping"></i>
+                  <span class="count-product-cart">0</span>
                 </div>
-              </a>
-            </div>
-            <div
-              class="inner-shopping"
-              data-toggle="modal"
-              data-target="#cartModal"
-            >
-              <div class="inner-icon">
-                <i class="fa-solid fa-basket-shopping"></i>
-                <span class="inner-so">0</span>
-              </div>
-              <span class="inner-text-shopping">Giỏ hàng</span>
-            </div>
+                <span>Giỏ hàng</span>
+              </li>
+            </ul>
           </div>
         </div>
-      </div>
 
-      <!-- Modal login -->
+            <!-- Modal login -->
 
       <div
         class="modal fade modal-form"
@@ -105,77 +100,39 @@ session_start();
               </button>
             </div>
             <div class="modal-body">
-            <form action="" method="post">
-    <div class="row">
-        <div class="col-12">
-            <div class="form-group">
-                <label for="sdt">Số điện thoại</label>
-                <input type="tel" id="sdt" class="form-control" name="PhoneNumber" 
-                       placeholder="Nhập số điện thoại" required autocomplete="off"/>
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group">
-                <label for="mk">Mật khẩu</label>
-                <input type="password" id="mk" class="form-control" name="password" 
-                       placeholder="Nhập mật khẩu" required autocomplete="off"/>
-            </div>
-        </div>
-        <div class="col-12">
-            <button type="submit" class="button" name="dangnhap"> Đăng nhập </button>
-        </div>
-    </div>
-</form>
-              <?php
-              if(isset($_GET['error'])){
-                echo '<h5 style="color:red;">' ,$_GET['error'] . '</h5>';
-              }
-              ?>
+              <form action="">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="form-group">
+                      <label for="sdt">Số điện thoại</label>
+                      <input
+                        type="text"
+                        id="sdt"
+                        class="form-control"
+                        placeholder="Nhập số điện thoại"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-group">
+                      <label for="mk">Mật khẩu</label>
+                      <input
+                        type="password"
+                        id="mk"
+                        class="form-control"
+                        placeholder="Nhập mật khẩu"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <a href="login.html" class="button"> Đăng nhập </a>
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
         </div>
       </div>
-      <?php
-include "connect.php"; // Kết nối CSDL
-
-if (isset($_POST['dangnhap'])) {
-  $PhoneNumber = mysqli_real_escape_string($conn, $_POST['PhoneNumber']);
-  $password = mysqli_real_escape_string($conn, $_POST['password']);
-
-    if (empty($PhoneNumber) || empty($password)) {
-        header("Location: index.php?error=Vui lòng nhập đủ thông tin!");
-        exit();
-    }
-
-    // Kiểm tra số điện thoại trong CSDL
-    $sql = "SELECT * FROM khachhang WHERE sodienthoai = '$PhoneNumber' AND matkhau='$password';";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-
-        // Kiểm tra mật khẩu (nếu mật khẩu đã mã hóa trong DB)
-        if ($password == $row['matkhau']) {
-            $_SESSION['PhoneNumber'] = $row['sodienthoai'];
-            $_SESSION['tenkh'] = $row['tenkh'];
-
-            header("Location: login.php"); 
-            exit();
-        } else {
-            echo "sai mật khẩu";
-            exit();
-        }
-    } else {
-      echo "sdt không tồn tại";
-        exit();
-    }
-
-    $stmt->close();
-}
-$conn->close();
-?>
-
-
 
       <!-- End Modal login -->
 
@@ -206,7 +163,7 @@ $conn->close();
               </button>
             </div>
             <div class="modal-body">
-              <form action="" method="post">
+              <form action="">
                 <div class="row">
                   <div class="col-12">
                     <div class="form-group">
@@ -215,7 +172,6 @@ $conn->close();
                         type="text"
                         id="name"
                         class="form-control"
-                        name="name"
                         placeholder="VD: Thành Đại"
                       />
                     </div>
@@ -227,7 +183,6 @@ $conn->close();
                         type="text"
                         id="sdt2"
                         class="form-control"
-                        name="sdt"
                         placeholder="Nhập số điện thoại"
                       />
                     </div>
@@ -239,73 +194,37 @@ $conn->close();
                         type="text"
                         id="dc"
                         class="form-control"
-                        name="diachi"
                         placeholder="Nhập địa chỉ"
                       />
                     </div>
                   </div>
                   <div class="col-12">
                     <div class="form-group">
-                      <label for="mk2">Email</label>
+                      <label for="mk2">Mật khẩu</label>
                       <input
-                        type="text"
+                        type="password"
                         id="mk2"
                         class="form-control"
-                        name="email"
-                        placeholder="Nhập địa chỉ email"
+                        placeholder="Nhập mật khẩu"
                       />
                     </div>
                   </div>
                   <div class="col-12">
                     <div class="form-group">
-                      <label for="nhapmk"> Mật khẩu</label>
+                      <label for="nhapmk">Nhập lại Mật khẩu</label>
                       <input
                         type="password"
                         id="nhapmk"
                         class="form-control"
-                        name="matkhau"
-                        placeholder=" Nhập mật khẩu"
+                        placeholder="Nhập lại mật khẩu"
                       />
                     </div>
                   </div>
                   <div class="col-12">
-                    <button class="button" onclick="dangKi()" name="dangky">Đăng kí</button>
+                    <button class="button" onclick="dangKi()">Đăng kí</button>
                   </div>
                 </div>
               </form>
-              <?php
-              include "connect.php";
-              if(isset($_POST['dangky'])){
-                $name = $_POST['name'];
-                $sdt = $_POST['sdt'];
-                $diachi = $_POST['diachi']; 
-                  $password = $_POST['matkhau'];
-                  $email = $_POST['email'];
-                  $sql = "SELECT * FROM Khachhang WHERE sodienthoai = ?";
-                  $stmt = $conn->prepare($sql);
-                  $stmt->bind_param("s",$sdt);
-                  $stmt->execute();
-                  $result = $stmt -> get_result();
-                if($result->num_rows > 0){
-                  echo "Số điện thoai đã tồn tại xin vui lòng sữ dung số điên thoại khác!";
-                }
-                else{
-                  $sql_insert =" INSERT INTO Khachhang(tenkh,matkhau,diachi,sodienthoai,Email) VALUES(?,?,?,?,?);";
-                  $stmt_insert = $conn->prepare($sql_insert);
-                  $stmt_insert->bind_param("sssss",$name,$password,$diachi,$sdt,$email);
-                  if($stmt_insert->execute()){
-                    $_SESSION['PhonneNumber'] = $sdt;
-                    $_SESSION['tenkh'] = $name;
-                    echo "Đắng ký tài khoản thàng công! $name";
-                    header("location: login.php");
-                    exit();
-                  }
-                  else{
-                    echo "Đắng ký tài khoản thất bại";
-                  }
-                }
-                }
-              ?>
             </div>
           </div>
         </div>
@@ -371,8 +290,8 @@ $conn->close();
       </div>
 
       <!-- End Modal shopping -->
-    </header>
 
+<<<<<<< HEAD
     <!-- End header top  -->
 
     <!-- header bottom  -->
@@ -407,7 +326,93 @@ $conn->close();
             </li>
           </ul>
         </div>
+=======
+>>>>>>> d0385ad85c34994044c0810ee7a396ff1cbc0602
       </div>
     </header>
+    <nav class="header-bottom">
+      <div class="container">
+        <ul class="menu-list">
+          <li class="menu-list-item">
+            <a href="index.php" class="menu-link">Trang chủ</a>
+          </li>
+          <li class="menu-list-item" onclick="showCategory('Món chay')">
+            <a href="javascript:;" class="menu-link">Món chay</a>
+          </li>
+          <li class="menu-list-item" onclick="showCategory('Món mặn')">
+            <a href="javascript:;" class="menu-link">Món mặn</a>
+          </li>
+          <li class="menu-list-item" onclick="showCategory('Món lẩu')">
+            <a href="javascript:;" class="menu-link">Món lẩu</a>
+          </li>
+          <li class="menu-list-item" onclick="showCategory('Món ăn vặt')">
+            <a href="javascript:;" class="menu-link">Món ăn vặt</a>
+          </li>
+          <li class="menu-list-item" onclick="showCategory('Món tráng miệng')">
+            <a href="javascript:;" class="menu-link">Món tráng miệng</a>
+          </li>
+          <li class="menu-list-item" onclick="showCategory('Nước uống')">
+            <a href="javascript:;" class="menu-link">Nước uống</a>
+          </li>
+          <li class="menu-list-item" onclick="showCategory('Món khác')">
+            <a href="javascript:;" class="menu-link">Món khác</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="advanced-search">
+      <div class="container">
+        <div class="advanced-search-category">
+          <span>Phân loại </span>
+          <select
+            name=""
+            id="advanced-search-category-select"
+            onchange="searchProducts()"
+          >
+            <option>Tất cả</option>
+            <option>Món chay</option>
+            <option>Món mặn</option>
+            <option>Món lẩu</option>
+            <option>Món ăn vặt</option>
+            <option>Món tráng miệng</option>
+            <option>Nước uống</option>
+          </select>
+        </div>
+        <div class="advanced-search-price">
+          <span>Giá từ</span>
+          <input
+            type="number"
+            placeholder="tối thiểu"
+            id="min-price"
+            onchange="searchProducts()"
+          />
+          <span>đến</span>
+          <input
+            type="number"
+            placeholder="tối đa"
+            id="max-price"
+            onchange="searchProducts()"
+          />
+          <button id="advanced-search-price-btn">
+            <i class="fa-light fa-magnifying-glass-dollar"></i>
+          </button>
+        </div>
+        <div class="advanced-search-control">
+          <button id="sort-ascending" onclick="searchProducts(1)">
+            <i class="fa-regular fa-arrow-up-short-wide"></i>
+          </button>
+          <button id="sort-descending" onclick="searchProducts(2)">
+            <i class="fa-regular fa-arrow-down-wide-short"></i>
+          </button>
+          <button id="reset-search" onclick="searchProducts(0)">
+            <i class="fa-light fa-arrow-rotate-right"></i>
+          </button>
+          <button onclick="closeSearchAdvanced()">
+            <i class="fa-light fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+    </div>
 
-    <!-- End header bottom  -->
+
+    <!-- End header top  -->
