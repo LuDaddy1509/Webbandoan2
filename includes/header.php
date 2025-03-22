@@ -7,7 +7,7 @@ session_start();
       <div class="container">
         <div class="inner-wrap">
           <div class="inner-left">
-            <a href="index.html"
+            <a href="index.php"
               ><img src="assets/img/logo.png" alt="logo"
             /></a>
           </div>
@@ -159,7 +159,7 @@ if (isset($_POST['dangnhap'])) {
             $_SESSION['PhoneNumber'] = $row['sodienthoai'];
             $_SESSION['tenkh'] = $row['tenkh'];
 
-            header("Location: login.php"); // Chuyển đến trang admin
+            header("Location: login.php"); 
             exit();
         } else {
             echo "sai mật khẩu";
@@ -385,25 +385,25 @@ $conn->close();
               <a href="index.html">TRANG CHỦ</a>
             </li>
             <li>
-              <a href="timkiemnangcao.html">MÓN CHAY</a>
+              <a href="timkiemnangcao.php">MÓN CHAY</a>
             </li>
             <li>
-              <a href="timkiemnangcao.html">MÓN MẶN</a>
+              <a href="timkiemnangcao.php">MÓN MẶN</a>
             </li>
             <li>
-              <a href="timkiemnangcao.html">MÓN LẨU</a>
+              <a href="timkiemnangcao.php">MÓN LẨU</a>
             </li>
             <li>
-              <a href="timkiemnangcao.html">MÓN ĂN VẶT</a>
+              <a href="timkiemnangcao.php">MÓN ĂN VẶT</a>
             </li>
             <li>
-              <a href="timkiemnangcao.html">MÓN TRÁNG MIỆNG</a>
+              <a href="timkiemnangcao.php">MÓN TRÁNG MIỆNG</a>
             </li>
             <li>
-              <a href="timkiemnangcao-2.html">NƯỚC UỐNG</a>
+              <a href="timkiemnangcao-2.php">NƯỚC UỐNG</a>
             </li>
             <li>
-              <a href="timkiemnangcao.html">HẢI SẢN</a>
+              <a href="timkiemnangcao.php">HẢI SẢN</a>
             </li>
           </ul>
         </div>
