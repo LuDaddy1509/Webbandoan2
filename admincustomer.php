@@ -131,6 +131,7 @@
                 <td class="control control-table">
                   <a
                     href="admincustomer.php?this_id=<?php echo $row['makh']?>"
+                    
                     class="btn-edit"
                     name="btn-edit"
                     data-toggle="modal"
