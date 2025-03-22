@@ -612,19 +612,19 @@
       <div class="container">
         <ul>
           <li>
-            <a href="login.html" class="inner-trang trang-chinh"> 1 </a>
+            <a href="login.php" class="inner-trang trang-chinh"> 1 </a>
           </li>
           <li>
-            <a href="login.html" class="inner-trang"> 2 </a>
+            <a href="login.php" class="inner-trang"> 2 </a>
           </li>
           <li>
-            <a href="login.html" class="inner-trang"> 3 </a>
+            <a href="login.php" class="inner-trang"> 3 </a>
           </li>
           <li>
-            <a href="login.html" class="inner-trang"> 4 </a>
+            <a href="login.php" class="inner-trang"> 4 </a>
           </li>
           <li>
-            <a href="login.html" class="inner-trang"> 5 </a>
+            <a href="login.php" class="inner-trang"> 5 </a>
           </li>
         </ul>
       </div>
@@ -759,6 +759,13 @@
         </div>
       </div>
     </div>
+    <?php
+        session_start();
+        if(!isset($_SESSION['PhoneNumber'])){
+            header('location:index.php');
+        }
+
+    ?>  
 
     <!-- End Footer-middle -->
 
