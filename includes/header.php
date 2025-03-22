@@ -1,6 +1,6 @@
  <!-- header top  -->
 
-    <header>
+ <header>
       <div class="header-middle">
         <div class="container">
           <div class="header-middle-left">
@@ -291,43 +291,6 @@
 
       <!-- End Modal shopping -->
 
-<<<<<<< HEAD
-    <!-- End header top  -->
-
-    <!-- header bottom  -->
-
-    <header class="header-bottom">
-      <div class="container">
-        <div class="inner-menu">
-          <ul>
-            <li>
-              <a href="index.php">TRANG CHỦ</a>
-            </li>
-            <li>
-              <a href="timkiemnangcao.php">MÓN CHAY</a>
-            </li>
-            <li>
-              <a href="timkiemnangcao.php">MÓN MẶN</a>
-            </li>
-            <li>
-              <a href="timkiemnangcao.php">MÓN LẨU</a>
-            </li>
-            <li>
-              <a href="timkiemnangcao.php">MÓN ĂN VẶT</a>
-            </li>
-            <li>
-              <a href="timkiemnangcao.php">MÓN TRÁNG MIỆNG</a>
-            </li>
-            <li>
-              <a href="timkiemnangcao-2.php">NƯỚC UỐNG</a>
-            </li>
-            <li>
-              <a href="timkiemnangcao.php">HẢI SẢN</a>
-            </li>
-          </ul>
-        </div>
-=======
->>>>>>> d0385ad85c34994044c0810ee7a396ff1cbc0602
       </div>
     </header>
     <nav class="header-bottom">
