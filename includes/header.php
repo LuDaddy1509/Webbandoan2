@@ -382,7 +382,7 @@ $conn->close();
         <div class="inner-menu">
           <ul>
             <li>
-              <a href="index.html">TRANG CHỦ</a>
+              <a href="index.php">TRANG CHỦ</a>
             </li>
             <li>
               <a href="timkiemnangcao.php">MÓN CHAY</a>
