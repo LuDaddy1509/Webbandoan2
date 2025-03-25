@@ -92,3 +92,45 @@ giam.addEventListener("click", () => {
     document.querySelector("#tanggiam").value = result;
   }
 });
+document.getElementById("search-form").addEventListener("submit", function (event) {
+  event.preventDefault(); // Ngăn load lại trang
+
+  let name = document.getElementById("search-input").value.trim();
+  let category = document.getElementById("advanced-search-category-select")?.value || "";
+  let minPrice = document.getElementById("min-price")?.value || "";
+  let maxPrice = document.getElementById("max-price")?.value || "";
+
+  let formData = new FormData();
+  formData.append("name", name);
+  formData.append("category", category);
+  formData.append("min_price", minPrice);
+  formData.append("max_price", maxPrice);
+
+  fetch("search.php", {
+      method: "POST",
+      body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+      let resultContainer = document.getElementById("search-results");
+      resultContainer.innerHTML = ""; // Xóa kết quả cũ
+
+      if (data.length === 0) {
+          resultContainer.innerHTML = "<p>Không tìm thấy sản phẩm phù hợp.</p>";
+          return;
+      }
+
+      data.forEach(product => {
+          let productHTML = `
+              <div class="product-item">
+                  <img src="${product.Image}" alt="${product.Name}">
+                  <h3>${product.Name}</h3>
+                  <p>${product.Describtion}</p>
+                  <p>Giá: ${product.Price} VNĐ</p>
+              </div>
+          `;
+          resultContainer.innerHTML += productHTML;
+      });
+  })
+  .catch(error => console.error("Lỗi khi tìm kiếm sản phẩm:", error));
+});
