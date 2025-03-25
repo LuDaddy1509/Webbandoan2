@@ -42,7 +42,7 @@
           <div class="inner-middle">
             <form action="" class="inner-find">
               <input type="text" placeholder="Tìm Kiếm món ăn..." />
-              <a href="timkiem-login.html" class="inner-button-find">
+              <a href="timkiem-login.php" class="inner-button-find">
                 <i class="fa-solid fa-magnifying-glass"></i>
               </a>
             </form>
@@ -71,16 +71,26 @@
                 aria-expanded="false"
               >
                 <div class="inner-register">Tài khoản</div>
-                <div class="nav-link dropdown-toggle">Thanh</div>
+                <div class="nav-link dropdown-toggle">
+                <?php 
+                session_start();
+                ob_start();
+                include "connect.php";
+                echo "<p class='username'>" . $_SESSION['tenkh'] . "</p>";
+                if(!isset($_SESSION['PhoneNumber'])){
+                  header('location:login.php');
+                }
+                ?>
+                </div>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="account.html"
+                  <a class="dropdown-item" href="account.php"
                     ><i class="fa-regular fa-circle-user"></i>Tài khoản của
                     tôi</a
                   >
-                  <a class="dropdown-item" href="productss.html"
+                  <a class="dropdown-item" href="productss.php"
                     ><i class="fa-solid fa-cart-shopping"></i>Đơn hàng đã mua</a
                   >
-                  <a class="dropdown-item" href="index.html"
+                  <a class="dropdown-item" href="logout.php"
                     ><i class="fa-solid fa-right-from-bracket"></i>Thoát tài
                     khoản</a
                   >
@@ -303,31 +313,58 @@
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
               <div class="form-group">
                 <label for="name1">Họ và tên</label>
+                <?php 
+                  include "connect.php";
+                  if(!isset($_SESSION['PhoneNumber'])){
+                    header('location:login.php');
+                  }
+                  echo '
                 <input
                   type="text"
                   id="name1"
                   class="form-control"
-                  value="Cao Thái Phương Thanh"
+                  value="' .htmlspecialchars($_SESSION['tenkh'], ENT_QUOTES, 'UTF-8').'"
                 />
+                ';
+                if(!isset($_SESSION['PhoneNumber'])){
+                  header('location:login.php');
+                }
+                ?>
               </div>
               <div class="form-group">
                 <label for="phone">Số điện thoại</label>
+                <?php
+                 include "connect.php";
+                 if(!isset($_SESSION['PhoneNumber'])){
+                   header('location:login.php');
+                 }
+                 echo '
                 <input
                   type="text"
                   id="phone"
                   class="form-control"
-                  value="0909098386"
+                  value="'.htmlspecialchars($_SESSION['PhoneNumber'],ENT_QUOTES, 'UTF-8').'"
                   disabled
-                />
+                />'
+                ?>
               </div>
               <div class="form-group">
                 <label for="email">Email</label>
+                <?php
+                include "connect.php";
+                if(!isset($_SESSION['PhoneNumber'])){
+                  header('location:login.php');
+                  exit();
+                }
+                $email = isset($_SESSION['Email']) ? $_SESSION['Email'] : '';
+                echo '
                 <input
                   type="text"
                   id="email"
                   class="form-control"
-                  value="thanh.ctp@sgu.edu.vn"
-                />
+                  value="'.htmlspecialchars($_SESSION['Email'],ENT_QUOTES, 'UTF-8').'"
+                />'
+                ?>
               </div>
               <div class="form-group">
                 <label for="diachi">Địa chỉ</label>

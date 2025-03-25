@@ -1,5 +1,8 @@
 /* Header-top */
-
+p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
 .header-top {
   background: #fff;
   box-shadow: inset 0px -0.5px 0px #e6e6e6;

@@ -161,37 +161,15 @@
 <div class="Pagination">
     <div class="container">
         <ul>
-            <?php
-            // Hiển thị nút trang đầu tiên
-            if ($page >= 1) {
-                echo '<li><a href="?page=1" class="inner-trang">1</a></li>';
-            }
+        <?php
+    // Hiển thị tất cả các trang từ 1 đến tổng số trang
+    for ($i = 1; $i <= $total_pages; $i++) {
+        $active_class = ($i == $page) ? 'trang-chinh' : '';
+        echo '<li><a href="?page=' . $i . '" class="inner-trang ' . $active_class . '">' . $i . '</a></li>';
+    }
+?>
 
-            // Hiển thị dấu "..." nếu trang hiện tại lớn hơn 3
-            if ($page > 3) {
-                echo '<li><span>...</span></li>';
-            }
 
-            // Tính toán phạm vi các trang cần hiển thị
-            $start_page = max(2, $page - 1); // Bắt đầu từ trang 2 hoặc trang hiện tại trừ 1
-            $end_page = min($total_pages - 1, $page + 1); // Kết thúc ở trang cuối cùng trừ 1 hoặc trang hiện tại cộng 1
-
-            // Hiển thị các trang trong phạm vi
-            for ($i = $start_page; $i <= $end_page; $i++) {
-                $active_class = ($i == $page) ? 'trang-chinh' : '';
-                echo '<li><a href="?page=' . $i . '" class="inner-trang ' . $active_class . '">' . $i . '</a></li>';
-            }
-
-            // Hiển thị dấu "..." nếu trang hiện tại nhỏ hơn tổng số trang trừ 2
-            if ($page < $total_pages - 2) {
-                echo '<li><span>...</span></li>';
-            }
-
-            // Hiển thị nút trang cuối cùng
-            if ($page < $total_pages) {
-                echo '<li><a href="?page=' . $total_pages . '" class="inner-trang">' . $total_pages . '</a></li>';
-            }
-            ?>
         </ul>
     </div>
 </div>

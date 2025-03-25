@@ -52,7 +52,7 @@
                 ?>
                 </div>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="account.html"
+                  <a class="dropdown-item" href="account.php"
                     ><i class="fa-regular fa-circle-user"></i>Tài khoản của
                     tôi</a
                   >
@@ -243,26 +243,26 @@
               <a href="timkiemnangcao-login.php">MÓN CHAY</a>
             </li>
             <li>
-              <a href="timkiemnangcao-login.html">MÓN MẶN</a>
+              <a href="timkiemnangcao-login.php">MÓN MẶN</a>
             </li>
             <li>
-              <a href="timkiemnangcao-login.html">MÓN LẨU</a>
+              <a href="timkiemnangcao-login.php">MÓN LẨU</a>
             </li>
             <li>
-              <a href="timkiemnangcao-login.html">MÓN ĂN VẶT</a>
+              <a href="timkiemnangcao-login.php">MÓN ĂN VẶT</a>
             </li>
             <li>
-              <a href="timkiemnangcao-login.html">MÓN TRÁNG MIỆNG</a>
+              <a href="timkiemnangcao-login.php">MÓN TRÁNG MIỆNG</a>
             </li>
             <li>
-              <a href="timkiemnangcao-login.html">NƯỚC UỐNG</a>
+              <a href="timkiemnangcao-login.phpphp">NƯỚC UỐNG</a>
             </li>
             <li>
-              <a href="timkiemnangcao-login.html">MÓN KHÁC</a>
+              <a href="timkiemnangcao-login.php">MÓN KHÁC</a>
             </li>
           </ul>
         </div>
       </div>
     </header>
-
+<link rel="stylesheet" href="assets/css/style.css">
     <!-- End header bottom  -->
