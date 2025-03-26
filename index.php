@@ -172,7 +172,6 @@
         echo '<li><a href="?page=' . $i . '" class="inner-trang ' . $active_class . '">' . $i . '</a></li>';
     }
 ?>
-
         </ul>
     </div>
 </div>

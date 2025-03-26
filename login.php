@@ -151,12 +151,8 @@
               </div> <!-- Đóng row đúng chỗ -->
           </div>
       </div>
-
               <!-- Đóng Products -->
-
-      
     </div>
-
     <!-- Phân trang -->
 <div class="Pagination">
     <div class="container">
@@ -168,8 +164,6 @@
         echo '<li><a href="?page=' . $i . '" class="inner-trang ' . $active_class . '">' . $i . '</a></li>';
     }
 ?>
-
-
         </ul>
     </div>
 </div>

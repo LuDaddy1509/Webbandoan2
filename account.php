@@ -266,30 +266,31 @@
         <div class="inner-menu">
           <ul>
             <li>
-              <a href="login.html">TRANG CHỦ</a>
+              <a href="login.php">TRANG CHỦ</a>
             </li>
             <li>
-              <a href="timkiemnangcao-login.html">MÓN CHAY</a>
+              <a href="timkiemnangcao-login.php">MÓN CHAY</a>
             </li>
             <li>
-              <a href="timkiemnangcao-login.html">MÓN MẶN</a>
+              <a href="timkiemnangcao-login.php">MÓN MẶN</a>
             </li>
             <li>
-              <a href="timkiemnangcao-login.html">MÓN LẨU</a>
+              <a href="timkiemnangcao-login.php">MÓN LẨU</a>
             </li>
             <li>
-              <a href="timkiemnangcao-login.html">MÓN ĂN VẶT</a>
+              <a href="timkiemnangcao-login.php">MÓN ĂN VẶT</a>
             </li>
             <li>
-              <a href="timkiemnangcao-login.html">MÓN TRÁNG MIỆNG</a>
+              <a href="timkiemnangcao-login.php">MÓN TRÁNG MIỆNG</a>
             </li>
             <li>
-              <a href="timkiemnangcao-login.html">NƯỚC UỐNG</a>
+              <a href="timkiemnangcao-login.php">NƯỚC UỐNG</a>
             </li>
             <li>
-              <a href="timkiemnangcao-login.html">MÓN KHÁC</a>
+              <a href="timkiemnangcao-login.php">MÓN KHÁC</a>
             </li>
           </ul>
+
         </div>
       </div>
     </header>
@@ -311,60 +312,58 @@
           </div>
           <div class="row">
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+              <?php
+              include "connect.php";
+              if (!isset($_SESSION['PhoneNumber'])) {
+                header('location:login.php');
+                exit(); 
+            }
+              $phone = $_SESSION['PhoneNumber'];
+              $sql = "SELECT * FROM Khachhang WHERE sodienthoai = ?";
+              $stmt = $conn->prepare($sql);
+              $stmt->bind_param("s",$phone);
+              $stmt->execute();
+              $result = $stmt->get_result();
+              if($result->num_rows >0){
+                $row = $result->fetch_assoc();
+              } else{
+                echo "Không tìm thấy thông tin người dùng!";
+                exit();
+              }
+              $stmt->close();
+              $conn->close();
+              ?>
               <div class="form-group">
                 <label for="name1">Họ và tên</label>
-                <?php 
-                  include "connect.php";
-                  if(!isset($_SESSION['PhoneNumber'])){
-                    header('location:login.php');
-                  }
-                  echo '
+                
                 <input
                   type="text"
                   id="name1"
                   class="form-control"
-                  value="' .htmlspecialchars($_SESSION['tenkh'], ENT_QUOTES, 'UTF-8').'"
+                  value="<?php echo htmlspecialchars($row['tenkh']); ?>"
                 />
-                ';
-                if(!isset($_SESSION['PhoneNumber'])){
-                  header('location:login.php');
-                }
-                ?>
+    
               </div>
               <div class="form-group">
                 <label for="phone">Số điện thoại</label>
-                <?php
-                 include "connect.php";
-                 if(!isset($_SESSION['PhoneNumber'])){
-                   header('location:login.php');
-                 }
-                 echo '
+               
                 <input
                   type="text"
                   id="phone"
                   class="form-control"
-                  value="'.htmlspecialchars($_SESSION['PhoneNumber'],ENT_QUOTES, 'UTF-8').'"
+                  value="<?php echo htmlspecialchars($row['sodienthoai']); ?>"
                   disabled
-                />'
-                ?>
+                />
               </div>
               <div class="form-group">
                 <label for="email">Email</label>
-                <?php
-                include "connect.php";
-                if(!isset($_SESSION['PhoneNumber'])){
-                  header('location:login.php');
-                  exit();
-                }
-                $email = isset($_SESSION['Email']) ? $_SESSION['Email'] : '';
-                echo '
+              
                 <input
                   type="text"
                   id="email"
                   class="form-control"
-                  value="'.htmlspecialchars($_SESSION['Email'],ENT_QUOTES, 'UTF-8').'"
-                />'
-                ?>
+                  value="<?php echo htmlspecialchars($row['Email']); ?>"
+                />
               </div>
               <div class="form-group">
                 <label for="diachi">Địa chỉ</label>
@@ -372,7 +371,7 @@
                   type="text"
                   id="diachi"
                   class="form-control"
-                  value="273 An Dương Vương, Phường 3, Quận 5, TP Hồ Chí Minh"
+                  value="<?php echo htmlspecialchars($row['diachi']); ?>"
                 />
               </div>
               <button class="button" onclick="capNhat()">
@@ -380,6 +379,9 @@
                 Lưu thay đổi
               </button>
             </div>
+            <?php 
+            ?>
+
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
               <div class="form-group">
                 <label for="mk1">Mật khẩu hiện tại</label>

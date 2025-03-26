@@ -12,7 +12,7 @@
           <div class="inner-middle">
             <form action="" class="inner-find">
               <input type="text" placeholder="Tìm Kiếm món ăn..." />
-              <a href="timkiem-login.html" class="inner-button-find">
+              <a href="timkiem-login.php" class="inner-button-find">
                 <i class="fa-solid fa-magnifying-glass"></i>
               </a>
             </form>
