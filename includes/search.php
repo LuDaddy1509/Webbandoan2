@@ -1,61 +1,86 @@
 <?php
 header("Content-Type: application/json; charset=utf-8");
-include "connect.php"; // Điều chỉnh đường dẫn nếu cần
+error_reporting(0); // Tắt cảnh báo lỗi PHP
+ini_set('display_errors', 0);
+ob_clean(); // Xoá mọi dữ liệu đã in trước đó
 
+include "../connect.php";
 if ($conn->connect_error) {
+    http_response_code(500);
     die(json_encode(["error" => "Kết nối thất bại: " . $conn->connect_error]));
 }
 
-// Kiểm tra nếu request không phải POST thì dừng lại
-if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-    die(json_encode(["error" => "Chỉ chấp nhận request POST"]));
-}
-
 // Nhận dữ liệu từ request
-$name = $_POST["name"] ?? '';
-$category = $_POST["category"] ?? '';
-$min_price = $_POST["min_price"] ?? '';
-$max_price = $_POST["max_price"] ?? '';
-$sort_order = $_POST["sort_order"] ?? 0;
+$name = isset($_POST["name"]) ? trim($_POST["name"]) : '';
+$category = isset($_POST["category"]) ? trim($_POST["category"]) : '';
+$min_price = filter_input(INPUT_POST, "min_price", FILTER_VALIDATE_FLOAT);
+$max_price = filter_input(INPUT_POST, "max_price", FILTER_VALIDATE_FLOAT);
+$sort_order = filter_input(INPUT_POST, "sort_order", FILTER_VALIDATE_INT);
 
+// Chuẩn bị truy vấn SQL
 $sql = "SELECT * FROM sanpham";
 $conditions = [];
+$params = [];
+$types = "";
 
+// Tìm kiếm theo tên
 if (!empty($name)) {
-    $escaped_name = $conn->real_escape_string($name);
-    $conditions[] = "(name LIKE '%$escaped_name%' OR SOUNDEX(name) = SOUNDEX('$escaped_name'))";
+    $conditions[] = "(Name LIKE ?)";
+    $params[] = "%$name%";
+    $types .= "s";
 }
 
+// Lọc theo danh mục
 if (!empty($category) && $category !== "Tất cả") {
-    $conditions[] = "category = '" . $conn->real_escape_string($category) . "'";
+    $conditions[] = "Type = ?";
+    $params[] = $category;
+    $types .= "s";
 }
 
-if (!empty($min_price)) {
-    $conditions[] = "price >= " . (float)$min_price;
+// Lọc theo giá
+if ($min_price !== false && $min_price !== null) {
+    $conditions[] = "Price >= ?";
+    $params[] = $min_price;
+    $types .= "d";
 }
-if (!empty($max_price)) {
-    $conditions[] = "price <= " . (float)$max_price;
+if ($max_price !== false && $max_price !== null) {
+    $conditions[] = "Price <= ?";
+    $params[] = $max_price;
+    $types .= "d";
 }
 
+// Ghép điều kiện vào SQL
 if (!empty($conditions)) {
     $sql .= " WHERE " . implode(" AND ", $conditions);
 }
 
+// Sắp xếp theo giá
 if ($sort_order == 1) {
     $sql .= " ORDER BY price ASC";
 } elseif ($sort_order == 2) {
     $sql .= " ORDER BY price DESC";
 }
 
-$result = $conn->query($sql);
+// Chuẩn bị và thực thi truy vấn
+$stmt = $conn->prepare($sql);
+if (!$stmt) {
+    die(json_encode(["error" => "Lỗi truy vấn: " . $conn->error]));
+}
+if (!empty($params)) {
+    $stmt->bind_param($types, ...$params);
+}
+$stmt->execute();
+$result = $stmt->get_result();
 $products = [];
 
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $products[] = $row;
-    }
+while ($row = $result->fetch_assoc()) {
+    $row["Image"] = "http://localhost/Webbandoan2/" . str_replace("\\", "/", $row["Image"]);
+    $products[] = $row;
 }
 
-echo json_encode($products, JSON_UNESCAPED_UNICODE);
+// Trả về JSON hợp lệ
+echo json_encode($products, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+
+$stmt->close();
 $conn->close();
 ?>

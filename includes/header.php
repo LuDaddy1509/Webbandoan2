@@ -14,33 +14,17 @@
               </a>
             </div>
           </div>
-              <!-- <div class="header-middle-center">
-                <form action="" class="form-search">
-                  <span class="search-btn"
-                    ><i class="fa-light fa-magnifying-glass"></i
-                  ></span>
-                  <input
-                    type="text"
-                    class="form-search-input"
-                    placeholder="Tìm kiếm món ăn..."
-                    oninput="searchProducts()"
-                  />
-                  <button class="filter-btn">
-                    <i class="fa-light fa-filter-list"></i><span>Lọc</span>
-                  </button>
-                </form>
-              </div> -->
               <div class="header-middle-center">
-          <form id="search-form" class="form-search">
-              <span class="search-btn">
-                  <i class="fa-light fa-magnifying-glass"></i>
-              </span>
-              <input type="text" class="form-search-input" id="search-input" placeholder="Tìm kiếm món ăn...">
-              <button  class="filter-btn" id="toggle-filter-btn">
-                  <i class="fa-light fa-filter-list"></i><span>Lọc</span>
-              </button>
-    </form>
-</div>
+                <form id="search-form" class="form-search">
+                    <span class="search-btn">
+                        <i class="fa-light fa-magnifying-glass"></i>
+                    </span>
+                    <input type="text" class="form-search-input" id="search-input" placeholder="Tìm kiếm món ăn...">
+                    <button  class="filter-btn" id="toggle-filter-btn">
+                        <i class="fa-light fa-filter-list"></i><span>Lọc</span>
+                    </button>
+                </form>
+              </div>
           <div class="header-middle-right">
             <ul class="header-middle-right-list">
               <li class="header-middle-right-item dropdown open">
@@ -334,59 +318,6 @@
         </ul>
       </div>
     </nav>
-    <!-- <div class="advanced-search">
-      <div class="container">
-        <div class="advanced-search-category">
-          <span>Phân loại </span>
-          <select
-            name=""
-            id="advanced-search-category-select"
-            onchange="searchProducts()"
-          >
-            <option>Tất cả</option>
-            <option>Món chay</option>
-            <option>Món mặn</option>
-            <option>Món lẩu</option>
-            <option>Món ăn vặt</option>
-            <option>Món tráng miệng</option>
-            <option>Nước uống</option>
-          </select>
-        </div>
-        <div class="advanced-search-price">
-          <span>Giá từ</span>
-          <input
-            type="number"
-            placeholder="tối thiểu"
-            id="min-price"
-            onchange="searchProducts()"
-          />
-          <span>đến</span>
-          <input
-            type="number"
-            placeholder="tối đa"
-            id="max-price"
-            onchange="searchProducts()"
-          />
-          <button id="advanced-search-price-btn">
-            <i class="fa-light fa-magnifying-glass-dollar"></i>
-          </button>
-        </div>
-        <div class="advanced-search-control">
-          <button id="sort-ascending" onclick="searchProducts(1)">
-            <i class="fa-regular fa-arrow-up-short-wide"></i>
-          </button>
-          <button id="sort-descending" onclick="searchProducts(2)">
-            <i class="fa-regular fa-arrow-down-wide-short"></i>
-          </button>
-          <button id="reset-search" onclick="searchProducts(0)">
-            <i class="fa-light fa-arrow-rotate-right"></i>
-          </button>
-          <button onclick="closeSearchAdvanced()">
-            <i class="fa-light fa-xmark"></i>
-          </button>
-        </div>
-      </div>
-    </div> -->
     <div class="advanced-search" id="advanced-search" >
     <div class="container">
         <div class="advanced-search-category">
@@ -431,7 +362,67 @@
     </div>
 </div>
 
+<div
+        class="modal fade modal-form"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="inner-title">Đăng nhập tài khoản</h5>
+              <p class="inner-desc">
+                Đăng nhập thành viên để mua hàng và nhận những ưu đãi đặc biệt
+                từ chúng tôi
+              </p>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form action="">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="form-group">
+                      <label for="sdt">Số điện thoại</label>
+                      <input
+                        type="text"
+                        id="sdt"
+                        class="form-control"
+                        placeholder="Nhập số điện thoại"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-group">
+                      <label for="mk">Mật khẩu</label>
+                      <input
+                        type="password"
+                        id="mk"
+                        class="form-control"
+                        placeholder="Nhập mật khẩu"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <a href="login.html" class="button"> Đăng nhập </a>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
 <!-- Kết quả tìm kiếm -->
 <div id="search-results"></div>
+
 
     <!-- End header top  -->
