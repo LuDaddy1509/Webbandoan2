@@ -1,8 +1,12 @@
  <!-- header top  -->
+<?php
+   session_start();
+   ob_start();
+?>
 
  <header>
       <div class="header-middle">
-        <div class="container">
+      <div class="container">
           <div class="header-middle-left">
             <div class="header-logo">
               <a href="index.php">
@@ -12,7 +16,7 @@
                   class="header-logo-img"
                 />
               </a>
-            </div>
+          </div>
           </div>
               <!-- <div class="header-middle-center">
                 <form action="" class="form-search">
@@ -62,7 +66,7 @@
                   >
                   </li>
                   <li>
-                    <a
+                  <a
                     class="dropdown-item"
                     href="#"
                     data-toggle="modal"
@@ -81,10 +85,10 @@
                 <span>Giỏ hàng</span>
               </li>
             </ul>
-          </div>
         </div>
+      </div>
 
-            <!-- Modal login -->
+      <!-- Modal login -->
 
       <div
         class="modal fade modal-form"
@@ -106,40 +110,70 @@
                 class="close"
                 data-dismiss="modal"
                 aria-label="Close"
+
               >
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
-              <form action="">
-                <div class="row">
-                  <div class="col-12">
-                    <div class="form-group">
-                      <label for="sdt">Số điện thoại</label>
+              <form action="" method="post">
+    <div class="row">
+        <div class="col-12">
+            <div class="form-group">
+                <label for="sdt">Số điện thoại</label>
                       <input
                         type="text"
                         id="sdt"
                         class="form-control"
                         placeholder="Nhập số điện thoại"
+                        name="sdt"
                       />
-                    </div>
-                  </div>
-                  <div class="col-12">
-                    <div class="form-group">
-                      <label for="mk">Mật khẩu</label>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group">
+                <label for="mk">Mật khẩu</label>
                       <input
                         type="password"
                         id="mk"
                         class="form-control"
                         placeholder="Nhập mật khẩu"
+                        name="password"
                       />
-                    </div>
-                  </div>
-                  <div class="col-12">
-                    <a href="login.html" class="button"> Đăng nhập </a>
-                  </div>
-                </div>
-              </form>
+            </div>
+        </div>
+        <div class="col-12">
+                    <button class="button" name="dangnhap"> Đăng nhập </button>
+        </div>
+    </div>
+</form>
+       <?php
+      include "connect.php";
+      if(isset($_POST['dangnhap'])){
+        $sdt = $_POST['sdt'];
+        $pw = $_POST['password'];
+        // $hash_pw = password_hash($pw,PASSWORD_DEFAULT);
+        $sql = "SELECT * FROM khachhang WHERE sodienthoai = ? ";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s",$sdt);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if($result->num_rows > 0){
+          $row = $result->fetch_assoc();
+          if($pw===$row['matkhau']){
+            $_SESSION['ten'] = $row['tenkh'];
+            $_SESSION['password'] = $row['matkhau'];
+            echo "đang nhap thanh cong!";
+            header("location: login.php");
+            exit();
+          } else {
+            echo "sai mat khau";
+          }
+        } else {
+          echo " tai khoa khong ton tai";
+        }
+      }
+       ?>
             </div>
           </div>
         </div>
@@ -174,7 +208,7 @@
               </button>
             </div>
             <div class="modal-body">
-              <form action="">
+              <form action="" method="post">
                 <div class="row">
                   <div class="col-12">
                     <div class="form-group">
@@ -184,6 +218,7 @@
                         id="name"
                         class="form-control"
                         placeholder="VD: Thành Đại"
+                        name="ten"
                       />
                     </div>
                   </div>
@@ -195,6 +230,7 @@
                         id="sdt2"
                         class="form-control"
                         placeholder="Nhập số điện thoại"
+                        name="sdt"
                       />
                     </div>
                   </div>
@@ -206,6 +242,7 @@
                         id="dc"
                         class="form-control"
                         placeholder="Nhập địa chỉ"
+                        name="diachi"
                       />
                     </div>
                   </div>
@@ -217,6 +254,7 @@
                         id="mk2"
                         class="form-control"
                         placeholder="Nhập mật khẩu"
+                        name="password"
                       />
                     </div>
                   </div>
@@ -228,14 +266,41 @@
                         id="nhapmk"
                         class="form-control"
                         placeholder="Nhập lại mật khẩu"
+                        name="password1"
                       />
                     </div>
                   </div>
                   <div class="col-12">
-                    <button class="button" onclick="dangKi()">Đăng kí</button>
+                    <button class="button" onclick="dangKi()" name="dangki">Đăng kí</button>
                   </div>
                 </div>
               </form>
+              <?php
+              include "connect.php";
+              if(isset($_POST['dangki'])){
+               $tenkh  = $_POST['ten'];
+               $sdtkh = $_POST['sdt'];
+               $diachikh = $_POST['diachi'];
+               $pass = $_POST['password'];
+               $pass1 = $_POST['password1'];
+               if($pass == $pass1){
+                $sql = "INSERT INTO Khachhang(tenkh,matkhau,diachi,sodienthoai) VALUES(?,?,?,?);";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("ssss",$tenkh,$pass,$diachikh,$sdtkh);
+                if($stmt->execute()){
+                  $_SESSION['ten'] = $tenkh;
+                  $_SESSION['sdt'] = $sdtkh;
+                  header ("location: login.php");
+                  exit();
+                }
+                else {echo "đăng ký thất bại";}
+               }
+               else {
+                    echo "Mật khẩu nhập lại không khớp!";
+               }
+              }
+              ?>
+
             </div>
           </div>
         </div>
@@ -309,30 +374,30 @@
         <ul class="menu-list">
           <li class="menu-list-item">
             <a href="index.php" class="menu-link">Trang chủ</a>
-          </li>
+            </li>
           <li class="menu-list-item" onclick="showCategory('Món chay')">
             <a href="javascript:;" class="menu-link">Món chay</a>
-          </li>
+            </li>
           <li class="menu-list-item" onclick="showCategory('Món mặn')">
             <a href="javascript:;" class="menu-link">Món mặn</a>
-          </li>
+            </li>
           <li class="menu-list-item" onclick="showCategory('Món lẩu')">
             <a href="javascript:;" class="menu-link">Món lẩu</a>
-          </li>
+            </li>
           <li class="menu-list-item" onclick="showCategory('Món ăn vặt')">
             <a href="javascript:;" class="menu-link">Món ăn vặt</a>
-          </li>
+            </li>
           <li class="menu-list-item" onclick="showCategory('Món tráng miệng')">
             <a href="javascript:;" class="menu-link">Món tráng miệng</a>
-          </li>
+            </li>
           <li class="menu-list-item" onclick="showCategory('Nước uống')">
             <a href="javascript:;" class="menu-link">Nước uống</a>
-          </li>
+            </li>
           <li class="menu-list-item" onclick="showCategory('Món khác')">
             <a href="javascript:;" class="menu-link">Món khác</a>
-          </li>
-        </ul>
-      </div>
+            </li>
+          </ul>
+        </div>
     </nav>
     <!-- <div class="advanced-search">
       <div class="container">

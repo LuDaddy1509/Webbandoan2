@@ -1,5 +1,7 @@
- <!-- header top  -->
-
+<?php
+session_start();
+ob_start(); 
+?>
  <header>
       <div class="header-middle">
         <div class="container">
@@ -37,12 +39,19 @@
                 <div class="auth-container">
                   <span class="text-dndk">Tài khoản</span>
                   <span class="text-tk"
-                    >Nhân <i class="fa-sharp fa-solid fa-caret-down"></i
+                    ><?php if(!isset($_SESSION['sdt'])){
+                      header("location: index.php");
+                      exit();
+                    }
+                    else {
+                      echo htmlspecialchars($_SESSION['ten'],ENT_QUOTES, 'UTF-8');
+                    }
+                    ?><i class="fa-sharp fa-solid fa-caret-down"></i
                   ></span>
                 </div>
                 <ul class="header-middle-right-menu">
                   <li>
-                  <a class="dropdown-item" href=""
+                  <a class="dropdown-item" href="account.php"
                     ><i class="fa-regular fa-circle-user"></i>Tài khoản của
                     tôi</a
                   >
@@ -154,7 +163,7 @@
       <div class="container">
         <ul class="menu-list">
           <li class="menu-list-item">
-            <a href="index.php" class="menu-link">Trang chủ</a>
+            <a href="login.php" class="menu-link">Trang chủ</a>
           </li>
           <li class="menu-list-item" onclick="showCategory('Món chay')">
             <a href="javascript:;" class="menu-link">Món chay</a>

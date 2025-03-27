@@ -42,7 +42,7 @@
           <div class="inner-middle">
             <form action="" class="inner-find">
               <input type="text" placeholder="Tìm Kiếm món ăn..." />
-              <a href="timkiem-login.html" class="inner-button-find">
+              <a href="timkiem-login.php" class="inner-button-find">
                 <i class="fa-solid fa-magnifying-glass"></i>
               </a>
             </form>
@@ -71,16 +71,26 @@
                 aria-expanded="false"
               >
                 <div class="inner-register">Tài khoản</div>
-                <div class="nav-link dropdown-toggle">Thanh</div>
+                <div class="nav-link dropdown-toggle">
+                <?php 
+                session_start();
+                ob_start();
+                include "connect.php";
+                echo "<p class='username'>" . $_SESSION['tenkh'] . "</p>";
+                if(!isset($_SESSION['PhoneNumber'])){
+                  header('location:login.php');
+                }
+                ?>
+                </div>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="account.html"
+                  <a class="dropdown-item" href="account.php"
                     ><i class="fa-regular fa-circle-user"></i>Tài khoản của
                     tôi</a
                   >
-                  <a class="dropdown-item" href="productss.html"
+                  <a class="dropdown-item" href="productss.php"
                     ><i class="fa-solid fa-cart-shopping"></i>Đơn hàng đã mua</a
                   >
-                  <a class="dropdown-item" href="index.html"
+                  <a class="dropdown-item" href="logout.php"
                     ><i class="fa-solid fa-right-from-bracket"></i>Thoát tài
                     khoản</a
                   >
@@ -256,30 +266,31 @@
         <div class="inner-menu">
           <ul>
             <li>
-              <a href="login.html">TRANG CHỦ</a>
+              <a href="login.php">TRANG CHỦ</a>
             </li>
             <li>
-              <a href="timkiemnangcao-login.html">MÓN CHAY</a>
+              <a href="timkiemnangcao-login.php">MÓN CHAY</a>
             </li>
             <li>
-              <a href="timkiemnangcao-login.html">MÓN MẶN</a>
+              <a href="timkiemnangcao-login.php">MÓN MẶN</a>
             </li>
             <li>
-              <a href="timkiemnangcao-login.html">MÓN LẨU</a>
+              <a href="timkiemnangcao-login.php">MÓN LẨU</a>
             </li>
             <li>
-              <a href="timkiemnangcao-login.html">MÓN ĂN VẶT</a>
+              <a href="timkiemnangcao-login.php">MÓN ĂN VẶT</a>
             </li>
             <li>
-              <a href="timkiemnangcao-login.html">MÓN TRÁNG MIỆNG</a>
+              <a href="timkiemnangcao-login.php">MÓN TRÁNG MIỆNG</a>
             </li>
             <li>
-              <a href="timkiemnangcao-login.html">NƯỚC UỐNG</a>
+              <a href="timkiemnangcao-login.php">NƯỚC UỐNG</a>
             </li>
             <li>
-              <a href="timkiemnangcao-login.html">MÓN KHÁC</a>
+              <a href="timkiemnangcao-login.php">MÓN KHÁC</a>
             </li>
           </ul>
+
         </div>
       </div>
     </header>
@@ -301,32 +312,57 @@
           </div>
           <div class="row">
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+              <?php
+              include "connect.php";
+              if (!isset($_SESSION['PhoneNumber'])) {
+                header('location:login.php');
+                exit(); 
+            }
+              $phone = $_SESSION['PhoneNumber'];
+              $sql = "SELECT * FROM Khachhang WHERE sodienthoai = ?";
+              $stmt = $conn->prepare($sql);
+              $stmt->bind_param("s",$phone);
+              $stmt->execute();
+              $result = $stmt->get_result();
+              if($result->num_rows >0){
+                $row = $result->fetch_assoc();
+              } else{
+                echo "Không tìm thấy thông tin người dùng!";
+                exit();
+              }
+              $stmt->close();
+              $conn->close();
+              ?>
               <div class="form-group">
                 <label for="name1">Họ và tên</label>
+                
                 <input
                   type="text"
                   id="name1"
                   class="form-control"
-                  value="Cao Thái Phương Thanh"
+                  value="<?php echo htmlspecialchars($row['tenkh']); ?>"
                 />
+    
               </div>
               <div class="form-group">
                 <label for="phone">Số điện thoại</label>
+               
                 <input
                   type="text"
                   id="phone"
                   class="form-control"
-                  value="0909098386"
+                  value="<?php echo htmlspecialchars($row['sodienthoai']); ?>"
                   disabled
                 />
               </div>
               <div class="form-group">
                 <label for="email">Email</label>
+              
                 <input
                   type="text"
                   id="email"
                   class="form-control"
-                  value="thanh.ctp@sgu.edu.vn"
+                  value="<?php echo htmlspecialchars($row['Email']); ?>"
                 />
               </div>
               <div class="form-group">
@@ -335,7 +371,7 @@
                   type="text"
                   id="diachi"
                   class="form-control"
-                  value="273 An Dương Vương, Phường 3, Quận 5, TP Hồ Chí Minh"
+                  value="<?php echo htmlspecialchars($row['diachi']); ?>"
                 />
               </div>
               <button class="button" onclick="capNhat()">
@@ -343,6 +379,9 @@
                 Lưu thay đổi
               </button>
             </div>
+            <?php 
+            ?>
+
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
               <div class="form-group">
                 <label for="mk1">Mật khẩu hiện tại</label>
