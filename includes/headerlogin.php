@@ -42,14 +42,7 @@
               >
                 <div class="inner-register">Tài khoản</div>
                 <div class="nav-link dropdown-toggle">
-                <?php
-                session_start();
-                include "connect.php";
-                echo "<p class='username'>" . $_SESSION['tenkh'] . "</p>";
-                if(!isset($_SESSION['PhoneNumber'])){
-                  header('location:login.php');
-                }
-                ?>
+                
                 </div>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <a class="dropdown-item" href="account.php"

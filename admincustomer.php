@@ -31,6 +31,20 @@
   <body>
     <?php
     include_once "includes/headeradmin.php";
+    include "database/CustomerDBconnect.php";
+    if (isset($_POST['addcustomer'])){
+      $makh="";
+      $tenkh=$_POST['tenkh'];
+      $matkhau=$_POST['matkhau'];
+      $diachi=$_POST['diachi'];
+      $sodienthoai=$_POST['sodienthoai'];
+
+      $sql="INSERT INTO khachhang(makh, tenkh, matkhau, diachi, sodienthoai)
+      VALUES('$makh','$tenkh','$matkhau','$diachi','$sodienthoai');
+      ";
+      
+      mysqli_query($conn,$sql);
+    }
     ?>
       <!-- admincustomer  -->
 
@@ -97,148 +111,35 @@
                 <td>STT</td>
                 <td>Họ và tên</td>
                 <td>Liên hệ</td>
-                <td>Ngày tham gia</td>
+                <td>Mật khẩu</td>
                 <td>Tình trạng</td>
                 <td></td>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>Thanh</td>
-                <td>0909098386</td>
-                <td>20/11/2024</td>
-                <td class="status" id="customer-status-1">
-                  <span class="status-complete">Hoạt động</span>
-                </td>
-                <td class="control control-table">
-                  <button
-                    class="btn-edit"
-                    data-toggle="modal"
-                    data-target="#exampleModal-2"
-                  >
-                    <i class="fa-light fa-pen-to-square"></i>
-                  </button>
-                  <a
-                    href="admincustomerunclock.html"
-                    class="btn-delete"
-                    id="delete-account"
-                    onclick="khoaKhachHang()"
-                  >
-                    <i class="fa-regular fa-lock"></i>
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Nguyen Dai</td>
-                <td>0126758789</td>
-                <td>01/11/2024</td>
-                <td><span class="status-complete">Hoạt động</span></td>
-                <td class="control control-table">
-                  <button
-                    class="btn-edit"
-                    data-toggle="modal"
-                    data-target="#exampleModal-2"
-                  >
-                    <i class="fa-light fa-pen-to-square"></i>
-                  </button>
-                  <a
-                    href="admincustomerunclock.html"
-                    class="btn-delete"
-                    id="delete-account"
-                    onclick="khoaKhachHang()"
-                  >
-                    <i class="fa-regular fa-lock"></i>
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>Lu Nhan</td>
-                <td>0383726193</td>
-                <td>27/10/2024</td>
-                <td><span class="status-complete">Hoạt động</span></td>
-                <td class="control control-table">
-                  <button
-                    class="btn-edit"
-                    data-toggle="modal"
-                    data-target="#exampleModal-2"
-                  >
-                    <i class="fa-light fa-pen-to-square"></i>
-                  </button>
-                  <a
-                    href="admincustomerunclock.html"
-                    class="btn-delete"
-                    id="delete-account"
-                    onclick="khoaKhachHang()"
-                  >
-                    <i class="fa-regular fa-lock"></i>
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td>4</td>
-                <td>Nguyen Hoang</td>
-                <td>0123456788</td>
-                <td>28/10/2024</td>
-                <td><span class="status-complete">Hoạt động</span></td>
-                <td class="control control-table">
-                  <button
-                    class="btn-edit"
-                    data-toggle="modal"
-                    data-target="#exampleModal-2"
-                  >
-                    <i class="fa-light fa-pen-to-square"></i>
-                  </button>
-                  <a
-                    href="admincustomerunclock.html"
-                    class="btn-delete"
-                    id="delete-account"
-                    onclick="khoaKhachHang()"
-                  >
-                    <i class="fa-regular fa-lock"></i>
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td>Dang Khoa</td>
-                <td>0123458789</td>
-                <td>01/11/2024</td>
-                <td><span class="status-complete">Hoạt động</span></td>
-                <td class="control control-table">
-                  <button
-                    class="btn-edit"
-                    data-toggle="modal"
-                    data-target="#exampleModal-2"
-                  >
-                    <i class="fa-light fa-pen-to-square"></i>
-                  </button>
-                  <a
-                    href="admincustomerunclock.html"
-                    class="btn-delete"
-                    id="delete-account"
-                    onclick="khoaKhachHang()"
-                  >
-                    <i class="fa-regular fa-lock"></i>
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td>6</td>
-                <td>Bao Khang</td>
-                <td>0383726113</td>
-                <td>28/10/2024</td>
+              <?php
+                $sql="SELECT * from khachhang";
+                $result=mysqLi_query($conn,$sql);
+              while($row=mysqli_fetch_array($result)){
+              ?>
+                <td><?php echo $row['makh']?></td>
+                <td><?php echo $row['tenkh']?></td>
+                <td><?php echo $row['sodienthoai']?></td>
+                <td><?php echo $row['matkhau']?></td>
+                <!-- ??? -->
                 <td><span class="status-no-complete">Bị khóa</span></td>
                 <td class="control control-table">
-                  <button
+                  <a
+                    href="admincustomer.php?this_id=<?php echo $row['makh']?>"
+                    
                     class="btn-edit"
+                    name="btn-edit"
                     data-toggle="modal"
                     data-target="#exampleModal-2"
                   >
                     <i class="fa-light fa-pen-to-square"></i>
-                  </button>
+                    
+                    </a>
                   <a
                     href="admincustomerunclock.html"
                     class="btn-delete"
@@ -249,54 +150,7 @@
                   </a>
                 </td>
               </tr>
-              <tr>
-                <td>7</td>
-                <td>Gia Hung</td>
-                <td>0123456489</td>
-                <td>28/10/2024</td>
-                <td><span class="status-no-complete">Bị khóa</span></td>
-                <td class="control control-table">
-                  <button
-                    class="btn-edit"
-                    data-toggle="modal"
-                    data-target="#exampleModal-2"
-                  >
-                    <i class="fa-light fa-pen-to-square"></i>
-                  </button>
-                  <a
-                    href="admincustomerunclock.html"
-                    class="btn-delete"
-                    id="delete-account"
-                    onclick="khoaKhachHang()"
-                  >
-                    <i class="fa-regular fa-lock"></i>
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td>8</td>
-                <td>Le Hien</td>
-                <td>0383725793</td>
-                <td>29/10/2024</td>
-                <td><span class="status-complete">Hoạt động</span></td>
-                <td class="control control-table">
-                  <button
-                    class="btn-edit"
-                    data-toggle="modal"
-                    data-target="#exampleModal-2"
-                  >
-                    <i class="fa-light fa-pen-to-square"></i>
-                  </button>
-                  <a
-                    href="admincustomerunclock.html"
-                    class="btn-delete"
-                    id="delete-account"
-                    onclick="khoaKhachHang()"
-                  >
-                    <i class="fa-regular fa-lock"></i>
-                  </a>
-                </td>
-              </tr>
+              <?php } ?>
             </tbody>
           </table>
         </div>
@@ -324,14 +178,14 @@
                 </button>
               </div>
               <div class="modal-body">
-                <form action="">
+                <form action="admincustomer.php" method="post">
                   <div class="row">
                     <div class="col-12">
                       <div class="form-group">
-                        <label for="name">Tên đầy đủ</label>
+                        <label for="tenkh">Tên đầy đủ</label>
                         <input
                           type="text"
-                          id="name"
+                          name="tenkh"
                           class="form-control"
                           placeholder="VD: Thành Đại"
                         />
@@ -339,10 +193,10 @@
                     </div>
                     <div class="col-12">
                       <div class="form-group">
-                        <label for="name">Số điện thoại</label>
+                        <label for="sodienthoai">Số điện thoại</label>
                         <input
                           type="text"
-                          id="name"
+                          name="sodienthoai"
                           class="form-control"
                           placeholder="Nhập số điện thoại"
                         />
@@ -350,10 +204,10 @@
                     </div>
                     <div class="col-12">
                       <div class="form-group">
-                        <label for="dc">Địa chỉ</label>
+                        <label for="diachi">Địa chỉ</label>
                         <input
                           type="text"
-                          id="dc"
+                          name="diachi"
                           class="form-control"
                           placeholder="Nhập địa chỉ"
                         />
@@ -361,10 +215,10 @@
                     </div>
                     <div class="col-12">
                       <div class="form-group">
-                        <label for="mk">Mật khẩu</label>
+                        <label for="matkhau">Mật khẩu</label>
                         <input
                           type="text"
-                          id="mk"
+                          name="matkhau"
                           class="form-control"
                           placeholder="Nhập mật khẩu"
                         />
@@ -373,9 +227,9 @@
                     <div class="col-12">
                       <div class="inner-add">
                         <button
-                          type="button"
+                          type="submit"
                           class="inner-nut"
-                          onclick="addKhachHang()"
+                          name="addcustomer"
                         >
                           Đăng ký
                         </button>
@@ -391,7 +245,12 @@
         <!-- End Modal Add Customer  -->
 
         <!-- Modal Change Customer  -->
-
+        <?php
+                $sql="SELECT * from khachhang";
+                $result=mysqLi_query($conn,$sql);
+              while($row=mysqli_fetch_array($result)){
+                $modalId = "editModal-" . $row['makh'];
+              ?>
         <div
           class="modal fade modal-form"
           id="exampleModal-2"
@@ -422,7 +281,7 @@
                           type="text"
                           id="name"
                           class="form-control"
-                          value="Cao Thái Phương Thanh"
+                          value="<?php echo $row['tenkh']?>"
                         />
                       </div>
                     </div>
@@ -433,7 +292,7 @@
                           type="text"
                           id="name"
                           class="form-control"
-                          value="0909098386"
+                          value="<?php echo $row['sodienthoai']?>"
                         />
                       </div>
                     </div>
@@ -444,7 +303,7 @@
                           type="text"
                           id="dc"
                           class="form-control"
-                          value="273 An Dương Vương, Phường 3, Quận 5, TP Hồ Chí Minh"
+                          value="<?php echo $row['diachi']?>"
                         />
                       </div>
                     </div>
@@ -455,7 +314,7 @@
                           type="text"
                           id="mk"
                           class="form-control"
-                          value="123456"
+                          value="<?php echo $row['matkhau']?>"
                         />
                       </div>
                     </div>
@@ -477,7 +336,7 @@
             </div>
           </div>
         </div>
-
+        <?php } ?>
         <!-- End Modal Change Customer  -->
       </div>
     </div>
