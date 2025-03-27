@@ -14,26 +14,33 @@
               </a>
             </div>
           </div>
-                <div class="header-middle-center">
-                <form id="search-form" class="form-search">
-                    <span class="search-btn">
-                        <i class="fa-light fa-magnifying-glass"></i>
-                    </span>
-                    <input
-                        type="text"
-                        class="form-search-input"
-                        id="search-input"
-                        placeholder="Tìm kiếm món ăn..."
-                    />
-                    <button type="submit" class="filter-btn">
-                        <i class="fa-light fa-filter-list"></i><span>Lọc</span>
-                    </button>
+              <!-- <div class="header-middle-center">
+                <form action="" class="form-search">
+                  <span class="search-btn"
+                    ><i class="fa-light fa-magnifying-glass"></i
+                  ></span>
+                  <input
+                    type="text"
+                    class="form-search-input"
+                    placeholder="Tìm kiếm món ăn..."
+                    oninput="searchProducts()"
+                  />
+                  <button class="filter-btn">
+                    <i class="fa-light fa-filter-list"></i><span>Lọc</span>
+                  </button>
                 </form>
-      </div>
-
-      <!-- Kết quả tìm kiếm -->
-      <div id="search-results"></div>
-
+              </div> -->
+              <div class="header-middle-center">
+          <form id="search-form" class="form-search">
+              <span class="search-btn">
+                  <i class="fa-light fa-magnifying-glass"></i>
+              </span>
+              <input type="text" class="form-search-input" id="search-input" placeholder="Tìm kiếm món ăn...">
+              <button  class="filter-btn" id="toggle-filter-btn">
+                  <i class="fa-light fa-filter-list"></i><span>Lọc</span>
+              </button>
+    </form>
+</div>
           <div class="header-middle-right">
             <ul class="header-middle-right-list">
               <li class="header-middle-right-item dropdown open">
@@ -327,64 +334,104 @@
         </ul>
       </div>
     </nav>
-    <?php
-header("Content-Type: application/json; charset=UTF-8");
-include "connect.php";
-if ($conn->connect_error) {
-    die(json_encode(["error" => "Kết nối thất bại: " . $conn->connect_error]));
-}
+    <!-- <div class="advanced-search">
+      <div class="container">
+        <div class="advanced-search-category">
+          <span>Phân loại </span>
+          <select
+            name=""
+            id="advanced-search-category-select"
+            onchange="searchProducts()"
+          >
+            <option>Tất cả</option>
+            <option>Món chay</option>
+            <option>Món mặn</option>
+            <option>Món lẩu</option>
+            <option>Món ăn vặt</option>
+            <option>Món tráng miệng</option>
+            <option>Nước uống</option>
+          </select>
+        </div>
+        <div class="advanced-search-price">
+          <span>Giá từ</span>
+          <input
+            type="number"
+            placeholder="tối thiểu"
+            id="min-price"
+            onchange="searchProducts()"
+          />
+          <span>đến</span>
+          <input
+            type="number"
+            placeholder="tối đa"
+            id="max-price"
+            onchange="searchProducts()"
+          />
+          <button id="advanced-search-price-btn">
+            <i class="fa-light fa-magnifying-glass-dollar"></i>
+          </button>
+        </div>
+        <div class="advanced-search-control">
+          <button id="sort-ascending" onclick="searchProducts(1)">
+            <i class="fa-regular fa-arrow-up-short-wide"></i>
+          </button>
+          <button id="sort-descending" onclick="searchProducts(2)">
+            <i class="fa-regular fa-arrow-down-wide-short"></i>
+          </button>
+          <button id="reset-search" onclick="searchProducts(0)">
+            <i class="fa-light fa-arrow-rotate-right"></i>
+          </button>
+          <button onclick="closeSearchAdvanced()">
+            <i class="fa-light fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+    </div> -->
+    <div class="advanced-search" id="advanced-search" >
+    <div class="container">
+        <div class="advanced-search-category">
+            <span>Phân loại</span>
+            <select id="advanced-search-category-select">
+                <option value="">Tất cả</option>
+                <option value="Món chay">Món chay</option>
+                <option value="Món mặn">Món mặn</option>
+                <option value="Món lẩu">Món lẩu</option>
+                <option value="Món ăn vặt">Món ăn vặt</option>
+                <option value="Món tráng miệng">Món tráng miệng</option>
+                <option value="Nước uống">Nước uống</option>
+                <option value="Hải sản">Hải sản</option>
+                
+            </select>
+        </div>
 
-// Sử dụng UTF-8 chuẩn (utf8_unicode_ci)
-$conn->set_charset("utf8");
-$conn->query("SET NAMES 'utf8' COLLATE 'utf8_unicode_ci'");
+        <div class="advanced-search-price">
+            <span>Giá từ</span>
+            <input type="number" placeholder="tối thiểu" id="min-price">
+            <span>đến</span>
+            <input type="number" placeholder="tối đa" id="max-price">
+            <button type="button" id="advanced-search-price-btn">
+                <i class="fa-light fa-magnifying-glass-dollar"></i> Tìm kiếm
+            </button>
+        </div>
 
-// Nhận dữ liệu từ request
-$name = $_POST["name"] ?? '';
-$category = $_POST["category"] ?? '';
-$min_price = $_POST["min_price"] ?? '';
-$max_price = $_POST["max_price"] ?? '';
-$sort_order = $_POST["sort_order"] ?? 0; // 1 = ASC, 2 = DESC
+        <div class="advanced-search-control">
+            <button type="button" id="sort-ascending" onclick="searchProducts(1)">
+                <i class="fa-regular fa-arrow-up-short-wide"></i>
+            </button>
+            <button type="button" id="sort-descending" onclick="searchProducts(2)">
+                <i class="fa-regular fa-arrow-down-wide-short"></i>
+            </button>
+            <button type="button" id="reset-search" onclick="resetSearch()">
+                <i class="fa-light fa-arrow-rotate-right"></i>
+            </button>
+            <button type="button" id="close-filter-btn">
+                <i class="fa-light fa-xmark"></i>
+            </button>
+        </div>
+    </div>
+</div>
 
-$sql = "SELECT * FROM sanpham WHERE 1";
-
-// Tìm theo tên gần đúng
-if (!empty($name)) {
-    $escaped_name = $conn->real_escape_string($name);
-    $sql .= " AND (name LIKE '%$escaped_name%' OR SOUNDEX(name) = SOUNDEX('$escaped_name'))";
-}
-
-// Lọc theo danh mục
-if (!empty($category) && $category !== "Tất cả") {
-    $sql .= " AND category = '" . $conn->real_escape_string($category) . "'";
-}
-
-// Lọc theo giá
-if (!empty($min_price)) {
-    $sql .= " AND price >= " . (float)$min_price;
-}
-if (!empty($max_price)) {
-    $sql .= " AND price <= " . (float)$max_price;
-}
-
-// Sắp xếp dữ liệu
-if ($sort_order == 1) {
-    $sql .= " ORDER BY price ASC";
-} elseif ($sort_order == 2) {
-    $sql .= " ORDER BY price DESC";
-}
-
-$result = $conn->query($sql);
-$products = [];
-
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $products[] = $row;
-    }
-}
-
-// Trả về JSON chuẩn UTF-8
-echo json_encode($products, JSON_UNESCAPED_UNICODE);
-$conn->close();
-?>
+<!-- Kết quả tìm kiếm -->
+<div id="search-results"></div>
 
     <!-- End header top  -->

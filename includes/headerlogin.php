@@ -1,154 +1,77 @@
-<!-- header top  -->
+ <!-- header top  -->
 
-<header class="header-top">
-      <div class="container">
-        <div class="inner-wrap">
-          <div class="inner-left">
-            <a href="login.html"
-              ><img src="assets/img/logo.png" alt="logo"
-            /></a>
-          </div>
-
-          <div class="inner-middle">
-            <form action="" class="inner-find">
-              <input type="text" placeholder="Tìm Kiếm món ăn..." />
-              <a href="timkiem-login.html" class="inner-button-find">
-                <i class="fa-solid fa-magnifying-glass"></i>
+ <header>
+      <div class="header-middle">
+        <div class="container">
+          <div class="header-middle-left">
+            <div class="header-logo">
+              <a href="index.php">
+                <img
+                  src="./assets/img/logo.png"
+                  alt=""
+                  class="header-logo-img"
+                />
               </a>
+            </div>
+          </div>
+          <div class="header-middle-center">
+            <form action="" class="form-search">
+              <span class="search-btn"
+                ><i class="fa-light fa-magnifying-glass"></i
+              ></span>
+              <input
+                type="text"
+                class="form-search-input"
+                placeholder="Tìm kiếm món ăn..."
+                oninput="searchProducts()"
+              />
+              <button class="filter-btn">
+                <i class="fa-light fa-filter-list"></i><span>Lọc</span>
+              </button>
             </form>
           </div>
-
-          <div class="inner-right">
-            <div class="inner-account">
-              <a
-                class="inner-icon"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                <i class="fa-regular fa-user"></i>
-              </a>
-              <a
-                class="inner-info"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                <div class="inner-register">Tài khoản</div>
-                <div class="nav-link dropdown-toggle">
-                <?php
-                session_start();
-                include "connect.php";
-                echo "<p class='username'>" . $_SESSION['tenkh'] . "</p>";
-                if(!isset($_SESSION['PhoneNumber'])){
-                  header('location:login.php');
-                }
-                ?>
+          <div class="header-middle-right">
+            <ul class="header-middle-right-list">
+              <li class="header-middle-right-item dropdown open">
+                <i class="fa-light fa-user"></i>
+                <div class="auth-container">
+                  <span class="text-dndk">Tài khoản</span>
+                  <span class="text-tk"
+                    >Nhân <i class="fa-sharp fa-solid fa-caret-down"></i
+                  ></span>
                 </div>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="account.html"
+                <ul class="header-middle-right-menu">
+                  <li>
+                  <a class="dropdown-item" href=""
                     ><i class="fa-regular fa-circle-user"></i>Tài khoản của
                     tôi</a
                   >
-                  <a class="dropdown-item" href="productss.html"
+                  </li>
+                  <li>
+                  <a class="dropdown-item" href=""
                     ><i class="fa-solid fa-cart-shopping"></i>Đơn hàng đã mua</a
                   >
-                  <a href="logout.php">
-                  <button class="dropdown-item"
-                    ><i class="fa-solid fa-right-from-bracket"></i>Thoát tài
-                    khoản</button></a>
+                  </li>
+                  <li>
+                  <a  href="logout.php" class="dropdown-item">
+                    <i class="fa-solid fa-right-from-bracket"></i>Thoát tài
+                    khoản</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="header-middle-right-item open" data-toggle="modal"  
+              data-target="#cartModal">
+                <div class="cart-icon-menu">
+                  <i class="fa-light fa-basket-shopping"></i>
+                  <span class="count-product-cart">0</span>
                 </div>
-              </a>
-            </div>
-            <div
-              class="inner-shopping"
-              data-toggle="modal"
-              data-target="#cartModal"
-            >
-              <div class="inner-icon">
-                <i class="fa-solid fa-basket-shopping"></i>
-                <span class="inner-so">2</span>
-              </div>
-              <span class="inner-text-shopping">Giỏ hàng</span>
-            </div>
+                <span>Giỏ hàng</span>
+              </li>
+            </ul>
           </div>
         </div>
-      </div>
 
-      <!-- Modal login -->
-
-      <div
-        class="modal fade modal-form"
-        id="exampleModal"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="inner-title">Đăng nhập tài khoản</h5>
-              <p class="inner-desc">
-                Đăng nhập thành viên để mua hàng và nhận những ưu đãi đặc biệt
-                từ chúng tôi
-              </p>
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form action="" method="post" id="dntk">
-                <div class="row">
-                  <div class="col-12">
-                    <div class="form-group">
-                      <label for="sdt">Số điện thoại</label>
-                      <input
-                        type="text"
-                        id="sdt"
-                        class="form-control"
-                        name="PhoneNumber"
-                        placeholder="Nhập số điện thoại"
-                      />
-                    </div>
-                  </div>
-                  <div class="col-12">
-                    <div class="form-group">
-                      <label for="mk">Mật khẩu</label>
-                      <input
-                        type="password"
-                        id="mk"
-                        class="form-control"
-                        name="password"
-                        placeholder="Nhập mật khẩu"
-                      />
-                    </div>
-                  </div>
-                  <div class="col-12">
-                    <button type="submit" class="button">Đăng Nhập</button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- End Modal login -->
-
-      <!-- Modal shopping -->
-
-      <div
+               <div
         class="modal fade right"
         id="cartModal"
         tabindex="-1"
@@ -218,51 +141,98 @@
                 >
                   <i class="fa-solid fa-plus"></i>Thêm món
                 </button>
-                <a href="thanhtoan.html" class="inner-tt">Thanh toán</a>
+                <a href="thanhtoan.php" class="inner-tt">Thanh toán</a>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- End Modal shopping -->
-    </header>
-
-    <!-- End header top  -->
-
-    <!-- header bottom  -->
-
-    <header class="header-bottom">
-      <div class="container">
-        <div class="inner-menu">
-          <ul>
-            <li>
-              <a href="login.php">TRANG CHỦ</a>
-            </li>
-            <li>
-              <a href="timkiemnangcao-login.php">MÓN CHAY</a>
-            </li>
-            <li>
-              <a href="timkiemnangcao-login.html">MÓN MẶN</a>
-            </li>
-            <li>
-              <a href="timkiemnangcao-login.html">MÓN LẨU</a>
-            </li>
-            <li>
-              <a href="timkiemnangcao-login.html">MÓN ĂN VẶT</a>
-            </li>
-            <li>
-              <a href="timkiemnangcao-login.html">MÓN TRÁNG MIỆNG</a>
-            </li>
-            <li>
-              <a href="timkiemnangcao-login.html">NƯỚC UỐNG</a>
-            </li>
-            <li>
-              <a href="timkiemnangcao-login.html">MÓN KHÁC</a>
-            </li>
-          </ul>
-        </div>
       </div>
     </header>
+    <nav class="header-bottom">
+      <div class="container">
+        <ul class="menu-list">
+          <li class="menu-list-item">
+            <a href="index.php" class="menu-link">Trang chủ</a>
+          </li>
+          <li class="menu-list-item" onclick="showCategory('Món chay')">
+            <a href="javascript:;" class="menu-link">Món chay</a>
+          </li>
+          <li class="menu-list-item" onclick="showCategory('Món mặn')">
+            <a href="javascript:;" class="menu-link">Món mặn</a>
+          </li>
+          <li class="menu-list-item" onclick="showCategory('Món lẩu')">
+            <a href="javascript:;" class="menu-link">Món lẩu</a>
+          </li>
+          <li class="menu-list-item" onclick="showCategory('Món ăn vặt')">
+            <a href="javascript:;" class="menu-link">Món ăn vặt</a>
+          </li>
+          <li class="menu-list-item" onclick="showCategory('Món tráng miệng')">
+            <a href="javascript:;" class="menu-link">Món tráng miệng</a>
+          </li>
+          <li class="menu-list-item" onclick="showCategory('Nước uống')">
+            <a href="javascript:;" class="menu-link">Nước uống</a>
+          </li>
+          <li class="menu-list-item" onclick="showCategory('Món khác')">
+            <a href="javascript:;" class="menu-link">Món khác</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="advanced-search">
+      <div class="container">
+        <div class="advanced-search-category">
+          <span>Phân loại </span>
+          <select
+            name=""
+            id="advanced-search-category-select"
+            onchange="searchProducts()"
+          >
+            <option>Tất cả</option>
+            <option>Món chay</option>
+            <option>Món mặn</option>
+            <option>Món lẩu</option>
+            <option>Món ăn vặt</option>
+            <option>Món tráng miệng</option>
+            <option>Nước uống</option>
+          </select>
+        </div>
+        <div class="advanced-search-price">
+          <span>Giá từ</span>
+          <input
+            type="number"
+            placeholder="tối thiểu"
+            id="min-price"
+            onchange="searchProducts()"
+          />
+          <span>đến</span>
+          <input
+            type="number"
+            placeholder="tối đa"
+            id="max-price"
+            onchange="searchProducts()"
+          />
+          <button id="advanced-search-price-btn">
+            <i class="fa-light fa-magnifying-glass-dollar"></i>
+          </button>
+        </div>
+        <div class="advanced-search-control">
+          <button id="sort-ascending" onclick="searchProducts(1)">
+            <i class="fa-regular fa-arrow-up-short-wide"></i>
+          </button>
+          <button id="sort-descending" onclick="searchProducts(2)">
+            <i class="fa-regular fa-arrow-down-wide-short"></i>
+          </button>
+          <button id="reset-search" onclick="searchProducts(0)">
+            <i class="fa-light fa-arrow-rotate-right"></i>
+          </button>
+          <button onclick="closeSearchAdvanced()">
+            <i class="fa-light fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+    </div>
 
-    <!-- End header bottom  -->
+
+    

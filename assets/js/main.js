@@ -92,10 +92,8 @@ giam.addEventListener("click", () => {
     document.querySelector("#tanggiam").value = result;
   }
 });
-document.getElementById("search-form").addEventListener("submit", function (event) {
-  event.preventDefault(); // Ngăn load lại trang
-
-  let name = document.getElementById("search-input").value.trim();
+function searchProducts(sortOrder = 0) {
+  let name = document.getElementById("search-input")?.value.trim() || "";
   let category = document.getElementById("advanced-search-category-select")?.value || "";
   let minPrice = document.getElementById("min-price")?.value || "";
   let maxPrice = document.getElementById("max-price")?.value || "";
@@ -105,8 +103,9 @@ document.getElementById("search-form").addEventListener("submit", function (even
   formData.append("category", category);
   formData.append("min_price", minPrice);
   formData.append("max_price", maxPrice);
+  formData.append("sort_order", sortOrder);
 
-  fetch("search.php", {
+  fetch("includes/search.php", {
       method: "POST",
       body: formData
   })
@@ -115,7 +114,7 @@ document.getElementById("search-form").addEventListener("submit", function (even
       let resultContainer = document.getElementById("search-results");
       resultContainer.innerHTML = ""; // Xóa kết quả cũ
 
-      if (data.length === 0) {
+      if (!Array.isArray(data) || data.length === 0) {
           resultContainer.innerHTML = "<p>Không tìm thấy sản phẩm phù hợp.</p>";
           return;
       }
@@ -123,14 +122,14 @@ document.getElementById("search-form").addEventListener("submit", function (even
       data.forEach(product => {
           let productHTML = `
               <div class="product-item">
-                  <img src="${product.Image}" alt="${product.Name}">
-                  <h3>${product.Name}</h3>
-                  <p>${product.Describtion}</p>
-                  <p>Giá: ${product.Price} VNĐ</p>
+                  <img src="${product.image}" alt="${product.name}">
+                  <h3>${product.name}</h3>
+                  <p>${product.description}</p>
+                  <p>Giá: ${product.price} VNĐ</p>
               </div>
           `;
           resultContainer.innerHTML += productHTML;
       });
   })
   .catch(error => console.error("Lỗi khi tìm kiếm sản phẩm:", error));
-});
+}
