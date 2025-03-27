@@ -149,12 +149,12 @@
         $result = $stmt->get_result();
         if($result->num_rows > 0){
           $row = $result->fetch_assoc();
-          if($pw==$row['matkhau']){
+          if($pw===$row['matkhau']){
             $_SESSION['ten'] = $row['tenkh'];
             $_SESSION['password'] = $row['matkhau'];
             echo "đang nhap thanh cong!";
             header("location: login.php");
-            exti();
+            exit();
           } else {
             echo "sai mat khau";
           }
@@ -197,7 +197,7 @@
               </button>
             </div>
             <div class="modal-body">
-              <form action="">
+              <form action="" method="post">
                 <div class="row">
                   <div class="col-12">
                     <div class="form-group">
@@ -260,10 +260,35 @@
                     </div>
                   </div>
                   <div class="col-12">
-                    <button class="button" onclick="dangKi()">Đăng kí</button>
+                    <button class="button" onclick="dangKi()" name="dangki">Đăng kí</button>
                   </div>
                 </div>
               </form>
+              <?php
+              include "connect.php";
+              if(isset($_POST['dangki'])){
+               $tenkh  = $_POST['ten'];
+               $sdtkh = $_POST['sdt'];
+               $diachikh = $_POST['diachi'];
+               $pass = $_POST['password'];
+               $pass1 = $_POST['password1'];
+               if($pass == $pass1){
+                $sql = "INSERT INTO Khachhang(tenkh,matkhau,diachi,sodienthoai) VALUES(?,?,?,?);";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("ssss",$tenkh,$pass,$diachikh,$sdtkh);
+                if($stmt->execute()){
+                  $_SESSION['ten'] = $tenkh;
+                  $_SESSION['sdt'] = $sdtkh;
+                  header ("location: login.php");
+                  exit();
+                }
+                else {echo "đăng ký thất bại";}
+               }
+               else {
+                    echo "Mật khẩu nhập lại không khớp!";
+               }
+              }
+              ?>
 
             </div>
           </div>
