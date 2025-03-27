@@ -18,22 +18,33 @@
               </a>
           </div>
           </div>
-          <div class="header-middle-center">
-            <form action="" class="form-search">
-              <span class="search-btn"
-                ><i class="fa-light fa-magnifying-glass"></i
-              ></span>
-              <input
-                type="text"
-                class="form-search-input"
-                placeholder="Tìm kiếm món ăn..."
-                oninput="searchProducts()"
-              />
-              <button class="filter-btn">
-                <i class="fa-light fa-filter-list"></i><span>Lọc</span>
+              <!-- <div class="header-middle-center">
+                <form action="" class="form-search">
+                  <span class="search-btn"
+                    ><i class="fa-light fa-magnifying-glass"></i
+                  ></span>
+                  <input
+                    type="text"
+                    class="form-search-input"
+                    placeholder="Tìm kiếm món ăn..."
+                    oninput="searchProducts()"
+                  />
+                  <button class="filter-btn">
+                    <i class="fa-light fa-filter-list"></i><span>Lọc</span>
+                  </button>
+                </form>
+              </div> -->
+              <div class="header-middle-center">
+          <form id="search-form" class="form-search">
+              <span class="search-btn">
+                  <i class="fa-light fa-magnifying-glass"></i>
+              </span>
+              <input type="text" class="form-search-input" id="search-input" placeholder="Tìm kiếm món ăn...">
+              <button  class="filter-btn" id="toggle-filter-btn">
+                  <i class="fa-light fa-filter-list"></i><span>Lọc</span>
               </button>
-            </form>
-          </div>
+    </form>
+</div>
           <div class="header-middle-right">
             <ul class="header-middle-right-list">
               <li class="header-middle-right-item dropdown open">
@@ -388,7 +399,7 @@
           </ul>
         </div>
     </nav>
-    <div class="advanced-search">
+    <!-- <div class="advanced-search">
       <div class="container">
         <div class="advanced-search-category">
           <span>Phân loại </span>
@@ -440,7 +451,52 @@
           </button>
         </div>
       </div>
-    </div>
+    </div> -->
+    <div class="advanced-search" id="advanced-search" >
+    <div class="container">
+        <div class="advanced-search-category">
+            <span>Phân loại</span>
+            <select id="advanced-search-category-select">
+                <option value="">Tất cả</option>
+                <option value="món chay">Món chay</option>
+                <option value="món mặn">Món mặn</option>
+                <option value="món lẩu">Món lẩu</option>
+                <option value="món ăn vặt">Món ăn vặt</option>
+                <option value="món tráng miệng">Món tráng miệng</option>
+                <option value="nước uống">Nước uống</option>
+                <option value="hải sản">Hải sản</option>
+                
+            </select>
+        </div>
 
+        <div class="advanced-search-price">
+            <span>Giá từ</span>
+            <input type="number" placeholder="tối thiểu" id="min-price">
+            <span>đến</span>
+            <input type="number" placeholder="tối đa" id="max-price">
+            <button type="button" id="advanced-search-price-btn">
+                <i class="fa-light fa-magnifying-glass-dollar"></i> 
+            </button>
+        </div>
+
+        <div class="advanced-search-control">
+            <button type="button" id="sort-ascending" onclick="searchProducts(1)">
+                <i class="fa-regular fa-arrow-up-short-wide"></i>
+            </button>
+            <button type="button" id="sort-descending" onclick="searchProducts(2)">
+                <i class="fa-regular fa-arrow-down-wide-short"></i>
+            </button>
+            <button type="button" id="reset-search" onclick="resetSearch()">
+                <i class="fa-light fa-arrow-rotate-right"></i>
+            </button>
+            <button type="button" id="close-filter-btn" onclick="searchProducts()">
+                <i class="fa-light fa-xmark"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Kết quả tìm kiếm -->
+<div id="search-results"></div>
 
     <!-- End header top  -->
