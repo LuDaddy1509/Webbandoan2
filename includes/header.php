@@ -393,13 +393,13 @@
             <span>Phân loại</span>
             <select id="advanced-search-category-select">
                 <option value="">Tất cả</option>
-                <option value="Món chay">Món chay</option>
-                <option value="Món mặn">Món mặn</option>
-                <option value="Món lẩu">Món lẩu</option>
-                <option value="Món ăn vặt">Món ăn vặt</option>
-                <option value="Món tráng miệng">Món tráng miệng</option>
-                <option value="Nước uống">Nước uống</option>
-                <option value="Hải sản">Hải sản</option>
+                <option value="món chay">Món chay</option>
+                <option value="món mặn">Món mặn</option>
+                <option value="món lẩu">Món lẩu</option>
+                <option value="món ăn vặt">Món ăn vặt</option>
+                <option value="món tráng miệng">Món tráng miệng</option>
+                <option value="nước uống">Nước uống</option>
+                <option value="hải sản">Hải sản</option>
                 
             </select>
         </div>
@@ -410,7 +410,7 @@
             <span>đến</span>
             <input type="number" placeholder="tối đa" id="max-price">
             <button type="button" id="advanced-search-price-btn">
-                <i class="fa-light fa-magnifying-glass-dollar"></i> Tìm kiếm
+                <i class="fa-light fa-magnifying-glass-dollar"></i> 
             </button>
         </div>
 
@@ -424,7 +424,7 @@
             <button type="button" id="reset-search" onclick="resetSearch()">
                 <i class="fa-light fa-arrow-rotate-right"></i>
             </button>
-            <button type="button" id="close-filter-btn">
+            <button type="button" id="close-filter-btn" onclick="searchProducts()">
                 <i class="fa-light fa-xmark"></i>
             </button>
         </div>
