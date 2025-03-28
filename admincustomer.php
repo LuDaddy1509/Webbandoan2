@@ -91,7 +91,7 @@
                 />
               </div>
             </form>
-            <a href="admincustomer.html" class="reset-order"
+            <a href="admincustomer.php" class="reset-order"
               ><i class="fa-light fa-arrow-rotate-right"></i
             ></a>
             <button
