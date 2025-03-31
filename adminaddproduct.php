@@ -29,6 +29,29 @@
   </head>
 
   <body>
+  <?php
+include "database/CustomerDBconnect.php";
+
+if (isset($_POST['addproduct'])) {
+    $Name = $_POST['Name'];
+    $Price = $_POST['Price'];
+    $Describtion = $_POST['Describtion'];
+    $Type = $_POST['Type'];
+    $Image =$_FILES['Images']['name'];
+    $Image_tmp_name=$_FILES['Images']['tmp_name'];
+    $target_dir = "assets/img/products/"; // Thư mục lưu trữ hình ảnh
+    $target_file = $target_dir . basename($Image); // Đường dẫn đầy đủ của ảnh
+    $sql = "INSERT INTO sanpham (Name, Image, Price, Describtion, Type) 
+            VALUES ('$Name', '$target_file', '$Price', '$Describtion', '$Type')";
+    
+    if (mysqli_query($conn, $sql)) {
+        echo "Thêm sản phẩm thành công!";
+    } else {
+        echo "Lỗi: " . mysqli_error($conn);
+    }
+}
+?>
+
     <div class="wrapper d-flex align-items-stretch">
       <nav id="sidebar">
         <div class="custom-menu">
@@ -47,27 +70,27 @@
         </div>
         <ul class="list-unstyled components mb-5">
           <li>
-            <a href="admin.html"
+            <a href="admin.php"
               ><i class="fa-light fa-house"></i> Trang tổng quan</a
             >
           </li>
           <li class="active">
-            <a href="adminproduct.html"
+            <a href="adminproduct.php"
               ><i class="fa-light fa-pot-food"></i> Sản phẩm</a
             >
           </li>
           <li>
-            <a href="admincustomer.html"
+            <a href="admincustomer.php"
               ><i class="fa-light fa-users"></i> Khách hàng</a
             >
           </li>
           <li>
-            <a href="adminorder.html"
+            <a href="adminorder.php"
               ><i class="fa-light fa-basket-shopping"></i> Đơn hàng</a
             >
           </li>
           <li>
-            <a href="adminstatistical.html"
+            <a href="adminstatistical.php"
               ><i class="fa-light fa-chart-simple"></i> Thống kê</a
             >
           </li>
@@ -77,180 +100,80 @@
       <!-- adminaddproduct  -->
 
       <div class="adminaddproduct">
-        <div class="add-product">
-          <div class="row">
-            <div class="col-12">
-              <div class="inner-head">
+      <div class="add-product"> 
+    <div class="row">
+        <div class="col-12">
+            <div class="inner-head">
                 <div class="inner-title">Thêm sản phẩm mới</div>
-              </div>
             </div>
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-              <div class="inner-item">
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+        <form action="" method="POST" enctype="multipart/form-data">
+            <div class="inner-item">
                 <div class="inner-img">
-                  <img src="assets/img/admin/blank-image.png" />
+                    <img id="preview" src="assets/img/admin/blank-image.png" />
                 </div>
                 <div class="inner-choose">
-                  <label for="choose"
-                    ><i class="fa-light fa-cloud-arrow-up"></i> Chọn hình
-                    ảnh</label
-                  >
-                  <input
-                    id="choose"
-                    type="file"
-                    accept="image/png, image/jpg, image/jpeg, image/gif"
-                  />
+                    <label for="choose">
+                        <i class="fa-light fa-cloud-arrow-up"></i> Chọn hình ảnh
+                    </label>
+                    <input
+                        id="choose"
+                        type="file"
+                        accept="image/png, image/jpg, image/jpeg, image/gif"
+                        name="Images"
+                        onchange="previewImage(event)"
+                    />
                 </div>
-              </div>
             </div>
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-              <div class="inner-item">
-                <form action="">
-                  <div class="form-group">
-                    <label for="name">Tên món</label>
-                    <input
-                      placeholder="Nhập tên món"
-                      type="text"
-                      id="name"
-                      class="form-control"
-                    />
-                  </div>
-                  <div class="inner-select">
-                    <label for="select">Chọn món</label>
-                    <select name="Món mặn" id="select">
-                      <option>Món chay</option>
-                      <option>Món mặn</option>
-                      <option>Món lẩu</option>
-                      <option>Món ăn vặt</option>
-                      <option>Món tráng miệng</option>
-                      <option>Nước uống</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="sell">Giá bán</label>
-                    <input
-                      type="text"
-                      id="sell"
-                      class="form-control"
-                      placeholder="Nhập giá bán"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="desc">Mô tả</label>
-                    <textarea
-                      name="desc"
-                      id="desc"
-                      class="form-control"
-                      placeholder="Nhập mô tả món ăn..."
-                    ></textarea>
-                  </div>
-                  <div class="inner-add">
-                    <button class="inner-nut" onclick="addMonAn()">
-                      <i class="fa-solid fa-plus"></i>Thêm món
-                    </button>
-                  </div>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+            <div class="inner-item">
+                    <div class="form-group">
+                        <label for="name">Tên món</label>
+                        <input type="text" id="name" name="Name" class="form-control" placeholder="Nhập tên món" required />
+                    </div>
+                    <div class="inner-select">
+                        <label for="select">Chọn món</label>
+                        <select name="Type" id="select">
+                            <option value="Món chay">Món chay</option>
+                            <option value="Món mặn">Món mặn</option>
+                            <option value="Món lẩu">Món lẩu</option>
+                            <option value="Món ăn vặt">Món ăn vặt</option>
+                            <option value="Món tráng miệng">Món tráng miệng</option>
+                            <option value="Nước uống">Nước uống</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="sell">Giá bán</label>
+                        <input type="number" id="sell" name="Price" class="form-control" placeholder="Nhập giá bán" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="desc">Mô tả</label>
+                        <textarea name="Describtion" id="desc" class="form-control" placeholder="Nhập mô tả món ăn..." required></textarea>
+                    </div>
+                    <div class="inner-add">
+                        <button class="inner-nut" name="addproduct" type="submit">
+                            <i class="fa-solid fa-plus"></i> Thêm món
+                        </button>
+                    </div>
                 </form>
-              </div>
             </div>
-          </div>
         </div>
+    </div>
+</div>
 
-        <!-- Modal Add Product  -->
+<script>
+function previewImage(event) {
+    var reader = new FileReader();
+    reader.onload = function(){
+        var output = document.getElementById('preview');
+        output.src = reader.result;
+    };
+    reader.readAsDataURL(event.target.files[0]);
+}
+</script>
 
-        <div
-          class="modal fade"
-          id="exampleModalCenter"
-          tabindex="-1"
-          role="dialog"
-          aria-labelledby="exampleModalCenterTitle"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <div class="inner-title">THÊM MỚI SẢN PHẨM</div>
-                <button
-                  type="button"
-                  class="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <div class="row">
-                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="inner-item">
-                      <div class="inner-img">
-                        <img src="assets/img/admin/blank-image.png" />
-                      </div>
-                      <div class="inner-choose">
-                        <label for="choose"
-                          ><i class="fa-light fa-cloud-arrow-up"></i> Chọn hình
-                          ảnh</label
-                        >
-                        <input
-                          id="choose"
-                          type="file"
-                          accept="image/png, image/jpg, image/jpeg, image/gif"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="inner-item">
-                      <form action="">
-                        <div class="form-group">
-                          <label for="name">Tên món</label>
-                          <input
-                            placeholder="Nhập tên món"
-                            type="text"
-                            id="name"
-                            class="form-control"
-                          />
-                        </div>
-                        <div class="inner-select">
-                          <label for="select">Chọn món</label>
-                          <select name="Món mặn" id="select">
-                            <option>Món chay</option>
-                            <option>Món mặn</option>
-                            <option>Món lẩu</option>
-                            <option>Món ăn vặt</option>
-                            <option>Món tráng miệng</option>
-                            <option>Nước uống</option>
-                          </select>
-                        </div>
-                        <div class="form-group">
-                          <label for="sell">Giá bán</label>
-                          <input
-                            type="text"
-                            id="sell"
-                            class="form-control"
-                            placeholder="Nhập giá bán"
-                          />
-                        </div>
-                        <div class="form-group">
-                          <label for="desc">Mô tả</label>
-                          <textarea
-                            name="desc"
-                            id="desc"
-                            class="form-control"
-                            placeholder="Nhập mô tả món ăn..."
-                          ></textarea>
-                        </div>
-                        <div class="inner-add">
-                          <button class="inner-nut" onclick="addMonAn()">
-                            <i class="fa-solid fa-plus"></i>Thêm món
-                          </button>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
         <!-- End Modal Add Product -->
       </div>

@@ -71,373 +71,41 @@
             </a>
           </div>
         </div>
-
         <div class="show-product">
           <div class="row">
+          <?php
+              include "database/CustomerDBconnect.php";
+                $sql="SELECT * from sanpham";
+                $result=mysqLi_query($conn,$sql);
+              while($row=mysqli_fetch_array($result)){
+                $modalId = "editModal-" . $row['ID'];
+              ?>
             <div class="col-12">
               <div class="list">
                 <div class="list-left">
-                  <img src="./assets/img/products/phobo.jpg" />
+                <img src="<?php echo $row['Image']; ?>" alt="<?php echo $row['Name']; ?>" />
                   <div class="list-info">
-                    <h4>Phở Bò</h4>
-                    <p>
-                      Phở là món ăn đặc trưng của Việt Nam với nước dùng trong
-                      vắt, đậm đà từ xương và gia vị. Sợi phở mềm, thường được
-                      ăn kèm với thịt bò hoặc gà thái mỏng, rau thơm, chanh và
-                      ớt. Vị thanh mát, thơm ngon của phở khiến người ăn dễ dàng
-                      mê mẩn ngay từ lần thử đầu tiên. Phở không chỉ ngon mà còn
-                      mang đậm hương vị truyền thống của ẩm thực Việt.
-                    </p>
-                    <div class="list-category">Món nước</div>
+                    <h4><?php echo $row['Name']?></h4>
+                    <p> <?php echo $row['Describtion']?> </p>
+                    <div class="list-category"><?php echo $row['Type']?></div>
                   </div>
                 </div>
                 <div class="list-right">
-                  <div class="list-price">50.000 ₫</div>
+                  <div class="list-price"><?php echo $row['Price'],".000₫"?></div>
                   <div class="list-control">
                     <div class="list-tool">
                       <a href="adminchangeproduct.html" class="btn-edit">
                         <i class="fa-light fa-pen-to-square"></i>
                       </a>
-                      <button class="btn-delete" onclick="deletingMonAn()">
-                        <i class="fa-regular fa-trash"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-12">
-              <div class="list">
-                <div class="list-left">
-                  <img src="./assets/img/products/banhmi.webp" />
-                  <div class="list-info">
-                    <h4>Bánh mì</h4>
-                    <p>
-                      Bánh mì là món ăn đặc trưng của Việt Nam, kết hợp giữa
-                      bánh mì Pháp và các nguyên liệu Việt.
-                    </p>
-                    <div class="list-category">Món mặn</div>
-                  </div>
-                </div>
-                <div class="list-right">
-                  <div class="list-price">20.000 ₫</div>
-                  <div class="list-control">
-                    <div class="list-tool">
-                      <a href="adminchangeproduct.html" class="btn-edit">
-                        <i class="fa-light fa-pen-to-square"></i>
+                      <a class="btn-delete" href="deleteproduct.php?this_id=<?php echo $row['ID']; ?>">
+                            <i class="fa-regular fa-trash"></i>
                       </a>
-                      <button class="btn-delete" onclick="deletingMonAn()">
-                        <i class="fa-regular fa-trash"></i>
-                      </button>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="col-12">
-              <div class="list">
-                <div class="list-left">
-                  <img src="./assets/img/products/buncha.jpg" />
-                  <div class="list-info">
-                    <h4>Bún chả Hà Nội</h4>
-                    <p>
-                      Bún chả Hà Nội là món ăn đặc trưng của thủ đô, gồm bún
-                      tươi, thịt chả (thịt heo nướng trên than hoa) và nước mắm
-                      chua ngọt. Chả được làm từ thịt ba chỉ hoặc thịt nạc, thái
-                      miếng nhỏ, ướp gia vị đậm đà rồi nướng vàng, thơm.
-                    </p>
-                    <div class="list-category">Món mặn</div>
-                  </div>
-                </div>
-                <div class="list-right">
-                  <div class="list-price">50.000 ₫</div>
-                  <div class="list-control">
-                    <div class="list-tool">
-                      <a href="adminchangeproduct.html" class="btn-edit">
-                        <i class="fa-light fa-pen-to-square"></i>
-                      </a>
-                      <button class="btn-delete" onclick="deletingMonAn()">
-                        <i class="fa-regular fa-trash"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-12">
-              <div class="list">
-                <div class="list-left">
-                  <img src="./assets/img/products/banhxeo.jpg" />
-                  <div class="list-info">
-                    <h4>Bánh xèo miền Tây</h4>
-                    <p>
-                      Bánh xèo miền Tây là một món ăn đặc sản của vùng đồng bằng
-                      sông Cửu Long, nổi bật với những chiếc bánh mỏng, giòn
-                      rụm, được làm từ bột gạo pha với nước cốt dừa, tạo nên màu
-                      vàng ươm hấp dẫn. Bánh xèo thường được nhân với tôm, thịt
-                      ba chỉ, giá đỗ, hành lá, rồi chiên chín giòn.
-                    </p>
-                    <div class="list-category">Món mặn</div>
-                  </div>
-                </div>
-                <div class="list-right">
-                  <div class="list-price">30.000 ₫</div>
-                  <div class="list-control">
-                    <div class="list-tool">
-                      <a href="adminchangeproduct.html" class="btn-edit">
-                        <i class="fa-light fa-pen-to-square"></i>
-                      </a>
-                      <button class="btn-delete" onclick="deletingMonAn()">
-                        <i class="fa-regular fa-trash"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-12">
-              <div class="list">
-                <div class="list-left">
-                  <img src="./assets/img/products/goicuon.jpg" />
-                  <div class="list-info">
-                    <h4>Gỏi cuốn</h4>
-                    <p>
-                      Gỏi cuốn, hay còn gọi là nem cuốn, là món ăn phổ biến
-                      trong ẩm thực Việt Nam, đặc biệt ở miền Nam. Món ăn gồm
-                      những chiếc bánh tráng mỏng cuốn bên trong là tôm, thịt
-                      heo, bún tươi, rau sống như xà lách, húng quế, và các gia
-                      vị đặc trưng.
-                    </p>
-                    <div class="list-category">Món mặn</div>
-                  </div>
-                </div>
-                <div class="list-right">
-                  <div class="list-price">30.000 ₫</div>
-                  <div class="list-control">
-                    <div class="list-tool">
-                      <a href="adminchangeproduct.html" class="btn-edit">
-                        <i class="fa-light fa-pen-to-square"></i>
-                      </a>
-                      <button class="btn-delete" onclick="deletingMonAn()">
-                        <i class="fa-regular fa-trash"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-12">
-              <div class="list">
-                <div class="list-left">
-                  <img src="./assets/img/products/caolau.jpg" />
-                  <div class="list-info">
-                    <h4>Cao lầu</h4>
-                    <p>
-                      Cao lầu là món ăn đặc sản của Hội An, nổi bật với sợi mì
-                      dày, vàng ươm, dai ngon, được chế biến từ gạo ngâm nước
-                      tro nên có màu sắc và hương vị đặc trưng. Mì được ăn kèm
-                      với thịt heo quay thái mỏng, rau sống tươi ngon và một ít
-                      giá đỗ.
-                    </p>
-                    <div class="list-category">Món mặn</div>
-                  </div>
-                </div>
-                <div class="list-right">
-                  <div class="list-price">40.000 ₫</div>
-                  <div class="list-control">
-                    <div class="list-tool">
-                      <a href="adminchangeproduct.html" class="btn-edit">
-                        <i class="fa-light fa-pen-to-square"></i>
-                      </a>
-                      <button class="btn-delete" onclick="deletingMonAn()">
-                        <i class="fa-regular fa-trash"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-12">
-              <div class="list">
-                <div class="list-left">
-                  <img src="./assets/img/products/bunbohue.jpg" />
-                  <div class="list-info">
-                    <h4>Bún bò Huế</h4>
-                    <p>
-                      Bún bò Huế là món ăn nổi tiếng của Huế, với nước dùng đậm
-                      đà, cay nồng, được hầm từ xương bò và gia vị như sả, ớt,
-                      mắm ruốc, tạo nên hương vị đặc trưng. Sợi bún to, trắng,
-                      ăn kèm với thịt bò thái lát mỏng, giò heo, và rau sống.
-                    </p>
-                    <div class="list-category">Món nước</div>
-                  </div>
-                </div>
-                <div class="list-right">
-                  <div class="list-price">50.000 ₫</div>
-                  <div class="list-control">
-                    <div class="list-tool">
-                      <a href="adminchangeproduct.html" class="btn-edit">
-                        <i class="fa-light fa-pen-to-square"></i>
-                      </a>
-                      <button class="btn-delete" onclick="deletingMonAn()">
-                        <i class="fa-regular fa-trash"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-12">
-              <div class="list">
-                <div class="list-left">
-                  <img src="./assets/img/products/hutieu.jpg" />
-                  <div class="list-info">
-                    <h4>Hủ tiếu</h4>
-                    <p>
-                      Hủ tiếu là món ăn đặc trưng của miền Nam Việt Nam, với sợi
-                      hủ tiếu mỏng, dai, được ăn kèm với nước dùng trong, thơm
-                      ngon được ninh từ xương heo, gà hoặc hải sản. Món ăn
-                      thường có các loại thịt như tôm, thịt heo, bò hoặc giò
-                      heo, tùy theo sở thích.
-                    </p>
-                    <div class="list-category">Món nước</div>
-                  </div>
-                </div>
-                <div class="list-right">
-                  <div class="list-price">30.000 ₫</div>
-                  <div class="list-control">
-                    <div class="list-tool">
-                      <a href="adminchangeproduct.html" class="btn-edit">
-                        <i class="fa-light fa-pen-to-square"></i>
-                      </a>
-                      <button class="btn-delete" onclick="deletingMonAn()">
-                        <i class="fa-regular fa-trash"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-12">
-              <div class="list">
-                <div class="list-left">
-                  <img src="./assets/img/products/chaca.jpg" />
-                  <div class="list-info">
-                    <h4>Chả cá Lã Vọng</h4>
-                    <p>
-                      Chả cá Lã Vọng là món đặc sản Hà Nội, gồm cá lăng hoặc cá
-                      da trơn ướp nghệ, mẻ và gia vị, sau đó nướng sơ và rán
-                      vàng trên chảo. Món ăn được dùng kèm bún, rau thơm, lạc
-                      rang, hành lá, thì là và mắm tôm pha chanh, ớt, đường.
-                    </p>
-                    <div class="list-category">Món mặn</div>
-                  </div>
-                </div>
-                <div class="list-right">
-                  <div class="list-price">40.000 ₫</div>
-                  <div class="list-control">
-                    <div class="list-tool">
-                      <a href="adminchangeproduct.html" class="btn-edit">
-                        <i class="fa-light fa-pen-to-square"></i>
-                      </a>
-                      <button class="btn-delete" onclick="deletingMonAn()">
-                        <i class="fa-regular fa-trash"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-12">
-              <div class="list">
-                <div class="list-left">
-                  <img src="./assets/img/products/miquang.jpg" />
-                  <div class="list-info">
-                    <h4>Mì Quảng</h4>
-                    <p>
-                      Mì Quảng là món đặc sản miền Trung Việt Nam, nổi bật với
-                      sợi mì dày, mềm, màu vàng óng. Nước dùng đậm đà, sệt vừa
-                      phải, thường được nấu từ tôm, thịt gà, thịt heo hoặc cá
-                      lóc.
-                    </p>
-                    <div class="list-category">Món mặn</div>
-                  </div>
-                </div>
-                <div class="list-right">
-                  <div class="list-price">40.000 ₫</div>
-                  <div class="list-control">
-                    <div class="list-tool">
-                      <a href="adminchangeproduct.html" class="btn-edit">
-                        <i class="fa-light fa-pen-to-square"></i>
-                      </a>
-                      <button class="btn-delete" onclick="deletingMonAn()">
-                        <i class="fa-regular fa-trash"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-12">
-              <div class="list">
-                <div class="list-left">
-                  <img src="./assets/img/products/comtam.jpeg" />
-                  <div class="list-info">
-                    <h4>Cơm tấm</h4>
-                    <p>
-                      Cơm tấm là món ăn đặc trưng của miền Nam Việt Nam, làm từ
-                      hạt gạo tấm nhỏ. Món ăn thường kèm sườn nướng, bì, chả
-                      trứng, trứng ốp la và dưa chua, ăn cùng nước mắm chua
-                      ngọt.
-                    </p>
-                    <div class="list-category">Món mặn</div>
-                  </div>
-                </div>
-                <div class="list-right">
-                  <div class="list-price">50.000 ₫</div>
-                  <div class="list-control">
-                    <div class="list-tool">
-                      <a href="adminchangeproduct.html" class="btn-edit">
-                        <i class="fa-light fa-pen-to-square"></i>
-                      </a>
-                      <button class="btn-delete" onclick="deletingMonAn()">
-                        <i class="fa-regular fa-trash"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-12">
-              <div class="list">
-                <div class="list-left">
-                  <img src="./assets/img/products/banhbotloc.webp" />
-                  <div class="list-info">
-                    <h4>Bánh bột lọc Huế</h4>
-                    <p>
-                      Bánh bột lọc Huế là món ăn truyền thống nổi tiếng, với lớp
-                      vỏ bột năng trong suốt, dai mềm, bao bọc nhân tôm thịt đậm
-                      đà. Bánh được gói lá chuối hoặc hấp trần, ăn kèm nước mắm
-                      chua ngọt.
-                    </p>
-                    <div class="list-category">Món mặn</div>
-                  </div>
-                </div>
-                <div class="list-right">
-                  <div class="list-price">30.000 ₫</div>
-                  <div class="list-control">
-                    <div class="list-tool">
-                      <a href="adminchangeproduct.html" class="btn-edit">
-                        <i class="fa-light fa-pen-to-square"></i>
-                      </a>
-                      <button class="btn-delete" onclick="deletingMonAn()">
-                        <i class="fa-regular fa-trash"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <?php } ?>
           </div>
 
           <!-- Modal Add Product  -->

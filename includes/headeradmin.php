@@ -16,7 +16,7 @@
         </div>
         <ul class="list-unstyled components mb-5">
           <li class="active">
-            <a href="admin.html"
+            <a href="admin.php"
               ><i class="fa-light fa-house"></i> Trang tổng quan</a
             >
           </li>

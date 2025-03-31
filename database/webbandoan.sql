@@ -92,14 +92,15 @@ CREATE TABLE `khachhang` (
   `diachi` varchar(100) NOT NULL,
   `sodienthoai` varchar(20) NOT NULL,
   `Email` varchar(255) DEFAULT NULL
-  'Status' TINYINT(1) NOT NULL DEFAULT 0
+  `trangthai` enum('Locked','Unlocked') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `khachhang`
 --
 
-INSERT INTO `khachhang` (`makh`, `tenkh`, `matkhau`, `diachi`, `sodienthoai`, `Email`) VALUES
+INSERT INTO `khachhang` (`makh`, `tenkh`, `matkhau`, `diachi`, `sodienthoai`, `Email`) 
+VALUES
 (1, 'nhan', 'nhan1234', 'quan tan phu', '0775177636', 'nhan@gmail.com'),
 (2, 'dai', 'dai1234', 'quan binh tan', '0775177636', 'dai@gmail.com'),
 (11, 'hoang', 'hoang1234', 'quan binh thanh', '113', 'hoang');
