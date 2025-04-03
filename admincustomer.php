@@ -31,7 +31,7 @@
   <body>
     <?php
     include_once "includes/headeradmin.php";
-    include "database/CustomerDBconnect.php";
+    include "./connect.php";
     if (isset($_POST['addcustomer'])){
       $makh="";
       $tenkh=$_POST['tenkh'];

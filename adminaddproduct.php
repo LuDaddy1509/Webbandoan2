@@ -30,7 +30,7 @@
 
   <body>
   <?php
-include "database/CustomerDBconnect.php";
+include "connect.php";
 
 if (isset($_POST['addproduct'])) {
     $Name = $_POST['Name'];
