@@ -1,8 +1,8 @@
 <?php
 header("Content-Type: application/json; charset=utf-8");
-error_reporting(0); // Tắt cảnh báo lỗi PHP
+error_reporting(0);
 ini_set('display_errors', 0);
-ob_clean(); // Xoá mọi dữ liệu đã in trước đó
+ob_clean();
 
 include "../connect.php";
 if ($conn->connect_error) {
@@ -16,6 +16,9 @@ $category = isset($_POST["category"]) ? trim($_POST["category"]) : '';
 $min_price = filter_input(INPUT_POST, "min_price", FILTER_VALIDATE_FLOAT);
 $max_price = filter_input(INPUT_POST, "max_price", FILTER_VALIDATE_FLOAT);
 $sort_order = filter_input(INPUT_POST, "sort_order", FILTER_VALIDATE_INT);
+$page = isset($_POST["page"]) ? (int)$_POST["page"] : 1;
+$limit = 12; // Số sản phẩm mỗi trang
+$offset = ($page - 1) * $limit;
 
 // Chuẩn bị truy vấn SQL
 $sql = "SELECT * FROM sanpham";
@@ -61,14 +64,30 @@ if ($sort_order == 1) {
     $sql .= " ORDER BY price DESC";
 }
 
+// Tính tổng số sản phẩm
+$total_sql = str_replace("SELECT *", "SELECT COUNT(*) as total", $sql);
+$total_stmt = $conn->prepare($total_sql);
+if (!empty($params)) {
+    $total_stmt->bind_param($types, ...$params);
+}
+$total_stmt->execute();
+$total_result = $total_stmt->get_result()->fetch_assoc();
+$total_products = $total_result['total'];
+$total_pages = ceil($total_products / $limit);
+$total_stmt->close();
+
+// Thêm phân trang
+$sql .= " LIMIT ? OFFSET ?";
+$params[] = $limit;
+$params[] = $offset;
+$types .= "ii";
+
 // Chuẩn bị và thực thi truy vấn
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
     die(json_encode(["error" => "Lỗi truy vấn: " . $conn->error]));
 }
-if (!empty($params)) {
-    $stmt->bind_param($types, ...$params);
-}
+$stmt->bind_param($types, ...$params);
 $stmt->execute();
 $result = $stmt->get_result();
 $products = [];
@@ -79,7 +98,10 @@ while ($row = $result->fetch_assoc()) {
 }
 
 // Trả về JSON hợp lệ
-echo json_encode($products, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+echo json_encode([
+    "products" => $products,
+    "total_pages" => $total_pages
+], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 
 $stmt->close();
 $conn->close();

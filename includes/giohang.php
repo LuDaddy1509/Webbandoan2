@@ -1,7 +1,6 @@
 <?php 
 include "connect.php";
 $makh = $_SESSION['makh'];
-
 $sql = "SELECT s.Name, s.Image, s.Price, g.soluong, (g.soluong * s.Price) as total 
         FROM giohang g
         JOIN sanpham s ON g.masp = s.ID
@@ -12,7 +11,6 @@ $stmt->execute();
 $result = $stmt->get_result();
 $total_price = 0;
 ?>
-
 <div class="modal fade right" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="cartModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">

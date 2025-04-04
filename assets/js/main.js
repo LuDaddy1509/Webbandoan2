@@ -64,23 +64,24 @@ document.addEventListener("DOMContentLoaded", function () {
   let advancedSearch = document.getElementById("advanced-search"); // Sửa lỗi querySelector
 
   if (toggleFilterBtn && advancedSearch) {
-      toggleFilterBtn.addEventListener("click", function () {
-          advancedSearch.classList.toggle("active");
-      });
+    toggleFilterBtn.addEventListener("click", function () {
+      advancedSearch.classList.toggle("active");
+    });
   }
 
   // Gán sự kiện khi nhấn nút tìm kiếm
   let searchBtn = document.getElementById("advanced-search-price-btn");
   if (searchBtn) {
-      searchBtn.addEventListener("click", function () {
-          searchProducts();
-      });
+    searchBtn.addEventListener("click", function () {
+      searchProducts();
+    });
   }
 });
 
-function searchProducts(sortOrder = 0) {
+function searchProducts(sortOrder = 0, page = 1) {
   let name = document.getElementById("search-input")?.value.trim() || "";
-  let category = document.getElementById("advanced-search-category-select")?.value || "";
+  let category =
+    document.getElementById("advanced-search-category-select")?.value || "";
   let minPrice = document.getElementById("min-price")?.value;
   let maxPrice = document.getElementById("max-price")?.value;
 
@@ -93,58 +94,73 @@ function searchProducts(sortOrder = 0) {
   if (minPrice !== null) formData.append("min_price", minPrice);
   if (maxPrice !== null) formData.append("max_price", maxPrice);
   formData.append("sort_order", sortOrder);
+  formData.append("page", page);
 
- fetch("includes/search.php", {
-      method: "POST",
-      body: formData
+  fetch("includes/search.php", {
+    method: "POST",
+    body: formData,
   })
-  .then(response => response.json())
-  .then(data => {
-      let resultContainer = document.getElementById("search-results");
-      resultContainer.innerHTML = ""; 
+    .then((response) => response.json())
+    .then((data) => {
+      let resultContainer = document.getElementById("product-list");
+      let paginationContainer = document.getElementById("pagination");
 
-      console.log("Dữ liệu trả về từ PHP:", data); // Kiểm tra toàn bộ dữ liệu
+      resultContainer.innerHTML = "";
+      paginationContainer.innerHTML = "";
 
-      if (!Array.isArray(data) || data.length === 0) {
-          resultContainer.innerHTML = "<p>Không tìm thấy sản phẩm phù hợp.</p>";
-          return;
+      if (!Array.isArray(data.products) || data.products.length === 0) {
+        resultContainer.innerHTML = "<p>Không tìm thấy sản phẩm phù hợp.</p>";
+        return;
       }
 
-      data.forEach(product => {
-          console.log("Product data:", product); // Debug từng sản phẩm
-          console.log("Product Image URL:", product.Image); // Kiểm tra URL
-          if (!product.Image) {
-              console.error("LỖI: product.Image bị undefined hoặc rỗng!");
-              return;
-          }
+      let productsHTML = `
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="inner-title">Kết quả tìm kiếm</div>
+        </div>`;
 
-          let productHTML = `
-          <div class="Products">
-          <div class="container">
-              <div class="row">
-                  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
-                      <div class="inner-item">
-                          <a href="chitietsp.php?id=${product.ID}" class="inner-img">
-                              <img src="${product.Image}" />
-                          </a>
-                          <div class="inner-info">
-                              <div class="inner-ten">${product.Name}</div>
-                              <div class="inner-gia">${product.Price}.000 ₫</div>
-                              <a href="chitietsp.php?id=<?= ${product.ID}; ?>" class="inner-muahang">
-                                  <i class="fa-solid fa-cart-plus"></i> ĐẶT MÓN
-                              </a>
-                          </div>
-                      </div>
-                  </div>
-              </div> <!-- Đóng row đúng chỗ -->
+      productsHTML += data.products
+        .map(
+          (product) => `
+        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
+          <div class="inner-item">
+            <a href="chitietsp.php?id=${product.ID}" class="inner-img">
+              <img src="${product.Image}" alt="${product.Name}" />
+            </a>
+            <div class="inner-info">
+              <div class="inner-ten">${product.Name}</div>
+              <div class="inner-gia">${product.Price}.000 ₫</div>
+              <a href="chitietsp.php?id=${product.ID}" class="inner-muahang">
+                <i class="fa-solid fa-cart-plus"></i> ĐẶT MÓN
+              </a>
+            </div>
           </div>
-      </div>
+        </div>
+      `
+        )
+        .join("");
 
-              
-          `;
-          resultContainer.innerHTML += productHTML;
-      });
-  })
-  .catch(error => console.error("Lỗi khi tìm kiếm sản phẩm:", error));
+      productsHTML += `</div></div>`;
+      resultContainer.innerHTML = productsHTML;
 
+      // Cập nhật phân trang
+      let totalPages = data.total_pages;
+      if (totalPages > 1) {
+        let paginationHTML = "";
+        for (let i = 1; i <= totalPages; i++) {
+          let activeClass = i === page ? "trang-chinh" : "";
+          paginationHTML += `<li><a href="#" onclick="searchProducts(${sortOrder}, ${i})" class="inner-trang ${activeClass}">${i}</a></li>`;
+        }
+        paginationContainer.innerHTML = `<ul>${paginationHTML}</ul>`;
+      }
+    })
+    .catch((error) => console.error("Lỗi khi tìm kiếm sản phẩm:", error));
 }
+
+// Gọi khi click tìm kiếm
+document
+  .getElementById("advanced-search-price-btn")
+  .addEventListener("click", function () {
+    searchProducts();
+  });

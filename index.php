@@ -128,7 +128,7 @@
       <!-- Products -->
 
 
-      <div class="Products">
+      <div class="Products" id="product-list">
           <div class="container">
               <div class="row">
                   <div class="col-xl-12">
@@ -157,23 +157,25 @@
 
               <!-- Đóng Products -->
 
-      
-    </div>
+    
+<!-- Kết quả tìm kiếm -->
+<div id="search-results"></div>
+
+
     
 
     <!-- Phân trang -->
-<div class="Pagination">
-    <div class="container">
-        <ul>
-        <?php
-    // Hiển thị tất cả các trang từ 1 đến tổng số trang
-    for ($i = 1; $i <= $total_pages; $i++) {
-        $active_class = ($i == $page) ? 'trang-chinh' : '';
-        echo '<li><a href="?page=' . $i . '" class="inner-trang ' . $active_class . '">' . $i . '</a></li>';
-    }
-?>
-        </ul>
-    </div>
+<div id="pagination" class="Pagination">
+  <div class="container">
+    <ul>
+      <?php
+      for ($i = 1; $i <= $total_pages; $i++) {
+          $active_class = ($i == $page) ? 'trang-chinh' : '';
+          echo '<li><a href="#" onclick="searchProducts(0, ' . $i . ')" class="inner-trang ' . $active_class . '">' . $i . '</a></li>';
+      }
+      ?>
+    </ul>
+  </div>
 </div>
 <!-- Đóng phân trang -->
  <!-- Footer -->

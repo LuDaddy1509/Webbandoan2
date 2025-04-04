@@ -32,313 +32,123 @@
     <?php
     include_once "includes/headeradmin.php";
     ?>
+    <script>
+function fetchProducts() {
+    var category = document.getElementById("the-loai").value;
+    var searchTerm = document.getElementById("form-search-product").value;
 
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "./includes/searchadmin.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            document.getElementById("product-results").innerHTML = xhr.responseText;
+        }
+    };
+
+    xhr.send("category=" + encodeURIComponent(category) + "&search=" + encodeURIComponent(searchTerm));
+}
+</script>
       <!-- adminproduct  -->
 
-      <div class="admin-product">
-        <div class="admin-control">
-          <div class="admin-control-left">
-            <select name="the-loai" id="the-loai">
-              <option>Tất cả</option>
-              <option>Món chay</option>
-              <option>Món mặn</option>
-              <option>Món lẩu</option>
-              <option>Món ăn vặt</option>
-              <option>Món tráng miệng</option>
-              <option>Nước uống</option>
-              <option>Đã xóa</option>
+        <div class="admin-product">
+    <div class="admin-control">
+        <div class="admin-control-left">
+            <select name="the-loai" id="the-loai" onchange="fetchProducts()">
+                <option value="">Tất cả</option>
+                <option value="món chay">Món chay</option>
+                <option value="món mặn">Món mặn</option>
+                <option value="món lẩu">Món lẩu</option>
+                <option value="món ăn vặt">Món ăn vặt</option>
+                <option value="món tráng miệng">Món tráng miệng</option>
+                <option value="nước uống">Nước uống</option>
+                <option value="hải sản">Hải sản</option>
             </select>
-          </div>
-          <div class="admin-control-center">
-            <form action="">
-              <span class="search-btn"
-                ><i class="fa-light fa-magnifying-glass"></i
-              ></span>
-              <input
-                id="form-search-product"
-                type="text"
-                class="form-search-input"
-                placeholder="Tìm kiếm tên món..."
-              />
+        </div>
+        <div class="admin-control-center">
+            <form onsubmit="fetchProducts(); return false;">
+                <span class="search-btn"><i class="fa-light fa-magnifying-glass"></i></span>
+                <input id="form-search-product" type="text" class="form-search-input" placeholder="Tìm kiếm tên món..." oninput="fetchProducts()"/>
             </form>
-          </div>
-          <div class="admin-control-right">
-            <a href="adminproduct.php" class="inner-nut"
-              ><i class="fa-light fa-rotate-right"></i> Làm mới</a
-            >
-            <a href="adminaddproduct.php" class="inner-nut">
-              <i class="fa-light fa-plus"></i> Thêm món mới
-            </a>
-          </div>
         </div>
+        <div class="admin-control-right">
+            <a href="adminproduct.php" class="inner-nut"><i class="fa-light fa-rotate-right"></i> Làm mới</a>
+            <a href="adminaddproduct.php" class="inner-nut"><i class="fa-light fa-plus"></i> Thêm món mới</a>
+        </div>
+    </div>
+    <!-- Kết quả tìm kiếm -->
+<div id="product-results"></div>
+
         <div class="show-product">
-          <div class="row">
-          <?php
-              include "database/CustomerDBconnect.php";
-                $sql="SELECT * from sanpham";
-                $result=mysqLi_query($conn,$sql);
-              while($row=mysqli_fetch_array($result)){
-                $modalId = "editModal-" . $row['ID'];
-              ?>
+    <div class="row">
+        <?php
+        include "connect.php";
+
+        // Xác định số sản phẩm trên mỗi trang
+        $limit = 12;
+
+        // Xác định trang hiện tại (nếu không có thì mặc định là trang 1)
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        $start = ($page - 1) * $limit;
+
+        // Lấy tổng số sản phẩm
+        $total_query = "SELECT COUNT(*) AS total FROM sanpham";
+        $total_result = mysqli_query($conn, $total_query);
+        $total_row = mysqli_fetch_assoc($total_result);
+        $total_products = $total_row['total'];
+
+        // Tính tổng số trang
+        $total_pages = ceil($total_products / $limit);
+
+        // Lấy danh sách sản phẩm cho trang hiện tại
+        $sql = "SELECT * FROM sanpham LIMIT $start, $limit";
+        $result = mysqli_query($conn, $sql);
+
+        while ($row = mysqli_fetch_array($result)) {
+        ?>
             <div class="col-12">
-              <div class="list">
-                <div class="list-left">
-                <img src="<?php echo $row['Image']; ?>" alt="<?php echo $row['Name']; ?>" />
-                  <div class="list-info">
-                    <h4><?php echo $row['Name']?></h4>
-                    <p> <?php echo $row['Describtion']?> </p>
-                    <div class="list-category"><?php echo $row['Type']?></div>
-                  </div>
-                </div>
-                <div class="list-right">
-                  <div class="list-price"><?php echo $row['Price'],".000₫"?></div>
-                  <div class="list-control">
-                    <div class="list-tool">
-                      <a href="adminchangeproduct.html" class="btn-edit">
-                        <i class="fa-light fa-pen-to-square"></i>
-                      </a>
-                      <a class="btn-delete" href="deleteproduct.php?this_id=<?php echo $row['ID']; ?>">
-                            <i class="fa-regular fa-trash"></i>
-                      </a>
+                <div class="list">
+                    <div class="list-left">
+                        <img src="<?php echo $row['Image']; ?>" alt="<?php echo $row['Name']; ?>" />
+                        <div class="list-info">
+                            <h4><?php echo $row['Name']; ?></h4>
+                            <p><?php echo $row['Describtion']; ?></p>
+                            <div class="list-category"><?php echo $row['Type']; ?></div>
+                        </div>
                     </div>
-                  </div>
+                    <div class="list-right">
+                        <div class="list-price"><?php echo $row['Price'] . ".000₫"; ?></div>
+                        <div class="list-control">
+                            <div class="list-tool">
+                                <a href="adminchangeproduct.php?id=<?= $row['ID']; ?>" class="btn-edit">
+                                    <i class="fa-light fa-pen-to-square"></i>
+                                </a>
+                                <a class="btn-delete" href="deleteproduct.php?this_id=<?php echo $row['ID']; ?>">
+                                    <i class="fa-regular fa-trash"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-            <?php } ?>
-          </div>
-
-          <!-- Modal Add Product  -->
-
-          <div
-            class="modal fade"
-            id="exampleModalCenter"
-            tabindex="-1"
-            role="dialog"
-            aria-labelledby="exampleModalCenterTitle"
-            aria-hidden="true"
-          >
-            <div class="modal-dialog modal-dialog-centered" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <div class="inner-title">THÊM MỚI SẢN PHẨM</div>
-                  <button
-                    type="button"
-                    class="close"
-                    data-dismiss="modal"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <div class="row">
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                      <div class="inner-item">
-                        <div class="inner-img">
-                          <img src="assets/img/admin/blank-image.png" />
-                        </div>
-                        <div class="inner-choose">
-                          <label for="choose"
-                            ><i class="fa-light fa-cloud-arrow-up"></i> Chọn
-                            hình ảnh</label
-                          >
-                          <input
-                            id="choose"
-                            type="file"
-                            accept="image/png, image/jpg, image/jpeg, image/gif"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                      <div class="inner-item">
-                        <form action="">
-                          <div class="form-group">
-                            <label for="name">Tên món</label>
-                            <input
-                              placeholder="Nhập tên món"
-                              type="text"
-                              id="name"
-                              class="form-control"
-                            />
-                          </div>
-                          <div class="inner-select">
-                            <label for="select">Chọn món</label>
-                            <select name="Món mặn" id="select">
-                              <option>Món chay</option>
-                              <option>Món mặn</option>
-                              <option>Món lẩu</option>
-                              <option>Món ăn vặt</option>
-                              <option>Món tráng miệng</option>
-                              <option>Nước uống</option>
-                            </select>
-                          </div>
-                          <div class="form-group">
-                            <label for="sell">Giá bán</label>
-                            <input
-                              type="text"
-                              id="sell"
-                              class="form-control"
-                              placeholder="Nhập giá bán"
-                            />
-                          </div>
-                          <div class="form-group">
-                            <label for="desc">Mô tả</label>
-                            <textarea
-                              name="desc"
-                              id="desc"
-                              class="form-control"
-                              placeholder="Nhập mô tả món ăn..."
-                            ></textarea>
-                          </div>
-                          <div class="inner-add">
-                            <button class="inner-nut" onclick="addMonAn()">
-                              <i class="fa-solid fa-plus"></i>Thêm món
-                            </button>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- End Modal Add Product -->
-
-          <!-- Modal Change Product -->
-
-          <div
-            class="modal fade"
-            id="exampleModalCenter2"
-            tabindex="-1"
-            role="dialog"
-            aria-labelledby="exampleModalCenterTitle"
-            aria-hidden="true"
-          >
-            <div class="modal-dialog modal-dialog-centered" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <div class="inner-title">CHỈNH SỬA SẢN PHẨM</div>
-                  <button
-                    type="button"
-                    class="close"
-                    data-dismiss="modal"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <div class="row">
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                      <div class="inner-item">
-                        <div class="inner-img">
-                          <img src="assets/img/products/phobo.jpg" />
-                        </div>
-                        <div class="inner-choose">
-                          <label for="choose"
-                            ><i class="fa-light fa-cloud-arrow-up"></i> Chọn
-                            hình ảnh</label
-                          >
-                          <input
-                            id="choose"
-                            type="file"
-                            accept="image/png, image/jpg, image/jpeg, image/gif"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                      <div class="inner-item">
-                        <form action="">
-                          <div class="form-group">
-                            <label for="name">Tên món</label>
-                            <input
-                              value="Phở bò"
-                              type="text"
-                              id="name"
-                              class="form-control"
-                            />
-                          </div>
-                          <div class="inner-select">
-                            <label for="select">Chọn món</label>
-                            <select name="Món mặn" id="select">
-                              <option>Món chay</option>
-                              <option selected>Món mặn</option>
-                              <option>Món lẩu</option>
-                              <option>Món ăn vặt</option>
-                              <option>Món tráng miệng</option>
-                              <option>Nước uống</option>
-                            </select>
-                          </div>
-                          <div class="form-group">
-                            <label for="sell">Giá bán</label>
-                            <input
-                              type="text"
-                              id="sell"
-                              class="form-control"
-                              value="50.000 ₫"
-                            />
-                          </div>
-                          <div class="form-group">
-                            <label for="desc">Mô tả</label>
-                            <textarea
-                              name="desc"
-                              id="desc"
-                              class="form-control"
-                            >
-Phở là món ăn đặc trưng của Việt Nam với nước dùng trong vắt, đậm đà từ xương và gia vị. Sợi phở mềm, thường được ăn kèm với thịt bò hoặc gà thái mỏng, rau thơm, chanh và ớt. Vị thanh mát, thơm ngon của phở khiến người ăn dễ dàng mê mẩn ngay từ lần thử đầu tiên. Phở không chỉ ngon mà còn mang đậm hương vị truyền thống của ẩm thực Việt.</textarea
-                            >
-                          </div>
-                          <div class="inner-add">
-                            <button class="inner-nut" onclick="changeMonAn()">
-                              <i class="fa-light fa-pencil"></i>Lưu thay đổi
-                            </button>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- End Modal Change Product -->
-        </div>
-
+        <?php } ?>
+    </div>
         <!-- Pagination -->
 
         <div class="Pagination">
-          <div class="container">
-            <ul>
-              <li>
-                <a href="adminproduct.html" class="inner-trang trang-chinh">
-                  1
-                </a>
-              </li>
-              <li>
-                <a href="adminproduct.html" class="inner-trang"> 2 </a>
-              </li>
-              <li>
-                <a href="adminproduct.html" class="inner-trang"> 3 </a>
-              </li>
-              <li>
-                <a href="adminproduct.html" class="inner-trang"> 4 </a>
-              </li>
-              <li>
-                <a href="adminproduct.html" class="inner-trang"> 5 </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- End Pagination -->
-      </div>
+    <div class="container">
+        <ul>
+        <?php
+    // Hiển thị tất cả các trang từ 1 đến tổng số trang
+    for ($i = 1; $i <= $total_pages; $i++) {
+        $active_class = ($i == $page) ? 'trang-chinh' : '';
+        echo '<li><a href="?page=' . $i . '" class="inner-trang ' . $active_class . '">' . $i . '</a></li>';
+    }
+?>
+        </ul>
     </div>
+</div>
 
     <!-- End adminproduct  -->
 

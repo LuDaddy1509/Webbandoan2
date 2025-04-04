@@ -18,17 +18,17 @@
               </a>
           </div>
           </div>
-              <div class="header-middle-center">
-                <form id="search-form" class="form-search">
-                    <span class="search-btn">
-                        <i class="fa-light fa-magnifying-glass"></i>
+                <div class="header-middle-center">
+                  <div class="form-search">
+                    <span class="search-btn" onclick="searchProducts()">
+                      <i class="fa-light fa-magnifying-glass"></i>
                     </span>
                     <input type="text" class="form-search-input" id="search-input" placeholder="Tìm kiếm món ăn...">
-                    <button  class="filter-btn" id="toggle-filter-btn">
-                        <i class="fa-light fa-filter-list"></i><span>Lọc</span>
+                    <button class="filter-btn" id="toggle-filter-btn" type="button">
+                      <i class="fa-light fa-filter-list"></i><span>Lọc</span>
                     </button>
-                </form>
-              </div>
+                  </div>
+                </div>
           <div class="header-middle-right">
             <ul class="header-middle-right-list">
               <li class="header-middle-right-item dropdown open">
@@ -413,18 +413,18 @@
         </div>
 
         <div class="advanced-search-control">
-            <button type="button" id="sort-ascending" onclick="searchProducts(1)">
-                <i class="fa-regular fa-arrow-up-short-wide"></i>
-            </button>
-            <button type="button" id="sort-descending" onclick="searchProducts(2)">
-                <i class="fa-regular fa-arrow-down-wide-short"></i>
-            </button>
-            <button type="button" id="reset-search" onclick="resetSearch()">
-                <i class="fa-light fa-arrow-rotate-right"></i>
-            </button>
-            <button type="button" id="close-filter-btn" onclick="searchProducts()">
-                <i class="fa-light fa-xmark"></i>
-            </button>
+            <button id="sort-ascending" onclick="searchProducts(1)">
+            <i class="fa-regular fa-arrow-up-short-wide"></i>
+          </button>
+          <button id="sort-descending" onclick="searchProducts(2)">
+            <i class="fa-regular fa-arrow-down-wide-short"></i>
+          </button>
+          <button id="reset-search" onclick="searchProducts(0)">
+            <i class="fa-light fa-arrow-rotate-right"></i>
+          </button>
+          <button onclick="closeSearchAdvanced()">
+            <i class="fa-light fa-xmark"></i>
+          </button>
         </div>
     </div>
 </div>
@@ -487,9 +487,6 @@
           </div>
         </div>
       </div>
-
-<!-- Kết quả tìm kiếm -->
-<div id="search-results"></div>
 
 
     <!-- End header top  -->

@@ -30,7 +30,7 @@
 
   <body>
   <?php
-include "database/CustomerDBconnect.php";
+include "connect.php";
 
 if (isset($_POST['addproduct'])) {
     $Name = $_POST['Name'];
@@ -52,51 +52,9 @@ if (isset($_POST['addproduct'])) {
 }
 ?>
 
-    <div class="wrapper d-flex align-items-stretch">
-      <nav id="sidebar">
-        <div class="custom-menu">
-          <button
-            type="button"
-            id="sidebarCollapse"
-            class="btn btn-primary"
-          ></button>
-        </div>
-        <div class="img bg-wrap text-center py-4">
-          <div class="user-logo">
-            <div class="inner-logo">
-              <img src="assets/img/logo.png" alt="logo" />
-            </div>
-          </div>
-        </div>
-        <ul class="list-unstyled components mb-5">
-          <li>
-            <a href="admin.php"
-              ><i class="fa-light fa-house"></i> Trang tổng quan</a
-            >
-          </li>
-          <li class="active">
-            <a href="adminproduct.php"
-              ><i class="fa-light fa-pot-food"></i> Sản phẩm</a
-            >
-          </li>
-          <li>
-            <a href="admincustomer.php"
-              ><i class="fa-light fa-users"></i> Khách hàng</a
-            >
-          </li>
-          <li>
-            <a href="adminorder.php"
-              ><i class="fa-light fa-basket-shopping"></i> Đơn hàng</a
-            >
-          </li>
-          <li>
-            <a href="adminstatistical.php"
-              ><i class="fa-light fa-chart-simple"></i> Thống kê</a
-            >
-          </li>
-        </ul>
-      </nav>
-
+    <?php
+    include_once "./includes/headeradmin.php";
+     ?>
       <!-- adminaddproduct  -->
 
       <div class="adminaddproduct">
@@ -136,12 +94,14 @@ if (isset($_POST['addproduct'])) {
                     <div class="inner-select">
                         <label for="select">Chọn món</label>
                         <select name="Type" id="select">
-                            <option value="Món chay">Món chay</option>
-                            <option value="Món mặn">Món mặn</option>
-                            <option value="Món lẩu">Món lẩu</option>
-                            <option value="Món ăn vặt">Món ăn vặt</option>
-                            <option value="Món tráng miệng">Món tráng miệng</option>
-                            <option value="Nước uống">Nước uống</option>
+                            <option value="món chay">Món chay</option>
+                            <option value="món mặn">Món mặn</option>
+                            <option value="món lẩu">Món lẩu</option>
+                            <option value="món ăn vặt">Món ăn vặt</option>
+                            <option value="món tráng miệng">Món tráng miệng</option>
+                            <option value="nước uống">Nước uống</option>
+                            <option value="hải sản">Hải sản</option>
+
                         </select>
                     </div>
                     <div class="form-group">
