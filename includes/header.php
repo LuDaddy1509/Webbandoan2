@@ -131,38 +131,40 @@
         </div>
     </div>
 </form>
-       <?php
+      <?php 
       include "connect.php";
-      if(isset($_POST['dangnhap'])){
-        $sdt = $_POST['sdt'];
-        $pw = $_POST['password'];
-        // $hash_pw = password_hash($pw,PASSWORD_DEFAULT);
-        $sql = "SELECT * FROM khachhang WHERE sodienthoai = ? ";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s",$sdt);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        if($result->num_rows > 0){
-          $row = $result->fetch_assoc();
-          if($pw===$row['matkhau']){
-            $_SESSION['ten'] = $row['tenkh'];
-            $_SESSION['password'] = $row['matkhau'];
-            echo "đang nhap thanh cong!";
-            header("location: login.php");
-            exit();
+      if (isset($_POST['dangnhap'])) {
+          $phonenumber = $_POST['sdt'];
+          $password = $_POST['password'];
+  
+          // Sử dụng prepared statement để tránh SQL Injection
+          $sql = "SELECT * FROM khachhang WHERE sodienthoai = ? AND matkhau = ?";
+          $stmt = $conn->prepare($sql);
+          $stmt->bind_param("ss", $phonenumber, $password);
+          $stmt->execute();
+          $result = $stmt->get_result();
+  
+          if ($result->num_rows == 1) {
+              $row = $result->fetch_assoc(); // Lấy dữ liệu khách hàng
+              $_SESSION['mySession'] = $row['tenkh']; // Lưu tên khách hàng vào session
+              $_SESSION['makh'] = $row['makh'];
+  
+              // Chuyển hướng sau khi đăng nhập thành công
+              header("Location: login.php");
+              exit();
           } else {
-            echo "sai mat khau";
+              echo "Sai mật khẩu hoặc số điện thoại!";
           }
-        } else {
-          echo " tai khoa khong ton tai";
-        }
+          
+          // Đóng statement và kết nối
+          $stmt->close();
+          $conn->close();
       }
-       ?>
+  ?>
             </div>
           </div>
         </div>
       </div>
-
       <!-- End Modal login -->
 
       <!-- Modal register -->
