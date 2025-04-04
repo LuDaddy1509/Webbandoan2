@@ -135,13 +135,13 @@
                   <?php while ($row = $result->fetch_assoc()): ?>
                   <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
                       <div class="inner-item">
-                          <a href="chitietsp.php?id=<?= $row['ID']; ?>" class="inner-img">
+                          <a href="chitietsp-login.php?id=<?= $row['ID']; ?>" class="inner-img">
                               <img src="<?= htmlspecialchars($row['Image']); ?>" />
                           </a>
                           <div class="inner-info">
                               <div class="inner-ten"><?= htmlspecialchars($row['Name']); ?></div>
                               <div class="inner-gia"><?= number_format($row['Price']); ?>.000 ₫</div>
-                              <a href="chitietsp.php?id=<?= $row['ID']; ?>" class="inner-muahang">
+                              <a href="chitietsp-login.php?id=<?= $row['ID']; ?>" class="inner-muahang">
                                   <i class="fa-solid fa-cart-plus"></i> ĐẶT MÓN
                               </a>
                           </div>
