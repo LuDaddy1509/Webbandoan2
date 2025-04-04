@@ -39,12 +39,12 @@ ob_start();
                 <div class="auth-container">
                   <span class="text-dndk">Tài khoản</span>
                   <span class="text-tk"
-                    ><?php if(!isset($_SESSION['sdt'])){
+                    ><?php if(!isset($_SESSION['mySession'])){
                       header("location: index.php");
                       exit();
                     }
                     else {
-                      echo htmlspecialchars($_SESSION['ten'],ENT_QUOTES, 'UTF-8');
+                      echo htmlspecialchars($_SESSION['mySession'],ENT_QUOTES, 'UTF-8');
                     }
                     ?><i class="fa-sharp fa-solid fa-caret-down"></i
                   ></span>
@@ -79,84 +79,9 @@ ob_start();
             </ul>
           </div>
         </div>
-
-               <div
-        class="modal fade right"
-        id="cartModal"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="cartModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <div class="inner-shopping">
-                <div class="inner-icon">
-                  <i class="fa-solid fa-basket-shopping"></i>
-                </div>
-                <span class="inner-text-shopping">Giỏ hàng</span>
-              </div>
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <div class="cart-item">
-                <div class="inner-product">
-                  <img src="assets/img/products/banhmi.webp" alt="Product 1" />
-                  <div class="inner-gia">20.000 ₫</div>
-                </div>
-                <div class="inner-info">
-                  <div class="inner-ten">Bánh mì</div>
-                  <div class="buttons_added">
-                    <input class="minus is-form" type="button" value="-" />
-                    <input class="input-qty" type="text" value="1" />
-                    <input class="plus is-form" type="button" value="+" />
-                  </div>
-                </div>
-              </div>
-              <div class="cart-item">
-                <div class="inner-product">
-                  <img src="assets/img/products/bunbohue.jpg" alt="Product 2" />
-                  <div class="inner-gia">50.000 ₫</div>
-                </div>
-                <div class="inner-info">
-                  <div class="inner-ten">Bún bò Huế</div>
-                  <div class="buttons_added">
-                    <input class="minus is-form" type="button" value="-" />
-                    <input class="input-qty" type="text" value="1" />
-                    <input class="plus is-form" type="button" value="+" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <div class="inner-tong">
-                <div class="inner-text-tong">Tổng tiền:</div>
-                <div class="inner-gia-tong">70.000 ₫</div>
-              </div>
-              <div class="inner-nut">
-                <button
-                  type="button"
-                  class="inner-tm"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <i class="fa-solid fa-plus"></i>Thêm món
-                </button>
-                <a href="thanhtoan.php" class="inner-tt">Thanh toán</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
+        <?php
+        include "includes/giohang.php"; 
+        ?>
       </div>
     </header>
     <nav class="header-bottom">

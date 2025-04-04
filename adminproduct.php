@@ -69,7 +69,7 @@ function fetchProducts() {
         <div class="admin-control-center">
             <form onsubmit="fetchProducts(); return false;">
                 <span class="search-btn"><i class="fa-light fa-magnifying-glass"></i></span>
-                <input id="form-search-product" type="text" class="form-search-input" placeholder="Tìm kiếm tên món..." oninput="fetchProducts()"/>
+                <input id="form-search-product" type="text" class="form-search-input" placeholder="Tìm kiếm tên món..." onsubmit="fetchProducts()"/>
             </form>
         </div>
         <div class="admin-control-right">
@@ -83,7 +83,7 @@ function fetchProducts() {
         <div class="show-product">
     <div class="row">
         <?php
-        include "connect.php";
+        include "./connect.php";
 
         // Xác định số sản phẩm trên mỗi trang
         $limit = 12;
