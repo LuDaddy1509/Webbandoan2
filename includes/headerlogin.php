@@ -7,7 +7,7 @@ ob_start();
         <div class="container">
           <div class="header-middle-left">
             <div class="header-logo">
-              <a href="index.php">
+              <a href="login.php">
                 <img
                   src="./assets/img/logo.png"
                   alt=""
