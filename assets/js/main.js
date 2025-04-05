@@ -58,6 +58,44 @@ function notLogin() {
   alert("Chưa đăng nhập tài khoản !");
 }
 
+function dangNhap(event) {
+  event.preventDefault(); // Ngăn chặn form submit mặc định
+
+  // Lấy giá trị từ form
+  const sdt = document.getElementById("sdt").value;
+  const mk = document.getElementById("mk").value;
+
+  // Tạo FormData để gửi dữ liệu
+  const formData = new FormData();
+  formData.append("sdt", sdt);
+  formData.append("password", mk);
+  formData.append("dangnhap", "true");
+
+  // Gửi yêu cầu AJAX
+  fetch(window.location.href, {
+    method: "POST",
+    body: formData,
+  })
+    .then((response) => response.text())
+    .then((data) => {
+      // Kiểm tra kết quả từ PHP
+      if (data.includes("đang nhap thanh cong")) {
+        // Đăng nhập thành công, chuyển hướng
+        window.location.href = "login.php";
+      } else if (
+        data.includes("sai mat khau") ||
+        data.includes("tai khoa khong ton tai")
+      ) {
+        // Hiển thị thông báo lỗi
+        alert("Tài khoản hoặc mật khẩu không chính xác!");
+      }
+    })
+    .catch((error) => {
+      console.error("Lỗi:", error);
+      alert("Có lỗi xảy ra khi đăng nhập!");
+    });
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   // Gán sự kiện mở/tắt bộ lọc
   let toggleFilterBtn = document.getElementById("toggle-filter-btn");
@@ -158,9 +196,39 @@ function searchProducts(sortOrder = 0, page = 1) {
     .catch((error) => console.error("Lỗi khi tìm kiếm sản phẩm:", error));
 }
 
-// Gọi khi click tìm kiếm
-document
-  .getElementById("advanced-search-price-btn")
-  .addEventListener("click", function () {
-    searchProducts();
-  });
+function dangNhap(event) {
+  event.preventDefault(); // Ngăn chặn form submit bình thường
+
+  // Lấy giá trị từ form
+  var sdt = document.getElementById("sdt").value;
+  var password = document.getElementById("mk").value;
+  var errorDiv = document.getElementById("loginError");
+
+  // Gửi dữ liệu bằng AJAX
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "", true);
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      // Xử lý phản hồi từ server
+      if (xhr.responseText.includes("window.location.href")) {
+        // Đăng nhập thành công
+        eval(xhr.responseText);
+      } else {
+        // Hiển thị lỗi
+        errorDiv.innerHTML = xhr.responseText;
+        errorDiv.style.display = "block";
+      }
+    }
+  };
+
+  xhr.send(
+    "dangnhap=true&sdt=" +
+      encodeURIComponent(sdt) +
+      "&password=" +
+      encodeURIComponent(password)
+  );
+
+  return false;
+}
