@@ -18,17 +18,17 @@
               </a>
           </div>
           </div>
-                <div class="header-middle-center">
-                  <div class="form-search">
-                    <span class="search-btn" onclick="searchProducts()">
-                      <i class="fa-light fa-magnifying-glass"></i>
-                    </span>
-                    <input type="text" class="form-search-input" id="search-input" placeholder="Tìm kiếm món ăn...">
-                    <button class="filter-btn" id="toggle-filter-btn" type="button">
-                      <i class="fa-light fa-filter-list"></i><span>Lọc</span>
-                    </button>
-                  </div>
-                </div>
+        <div class="header-middle-center">
+            <form id="search-form" class="form-search" onsubmit="event.preventDefault(); searchProducts();">
+                <span class="search-btn" onclick="searchProducts()">
+                    <i class="fa-light fa-magnifying-glass"></i>
+                </span>
+                <input type="text" class="form-search-input" id="search-input" placeholder="Tìm kiếm món ăn...">
+                <button class="filter-btn" id="toggle-filter-btn">
+                    <i class="fa-light fa-filter-list"></i><span>Lọc</span>
+                </button>
+            </form>
+        </div>
           <div class="header-middle-right">
             <ul class="header-middle-right-list">
               <li class="header-middle-right-item dropdown open">
@@ -100,7 +100,7 @@
               </button>
             </div>
             <div class="modal-body">
-              <form action="" method="post">
+              <form action="" method="post" onsubmit="dangNhap()">
     <div class="row">
         <div class="col-12">
             <div class="form-group">
@@ -111,6 +111,7 @@
                         class="form-control"
                         placeholder="Nhập số điện thoại"
                         name="sdt"
+                        required
                       />
             </div>
         </div>
@@ -123,6 +124,7 @@
                         class="form-control"
                         placeholder="Nhập mật khẩu"
                         name="password"
+                        required
                       />
             </div>
         </div>
@@ -194,7 +196,7 @@
               </button>
             </div>
             <div class="modal-body">
-              <form action="" method="post">
+              <form action="" method="post" onsubmit="dangKi()">
                 <div class="row">
                   <div class="col-12">
                     <div class="form-group">
@@ -205,6 +207,7 @@
                         class="form-control"
                         placeholder="VD: Thành Đại"
                         name="ten"
+                        required
                       />
                     </div>
                   </div>
@@ -217,6 +220,7 @@
                         class="form-control"
                         placeholder="Nhập số điện thoại"
                         name="sdt"
+                        required
                       />
                     </div>
                   </div>
@@ -229,6 +233,7 @@
                         class="form-control"
                         placeholder="Nhập địa chỉ"
                         name="diachi"
+                        required
                       />
                     </div>
                   </div>
@@ -241,6 +246,7 @@
                         class="form-control"
                         placeholder="Nhập mật khẩu"
                         name="password"
+                        required
                       />
                     </div>
                   </div>
@@ -253,11 +259,12 @@
                         class="form-control"
                         placeholder="Nhập lại mật khẩu"
                         name="password1"
+                        required
                       />
                     </div>
                   </div>
                   <div class="col-12">
-                    <button class="button" onclick="dangKi()" name="dangki">Đăng kí</button>
+                    <button class="button" name="dangki">Đăng kí</button>
                   </div>
                 </div>
               </form>
@@ -428,65 +435,5 @@
         </div>
     </div>
 </div>
-
-<div
-        class="modal fade modal-form"
-        id="exampleModal"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="inner-title">Đăng nhập tài khoản</h5>
-              <p class="inner-desc">
-                Đăng nhập thành viên để mua hàng và nhận những ưu đãi đặc biệt
-                từ chúng tôi
-              </p>
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form action="">
-                <div class="row">
-                  <div class="col-12">
-                    <div class="form-group">
-                      <label for="sdt">Số điện thoại</label>
-                      <input
-                        type="text"
-                        id="sdt"
-                        class="form-control"
-                        placeholder="Nhập số điện thoại"
-                      />
-                    </div>
-                  </div>
-                  <div class="col-12">
-                    <div class="form-group">
-                      <label for="mk">Mật khẩu</label>
-                      <input
-                        type="password"
-                        id="mk"
-                        class="form-control"
-                        placeholder="Nhập mật khẩu"
-                      />
-                    </div>
-                  </div>
-                  <div class="col-12">
-                    <a href="login.html" class="button"> Đăng nhập </a>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-
 
     <!-- End header top  -->
