@@ -91,7 +91,7 @@ CREATE TABLE `khachhang` (
   `matkhau` varchar(20) NOT NULL,
   `diachi` varchar(100) NOT NULL,
   `sodienthoai` varchar(20) NOT NULL,
-  `Email` varchar(255) DEFAULT NULL
+  `Email` varchar(255) DEFAULT NULL,
   `trangthai` enum('Locked','Unlocked') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
