@@ -34,6 +34,10 @@
     ?>
     <script>
 function fetchProducts() {
+    fetchProductsPage(1); // khi tìm kiếm thì mặc định là trang 1
+}
+
+function fetchProductsPage(page) {
     var category = document.getElementById("the-loai").value;
     var searchTerm = document.getElementById("form-search-product").value;
 
@@ -44,11 +48,24 @@ function fetchProducts() {
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
             document.getElementById("product-results").innerHTML = xhr.responseText;
+            document.getElementById("product-results").style.display = "block";
+            document.getElementById("default-product-list").style.display = "none";
         }
     };
 
-    xhr.send("category=" + encodeURIComponent(category) + "&search=" + encodeURIComponent(searchTerm));
+    xhr.send("category=" + encodeURIComponent(category) + 
+             "&search=" + encodeURIComponent(searchTerm) + 
+             "&page=" + page);
 }
+
+function resetSearch() {
+    document.getElementById("form-search-product").value = "";
+    document.getElementById("the-loai").value = "";
+    document.getElementById("product-results").innerHTML = "";
+    document.getElementById("product-results").style.display = "none";
+    document.getElementById("default-product-list").style.display = "block";
+}
+
 </script>
       <!-- adminproduct  -->
 
@@ -68,8 +85,8 @@ function fetchProducts() {
         </div>
         <div class="admin-control-center">
             <form onsubmit="fetchProducts(); return false;">
-                <span class="search-btn"><i class="fa-light fa-magnifying-glass"></i></span>
-                <input id="form-search-product" type="text" class="form-search-input" placeholder="Tìm kiếm tên món..." oninput="fetchProducts()"/>
+                <span onclick="fetchProducts()" class="search-btn"><i class="fa-light fa-magnifying-glass"></i></span>
+                <input id="form-search-product" type="text" class="form-search-input" placeholder="Tìm kiếm tên món..."/>
             </form>
         </div>
         <div class="admin-control-right">
@@ -78,12 +95,16 @@ function fetchProducts() {
         </div>
     </div>
     <!-- Kết quả tìm kiếm -->
-<div id="product-results"></div>
 
-        <div class="show-product">
+    <div id="product-results" style="display: none;">
+
+    </div>
+
+
+        <div id="default-product-list" class="show-product">
     <div class="row">
         <?php
-        include "connect.php";
+        include "./connect.php";
 
         // Xác định số sản phẩm trên mỗi trang
         $limit = 12;

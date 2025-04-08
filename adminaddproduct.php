@@ -20,7 +20,7 @@
       href="assets/font-awesome-pro-v6-6.2.0/css/all.min.css"
     />
 
-    <link rel="stylesheet" href="admin/css/style.css" />
+        <link rel="stylesheet" href="admin/css/style.css" />
     <link rel="stylesheet" href="assets/css/base.css" />
     <link rel="stylesheet" href="assets/css/admin.css" />
 
@@ -29,6 +29,35 @@
   </head>
 
   <body>
+
+<style>
+      .form-control {
+        height: 40px !important;
+        background: #fff;
+        color: #000;
+        font-size: 15px;
+        border-radius: 4px;
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+        border: 1px solid #ced4da;
+        margin: 0px;
+        transition: all 0.3s linear;
+      }
+
+      .adminaddproduct .add-product .form-control:hover {
+    border: 1px solid var(--color-bg2);
+}
+
+.adminaddproduct .add-product textarea {
+    border: 1px solid #ced4da;
+    height: 120px !important;
+    padding: 15px;
+    background-color: #f7f7f7;
+    transition: all 0.3s linear;
+    font-size: 14px;
+}
+</style>
+
   <?php
 include "connect.php";
 
