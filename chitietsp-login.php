@@ -114,10 +114,6 @@ function giamsoluong() {
         input.value = parseInt(input.value) - 1;
     }
 }
-
-function thongbao() {
-    alert("🎉 Sản phẩm đã được thêm vào giỏ hàng!");
-}
               </script>
               <div class="col-xl-12">
                 <div class="inner-thongtin">
@@ -136,36 +132,72 @@ function thongbao() {
           </div>
           <?php 
 include "connect.php";
+
 if (isset($_POST['addProduct']) && isset($_GET['id'])) {
     $makh = intval($_SESSION['makh']);
     $masp = intval($_GET['id']);
     $soluong = isset($_POST['soluong']) ? intval($_POST['soluong']) : 1;
-    // 1️⃣ Kiểm tra khách hàng có tồn tại không
-    $check_khachhang = "SELECT makh FROM khachhang WHERE makh = ?";
-    $stmt = $conn->prepare($check_khachhang);
-    $stmt->bind_param("i", $makh);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    if ($result->num_rows == 0) {
-    die("<script>alert('❌ Lỗi: Tài khoản không tồn tại!');</script>");
+
+    // 1️⃣ Kiểm tra khách hàng có tồn tại
+    $ckkh = "SELECT makh FROM khachhang WHERE makh = ?";
+    $stmt1 = $conn->prepare($ckkh);
+    $stmt1->bind_param("i", $makh);
+    $stmt1->execute();
+    $result1 = $stmt1->get_result();
+    if ($result1->num_rows == 0) {
+        echo "<script>alert('❌ Lỗi: Tài khoản không tồn tại!');</script>";
+        exit();
     }
+
     // 2️⃣ Lấy giá sản phẩm
     $query = "SELECT Price FROM sanpham WHERE ID = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("i", $masp);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $dongia = $row['Price'];
-        // 3️⃣ Thêm vào giỏ hàng
-        $sql = "INSERT INTO giohang (makh, masp, soluong, dongia) VALUES (?, ?, ?, ?)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("iiid", $makh, $masp, $soluong, $dongia); 
-        $stmt->execute();
-}
+    $stmt2 = $conn->prepare($query);
+    $stmt2->bind_param("i", $masp);
+    $stmt2->execute();
+    $result2 = $stmt2->get_result();
+    if ($result2->num_rows == 0) {
+        echo "<script>alert('❌ Sản phẩm không tồn tại!');</script>";
+        exit();
+    }
+
+    $row = $result2->fetch_assoc();
+    $dongia = $row['Price'];
+
+    // 3️⃣ Kiểm tra sản phẩm đã có trong giỏ chưa
+    $check_gh = "SELECT soluong FROM giohang WHERE makh = ? AND masp = ?";
+    $stmt3 = $conn->prepare($check_gh);
+    $stmt3->bind_param("ii", $makh, $masp);
+    $stmt3->execute();
+    $result3 = $stmt3->get_result();
+
+    if ($result3->num_rows > 0) {
+        // ✅ Đã tồn tại -> Cập nhật số lượng
+        $row = $result3->fetch_assoc();
+        $soluong_moi = $row['soluong'] + $soluong;
+        $update_giohang = "UPDATE giohang SET soluong = ? WHERE makh = ? AND masp = ?";
+        $stmt4 = $conn->prepare($update_giohang);
+        $stmt4->bind_param("iii", $soluong_moi, $makh, $masp);
+        if ($stmt4->execute()) {
+          header("location: login.php");
+          exit();
+        } else {
+            echo "<script>alert('⚠️ Lỗi khi cập nhật số lượng!');</script>";
+        }
+    } else {
+        // ❎ Chưa có -> Thêm mới
+        $insert = "INSERT INTO giohang (makh, masp, soluong, dongia) VALUES (?, ?, ?, ?)";
+        $stmt5 = $conn->prepare($insert);
+        $stmt5->bind_param("iiid", $makh, $masp, $soluong, $dongia);
+        if ($stmt5->execute()) {
+          header("location: login.php");
+          exit();
+        } else {
+            echo "<script>alert('⚠️ Lỗi khi thêm vào giỏ hàng!');</script>";
+        }
+    }
 }
 ?>
+
           <div class="col-xl-3 col-lg-3">
             <div class="inner-danhmuc">
               <div class="inner-dm">
