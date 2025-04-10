@@ -123,7 +123,7 @@ function resetSearch() {
         $total_pages = ceil($total_products / $limit);
 
         // Lấy danh sách sản phẩm cho trang hiện tại
-        $sql = "SELECT * FROM sanpham LIMIT $start, $limit";
+        $sql = "SELECT * FROM sanpham ORDER BY ID DESC LIMIT $start, $limit";
         $result = mysqli_query($conn, $sql);
 
         while ($row = mysqli_fetch_array($result)) {

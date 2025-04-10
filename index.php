@@ -129,27 +129,46 @@
       <!-- Products -->
       <?php
 include "connect.php";
+
+// Lấy giá trị 'Type' từ GET, nếu có
 $Type = isset($_GET['Type']) ? $_GET['Type'] : '';
+
+// Lấy số trang hiện tại
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$limit = 12;
+$limit = 12;  // Số món ăn hiển thị trên mỗi trang
 $offset = ($page - 1) * $limit;
 
-// Lấy tổng số món ăn theo danh mục
-$stmt_count = $conn->prepare("SELECT COUNT(*) as total FROM sanpham WHERE Type = ?");
-$stmt_count->bind_param("s", $Type);
-$stmt_count->execute();
+// Nếu có giá trị 'Type', lấy tổng số món ăn theo loại
+if ($Type) {
+    $stmt_count = $conn->prepare("SELECT COUNT(*) as total FROM sanpham WHERE Type = ?");
+    $stmt_count->bind_param("s", $Type);
+    $stmt_count->execute();
+} else {
+    // Nếu không có giá trị 'Type', lấy tổng số món ăn (tất cả món ăn)
+    $stmt_count = $conn->prepare("SELECT COUNT(*) as total FROM sanpham");
+    $stmt_count->execute();
+}
+
 $count_result = $stmt_count->get_result();
 $row_count = $count_result->fetch_assoc();
 $total_records = $row_count['total'];
 $total_pages = ceil($total_records / $limit);
 
 // Truy vấn món ăn cho trang hiện tại
-$stmt = $conn->prepare("SELECT * FROM sanpham WHERE Type = ? LIMIT ? OFFSET ?");
-$stmt->bind_param("sii", $Type, $limit, $offset);
+if ($Type) {
+    // Lấy món ăn theo 'Type' và phân trang
+    $stmt = $conn->prepare("SELECT * FROM sanpham WHERE Type = ? LIMIT ? OFFSET ?");
+    $stmt->bind_param("sii", $Type, $limit, $offset);
+} else {
+    // Lấy tất cả món ăn (không phân loại theo 'Type') và phân trang
+    $stmt = $conn->prepare("SELECT * FROM sanpham LIMIT ? OFFSET ?");
+    $stmt->bind_param("ii", $limit, $offset);
+}
+
 $stmt->execute();
 $result = $stmt->get_result();
-
 ?>
+
 
 <div class="Products" id="product-list">
   <div class="container">
