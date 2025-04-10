@@ -1,35 +1,31 @@
 <?php
 include "connect.php"; // Kết nối database
+
 echo "<pre>";
 print_r($_FILES);
+print_r($_POST);
 echo "</pre>";
 
 // Kiểm tra xem có dữ liệu từ form không
-if (isset($_POST['id']) && isset($_POST['name']) && isset($_POST['price']) && isset($_POST['desc']) && isset($_POST['type']) && isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
-    // var_dump($_FILES); // Kiểm tra xem dữ liệu tệp có được gửi lên không
-    // exit(); // Dừng việc thực hiện tiếp tục để kiểm tra $_FILES
-
+if (isset($_POST['id']) && isset($_POST['Name']) && isset($_POST['Price']) && isset($_POST['Describtion']) && isset($_POST['Type'])) {
     $id = intval($_POST['id']);
-    $name = mysqli_real_escape_string($conn, $_POST['name']);
-    $price = mysqli_real_escape_string($conn, $_POST['price']);
-    $desc = mysqli_real_escape_string($conn, $_POST['desc']);
-    $type = mysqli_real_escape_string($conn, $_POST['type']);
+    $name = mysqli_real_escape_string($conn, $_POST['Name']);
+    $price = mysqli_real_escape_string($conn, $_POST['Price']);
+    $desc = mysqli_real_escape_string($conn, $_POST['Describtion']);
+    $type = mysqli_real_escape_string($conn, $_POST['Type']);
 
-   
     // Kiểm tra xem có hình ảnh mới không
-    if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
-        // Xử lý hình ảnh tải lên
-        $image = $_FILES['image'];
-        $image_name = time() . "_" . $image['name'];
+    if (isset($_FILES['Images']) && $_FILES['Images']['error'] == 0) { // Đổi 'Image' thành 'Images'
+        $image = $_FILES['Images'];
+        $image_name = time() . "_" . basename($image['name']);
         $target_dir = "assets/img/products/";
-        $target_file = $target_dir . basename($image_name);
+        $target_file = $target_dir . $image_name;
 
         // Kiểm tra file có phải là hình ảnh không
         $check = getimagesize($image['tmp_name']);
         if ($check !== false) {
-            // Di chuyển file đến thư mục mong muốn
             if (move_uploaded_file($image['tmp_name'], $target_file)) {
-                $image_path = "assets/img/products/" . $image_name;
+                $image_path = $target_file; // Đường dẫn ảnh mới
             } else {
                 echo "Lỗi khi tải hình ảnh lên.";
                 exit();
@@ -40,11 +36,13 @@ if (isset($_POST['id']) && isset($_POST['name']) && isset($_POST['price']) && is
         }
     } else {
         // Nếu không có hình ảnh mới, sử dụng hình ảnh cũ
-        $sql = "SELECT Image FROM sanpham WHERE ID = $id";
-        $result = mysqli_query($conn, $sql);
-        
-        if ($result && mysqli_num_rows($result) > 0) {
-            $row = mysqli_fetch_assoc($result);
+        $sql = "SELECT Image FROM sanpham WHERE ID = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result && $row = $result->fetch_assoc()) {
             $image_path = $row['Image']; // Dùng lại đường dẫn hình ảnh cũ
         } else {
             echo "Không tìm thấy sản phẩm!";
@@ -66,7 +64,7 @@ if (isset($_POST['id']) && isset($_POST['name']) && isset($_POST['price']) && is
     echo "Dữ liệu không hợp lệ!";
     echo "<pre>";
     print_r($_POST);
-    var_dump($_FILES);
+    print_r($_FILES);
     echo "</pre>";
 }
 
