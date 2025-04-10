@@ -363,35 +363,19 @@
       </div>
     </header>
     <nav class="header-bottom">
-      <div class="container">
-        <ul class="menu-list">
-          <li class="menu-list-item">
-            <a href="index.php" class="menu-link">Trang chủ</a>
-            </li>
-          <li class="menu-list-item" onclick="showCategory('Món chay')">
-            <a href="javascript:;" class="menu-link">Món chay</a>
-            </li>
-          <li class="menu-list-item" onclick="showCategory('Món mặn')">
-            <a href="javascript:;" class="menu-link">Món mặn</a>
-            </li>
-          <li class="menu-list-item" onclick="showCategory('Món lẩu')">
-            <a href="javascript:;" class="menu-link">Món lẩu</a>
-            </li>
-          <li class="menu-list-item" onclick="showCategory('Món ăn vặt')">
-            <a href="javascript:;" class="menu-link">Món ăn vặt</a>
-            </li>
-          <li class="menu-list-item" onclick="showCategory('Món tráng miệng')">
-            <a href="javascript:;" class="menu-link">Món tráng miệng</a>
-            </li>
-          <li class="menu-list-item" onclick="showCategory('Nước uống')">
-            <a href="javascript:;" class="menu-link">Nước uống</a>
-            </li>
-          <li class="menu-list-item" onclick="showCategory('Món khác')">
-            <a href="javascript:;" class="menu-link">Món khác</a>
-            </li>
-          </ul>
-        </div>
-    </nav>
+  <div class="container">
+    <ul class="menu-list">
+      <li class="menu-list-item"><a href="login.php" class="menu-link">Trang chủ</a></li>
+      <li class="menu-list-item"><a href="index.php?Type=Món chay" class="menu-link">Món chay</a></li>
+      <li class="menu-list-item"><a href="index.php?Type=Món mặn" class="menu-link">Món mặn</a></li>
+      <li class="menu-list-item"><a href="index.php?Type=Món lẩu" class="menu-link">Món lẩu</a></li>
+      <li class="menu-list-item"><a href="index.php?Type=Món ăn vặt" class="menu-link">Món ăn vặt</a></li>
+      <li class="menu-list-item"><a href="index.php?Type=Món tráng miệng" class="menu-link">Món tráng miệng</a></li>
+      <li class="menu-list-item"><a href="index.php?Type=Nước uống" class="menu-link">Nước uống</a></li>
+      <li class="menu-list-item"><a href="index.php?Type=Món khác" class="menu-link">Món khác</a></li>
+    </ul>
+  </div>
+</nav>
     <div class="advanced-search" id="advanced-search" >
     <div class="container">
         <div class="advanced-search-category">
