@@ -17,21 +17,16 @@ ob_start();
             </div>
           </div>
           <div class="header-middle-center">
-            <form action="" class="form-search">
-              <span class="search-btn"
-                ><i class="fa-light fa-magnifying-glass"></i
-              ></span>
-              <input
-                type="text"
-                class="form-search-input"
-                placeholder="Tìm kiếm món ăn..."
-                oninput="searchProducts()"
-              />
-              <button class="filter-btn">
-                <i class="fa-light fa-filter-list"></i><span>Lọc</span>
-              </button>
+            <form id="search-form" class="form-search" onsubmit="event.preventDefault(); searchProducts();">
+                <span class="search-btn" onclick="searchProducts()">
+                    <i class="fa-light fa-magnifying-glass"></i>
+                </span>
+                <input type="text" class="form-search-input" id="search-input" placeholder="Tìm kiếm món ăn...">
+                <button class="filter-btn" id="toggle-filter-btn">
+                    <i class="fa-light fa-filter-list"></i><span>Lọc</span>
+                </button>
             </form>
-          </div>
+        </div>
           <div class="header-middle-right">
             <ul class="header-middle-right-list">
               <li class="header-middle-right-item dropdown open">
@@ -94,51 +89,41 @@ ob_start();
       <li class="menu-list-item"><a href="index.php?Type=Món ăn vặt" class="menu-link">Món ăn vặt</a></li>
       <li class="menu-list-item"><a href="index.php?Type=Món tráng miệng" class="menu-link">Món tráng miệng</a></li>
       <li class="menu-list-item"><a href="index.php?Type=Nước uống" class="menu-link">Nước uống</a></li>
-      <li class="menu-list-item"><a href="index.php?Type=Món khác" class="menu-link">Món khác</a></li>
+      <li class="menu-list-item"><a href="index.php?Type=Hải sản" class="menu-link">Hải sản</a></li>
     </ul>
   </div>
 </nav>
 
 
-    <div class="advanced-search">
-      <div class="container">
+<div class="advanced-search" id="advanced-search" >
+    <div class="container">
         <div class="advanced-search-category">
-          <span>Phân loại </span>
-          <select
-            name=""
-            id="advanced-search-category-select"
-            onchange="searchProducts()"
-          >
-            <option>Tất cả</option>
-            <option>Món chay</option>
-            <option>Món mặn</option>
-            <option>Món lẩu</option>
-            <option>Món ăn vặt</option>
-            <option>Món tráng miệng</option>
-            <option>Nước uống</option>
-          </select>
+            <span>Phân loại</span>
+            <select id="advanced-search-category-select">
+                <option value="">Tất cả</option>
+                <option value="món chay">Món chay</option>
+                <option value="món mặn">Món mặn</option>
+                <option value="món lẩu">Món lẩu</option>
+                <option value="món ăn vặt">Món ăn vặt</option>
+                <option value="món tráng miệng">Món tráng miệng</option>
+                <option value="nước uống">Nước uống</option>
+                <option value="hải sản">Hải sản</option>
+                
+            </select>
         </div>
+
         <div class="advanced-search-price">
-          <span>Giá từ</span>
-          <input
-            type="number"
-            placeholder="tối thiểu"
-            id="min-price"
-            onchange="searchProducts()"
-          />
-          <span>đến</span>
-          <input
-            type="number"
-            placeholder="tối đa"
-            id="max-price"
-            onchange="searchProducts()"
-          />
-          <button id="advanced-search-price-btn">
-            <i class="fa-light fa-magnifying-glass-dollar"></i>
-          </button>
+            <span>Giá từ</span>
+            <input type="number" placeholder="tối thiểu" id="min-price">
+            <span>đến</span>
+            <input type="number" placeholder="tối đa" id="max-price">
+            <button type="button" id="advanced-search-price-btn">
+                <i class="fa-light fa-magnifying-glass-dollar"></i> 
+            </button>
         </div>
+
         <div class="advanced-search-control">
-          <button id="sort-ascending" onclick="searchProducts(1)">
+            <button id="sort-ascending" onclick="searchProducts(1)">
             <i class="fa-regular fa-arrow-up-short-wide"></i>
           </button>
           <button id="sort-descending" onclick="searchProducts(2)">

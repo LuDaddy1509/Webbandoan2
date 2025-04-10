@@ -3,7 +3,7 @@ include "../connect.php";
 
 $category = isset($_POST['category']) ? $_POST['category'] : "";
 $search = isset($_POST['search']) ? $_POST['search'] : "";
-$page = isset($_POST['page']) ? (int)$_POST['page'] : 1;
+$page = max(1, (int)$_POST['page']);
 $limit = 12;
 $start = ($page - 1) * $limit;
 
@@ -32,9 +32,9 @@ $sql .= " LIMIT $start, $limit";
 
 $result = mysqli_query($conn, $sql);
 
-echo '<div class="row">';
-
+// Nếu có kết quả thì hiển thị trong .row
 if (mysqli_num_rows($result) > 0) {
+    echo '<div class="row">';
     while ($row = mysqli_fetch_assoc($result)) {
         echo '
         <div class="col-12">
@@ -59,12 +59,13 @@ if (mysqli_num_rows($result) > 0) {
             </div>
         </div>';
     }
+    echo '</div>'; // Kết thúc .row
 } else {
-    echo "<p>Không tìm thấy sản phẩm nào.</p>";
+    // KHÔNG đặt trong .row
+    echo '<div class="col-12"><div class="no-result"><div class="no-result-h">Tìm kiếm không có kết quả</div><div class="no-result-p">Xin lỗi, chúng tôi không thể tìm được kết quả hợp với tìm kiếm của bạn</div><div class="no-result-i"><i class="fa-light fa-face-sad-cry"></i></div></div></div>';
 }
-echo '</div>';
 
-// Chỉ hiển thị phân trang nếu có hơn 1 trang
+// Phân trang
 if ($total_pages > 1) {
     echo '<div class="Pagination"><div class="container"><ul>';
     for ($i = 1; $i <= $total_pages; $i++) {
