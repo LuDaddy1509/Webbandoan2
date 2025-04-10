@@ -1,3 +1,43 @@
+<?php
+include 'connect.php';
+
+if (isset($_GET['action']) && isset($_GET['id'])) {
+    $action = $_GET['action'];
+    $id = $_GET['id'];
+
+    if ($action == 'lock') {
+        $sql = "UPDATE khachhang SET trangthai = 'Locked' WHERE makh = '$id'";
+    } elseif ($action == 'unlock') {
+        $sql = "UPDATE khachhang SET trangthai = 'Active' WHERE makh = '$id'";
+    }
+
+    if (isset($sql)) {
+        mysqli_query($conn, $sql);
+        header("Location: admincustomer.php");
+        exit();
+    }
+}
+if (isset($_POST['save_customer'])) {
+  $makh = $_POST['makh'];
+  $tenkh = $_POST['tenkh'];
+  $sodienthoai = $_POST['sodienthoai'];
+  $diachi = $_POST['diachi'];
+  $matkhau = $_POST['matkhau'];
+
+  $sql = "UPDATE khachhang SET 
+          tenkh = '$tenkh',
+          sodienthoai = '$sodienthoai',
+          diachi = '$diachi',
+          matkhau = '$matkhau'
+          WHERE makh = '$makh'";
+
+  mysqli_query($conn, $sql);
+
+  // Sau khi cập nhật xong, reload lại trang
+  header("Location: admincustomer.php");
+  exit();
+}    
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -117,40 +157,53 @@
               </tr>
             </thead>
             <tbody>
-              <?php
-                $sql="SELECT * from khachhang";
-                $result=mysqLi_query($conn,$sql);
-              while($row=mysqli_fetch_array($result)){
-              ?>
-                <td><?php echo $row['makh']?></td>
-                <td><?php echo $row['tenkh']?></td>
-                <td><?php echo $row['sodienthoai']?></td>
-                <td><?php echo $row['matkhau']?></td>
-                <!-- ??? -->
-                <td><span class="status-no-complete">Bị khóa</span></td>
-                <td class="control control-table">
-                  <a
-                    href="admincustomer.php?this_id=<?php echo $row['makh']?>"
-                    
-                    class="btn-edit"
-                    name="btn-edit"
-                    data-toggle="modal"
-                    data-target="#exampleModal-2"
-                  >
-                    <i class="fa-light fa-pen-to-square"></i>
-                    
-                    </a>
-                  <a
-                    href="admincustomerunclock.html"
-                    class="btn-delete"
-                    id="delete-account"
-                    onclick="khoaKhachHang()"
-                  >
-                    <i class="fa-regular fa-lock"></i>
-                  </a>
-                </td>
-              </tr>
-              <?php } ?>
+            <?php
+$sql="SELECT * from khachhang";
+$result=mysqli_query($conn,$sql);
+if (isset($_GET['action']) && isset($_GET['id'])) {
+  $action = $_GET['action'];
+  $id = $_GET['id'];
+
+  if ($action == 'lock') {
+      $sql = "UPDATE khachhang SET trangthai = 'Locked' WHERE makh = '$id'";
+      mysqli_query($conn, $sql); // Đừng quên thực thi câu lệnh
+  } elseif ($action == 'unlock') {
+      $sql = "UPDATE khachhang SET trangthai = 'Unlocked' WHERE makh = '$id'";
+      mysqli_query($conn, $sql); // Đừng quên thực thi câu lệnh
+  }
+}
+while($row = mysqli_fetch_array($result)) {
+  $modalId = "editModal-" . $row['makh']; // Gán ở đây
+?>
+  <tr>
+    <td><?php echo $row['makh'] ?></td>
+    <td><?php echo $row['tenkh'] ?></td>
+    <td><?php echo $row['sodienthoai'] ?></td>
+    <td><?php echo $row['matkhau'] ?></td>
+    <td>
+      <?php if($row['trangthai'] == 'Locked'): ?>
+        <span class="status-no-complete">Bị khóa</span>
+      <?php else: ?>
+        <span class="status-complete">Đang hoạt động</span>
+      <?php endif; ?>
+    </td>
+    <td class="control control-table">
+      <a href="#" class="btn-edit" data-toggle="modal" data-target="#<?php echo $modalId ?>">
+        <i class="fa-light fa-pen-to-square"></i>
+      </a>
+      <?php if($row['trangthai'] == 'Locked'): ?>
+        <a href="admincustomer.php?action=unlock&id=<?php echo $row['makh'] ?>" class="btn-delete">
+          <i class="fa-solid fa-lock-open"></i>
+        </a>
+      <?php else: ?>
+        <a href="admincustomer.php?action=lock&id=<?php echo $row['makh'] ?>" class="btn-delete">
+          <i class="fa-solid fa-lock"></i>
+        </a>
+      <?php endif; ?>
+    </td>
+  </tr>
+<?php } ?>
+
             </tbody>
           </table>
         </div>
@@ -246,18 +299,20 @@
 
         <!-- Modal Change Customer  -->
         <?php
+        include "connect.php";
                 $sql="SELECT * from khachhang";
                 $result=mysqLi_query($conn,$sql);
               while($row=mysqli_fetch_array($result)){
                 $modalId = "editModal-" . $row['makh'];
               ?>
-        <div
-          class="modal fade modal-form"
-          id="exampleModal-2"
-          tabindex="-1"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
+<!-- Modal -->
+<div
+  class="modal fade modal-form"
+  id="<?php echo $modalId ?>"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
               <div class="modal-header">
@@ -272,67 +327,79 @@
                 </button>
               </div>
               <div class="modal-body">
-                <form action="">
-                  <div class="row">
-                    <div class="col-12">
-                      <div class="form-group">
-                        <label for="name">Tên đầy đủ</label>
-                        <input
-                          type="text"
-                          id="name"
-                          class="form-control"
-                          value="<?php echo $row['tenkh']?>"
-                        />
-                      </div>
-                    </div>
-                    <div class="col-12">
-                      <div class="form-group">
-                        <label for="name">Số điện thoại</label>
-                        <input
-                          type="text"
-                          id="name"
-                          class="form-control"
-                          value="<?php echo $row['sodienthoai']?>"
-                        />
-                      </div>
-                    </div>
-                    <div class="col-12">
-                      <div class="form-group">
-                        <label for="dc">Địa chỉ</label>
-                        <input
-                          type="text"
-                          id="dc"
-                          class="form-control"
-                          value="<?php echo $row['diachi']?>"
-                        />
-                      </div>
-                    </div>
-                    <div class="col-12">
-                      <div class="form-group">
-                        <label for="mk">Mật khẩu</label>
-                        <input
-                          type="text"
-                          id="mk"
-                          class="form-control"
-                          value="<?php echo $row['matkhau']?>"
-                        />
-                      </div>
-                    </div>
-                    <div class="col-12">
-                      <div class="inner-add">
-                        <button
-                          type="button"
-                          class="inner-nut"
-                          onclick="changeKhachHang()"
-                        >
-                          <i class="fa-regular fa-floppy-disk"></i>
-                          Lưu thông tin
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-              </div>
+  <form action="admincustomer.php" method="post">
+    <!-- Ẩn mã khách hàng để xác định bản ghi cần cập nhật -->
+    <input type="hidden" name="makh" value="<?php echo $row['makh'] ?>">
+    
+    <div class="row">
+      <div class="col-12">
+        <div class="form-group">
+          <label for="tenkh">Tên đầy đủ</label>
+          <input
+            type="text"
+            id="tenkh"
+            name="tenkh"
+            class="form-control"
+            value="<?php echo $row['tenkh'] ?>"
+          />
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="form-group">
+          <label for="sodienthoai">Số điện thoại</label>
+          <input
+            type="text"
+            id="sodienthoai"
+            name="sodienthoai"
+            class="form-control"
+            value="<?php echo $row['sodienthoai'] ?>"
+          />
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="form-group">
+          <label for="diachi">Địa chỉ</label>
+          <input
+            type="text"
+            id="diachi"
+            name="diachi"
+            class="form-control"
+            value="<?php echo $row['diachi'] ?>"
+          />
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="form-group">
+          <label for="matkhau">Mật khẩu</label>
+          <input
+            type="text"
+            id="matkhau"
+            name="matkhau"
+            class="form-control"
+            value="<?php echo $row['matkhau'] ?>"
+          />
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="inner-add">
+          <button
+            type="submit"
+            class="inner-nut"
+            name="save_customer"
+          >
+            <i class="fa-regular fa-floppy-disk"></i>
+            Lưu thông tin
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
             </div>
           </div>
         </div>

@@ -92,7 +92,7 @@ CREATE TABLE `khachhang` (
   `diachi` varchar(100) NOT NULL,
   `sodienthoai` varchar(20) NOT NULL,
   `Email` varchar(255) DEFAULT NULL,
-  `trangthai` enum('Locked','Unlocked') NOT NULL
+  `trangthai` enum('Locked','Active') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -165,7 +165,8 @@ CREATE TABLE `sanpham` (
   `Image` varchar(255) NOT NULL,
   `Price` int(255) NOT NULL,
   `Describtion` varchar(255) NOT NULL,
-  `Type` enum('món chay','món mặn','món lẩu','món ăn vặt','món tráng miệng','nước uống','hải sản') NOT NULL
+  `Type` enum('món chay','món mặn','món lẩu','món ăn vặt','món tráng miệng','nước uống','hải sản') NOT NULL,
+  `Visible` TINYINT(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --

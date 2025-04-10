@@ -103,7 +103,6 @@
     <!-- End Service -->
     <?php
     include "connect.php";
-
     // Số sản phẩm trên mỗi trang
     $limit = 12;
 
@@ -115,12 +114,12 @@
     $offset = ($page - 1) * $limit;
 
     // Truy vấn danh sách sản phẩm theo phân trang
-    $stmt = $conn->prepare("SELECT * FROM sanpham LIMIT ? OFFSET ?");
+    $stmt = $conn->prepare("SELECT * FROM sanpham WHERE Visible = 1 LIMIT ? OFFSET ?");
     $stmt->bind_param("ii", $limit, $offset);
     $stmt->execute();
     $result = $stmt->get_result();
      // Lấy tổng số sản phẩm để tính tổng số trang (chỉ cần tính 1 lần)
-     $total_result = $conn->query("SELECT COUNT(*) as total FROM sanpham");
+     $total_result = $conn->query("SELECT COUNT(*) as total FROM sanpham WHERE Visible = 1");
      $total_row = $total_result->fetch_assoc();
      $total_products = $total_row['total'];
      $total_pages = ($total_products > 0) ? ceil($total_products / $limit) : 1;
@@ -129,7 +128,6 @@
       <!-- Products -->
       <?php
 include "connect.php";
-
 // Lấy giá trị 'Type' từ GET, nếu có
 $Type = isset($_GET['Type']) ? $_GET['Type'] : '';
 
@@ -140,12 +138,12 @@ $offset = ($page - 1) * $limit;
 
 // Nếu có giá trị 'Type', lấy tổng số món ăn theo loại
 if ($Type) {
-    $stmt_count = $conn->prepare("SELECT COUNT(*) as total FROM sanpham WHERE Type = ?");
+    $stmt_count = $conn->prepare("SELECT COUNT(*) as total FROM sanpham WHERE Type = ? and Visible = 1");
     $stmt_count->bind_param("s", $Type);
     $stmt_count->execute();
 } else {
     // Nếu không có giá trị 'Type', lấy tổng số món ăn (tất cả món ăn)
-    $stmt_count = $conn->prepare("SELECT COUNT(*) as total FROM sanpham");
+    $stmt_count = $conn->prepare("SELECT COUNT(*) as total FROM sanpham WHERE Visible = 1");
     $stmt_count->execute();
 }
 
@@ -157,11 +155,11 @@ $total_pages = ceil($total_records / $limit);
 // Truy vấn món ăn cho trang hiện tại
 if ($Type) {
     // Lấy món ăn theo 'Type' và phân trang
-    $stmt = $conn->prepare("SELECT * FROM sanpham WHERE Type = ? LIMIT ? OFFSET ?");
+    $stmt = $conn->prepare("SELECT * FROM sanpham WHERE Type = ? and Visible= 1 LIMIT ? OFFSET ?");
     $stmt->bind_param("sii", $Type, $limit, $offset);
 } else {
     // Lấy tất cả món ăn (không phân loại theo 'Type') và phân trang
-    $stmt = $conn->prepare("SELECT * FROM sanpham LIMIT ? OFFSET ?");
+    $stmt = $conn->prepare("SELECT * FROM sanpham WHERE Visible = 1 LIMIT ? OFFSET ?");
     $stmt->bind_param("ii", $limit, $offset);
 }
 
