@@ -3,7 +3,6 @@
    session_start();
    ob_start();
 ?>
-
  <header>
       <div class="header-middle">
       <div class="container">
@@ -376,6 +375,7 @@
     </ul>
   </div>
 </nav>
+
     <div class="advanced-search" id="advanced-search" >
     <div class="container">
         <div class="advanced-search-category">
