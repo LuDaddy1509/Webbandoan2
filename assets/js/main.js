@@ -147,7 +147,7 @@ function searchProducts(sortOrder = 0, page = 1) {
       paginationContainer.innerHTML = "";
 
       if (!Array.isArray(data.products) || data.products.length === 0) {
-        resultContainer.innerHTML = "<p>Không tìm thấy sản phẩm phù hợp.</p>";
+        resultContainer.innerHTML = `<div class="home-products" id="home-products"><div class="no-result"><div class="no-result-h">Tìm kiếm không có kết quả</div><div class="no-result-p">Xin lỗi, chúng tôi không thể tìm được kết quả hợp với tìm kiếm của bạn</div><div class="no-result-i"><i class="fa-light fa-face-sad-cry"></i></div></div></div>`;
         return;
       }
 
