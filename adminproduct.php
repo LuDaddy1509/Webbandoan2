@@ -67,6 +67,37 @@ function resetSearch() {
 }
 
 </script>
+
+<style>
+    .admin-product .home-products {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.admin-product .no-result {
+  width: 100%;
+  text-align: center;
+  margin: 10px 0;
+}
+
+.admin-product .no-result-h {
+  font-size: 25px;
+  margin: 10px;
+}
+
+.admin-product .no-result-p {
+  width: 100%;
+  color: #757575;
+  text-align: center;
+}
+
+.admin-product .no-result i {
+  color: #757575;
+  font-size: 80px;
+  margin-top: 30px;
+}
+</style>
       <!-- adminproduct  -->
 
         <div class="admin-product">
@@ -123,7 +154,7 @@ function resetSearch() {
         $total_pages = ceil($total_products / $limit);
 
         // Lấy danh sách sản phẩm cho trang hiện tại
-        $sql = "SELECT * FROM sanpham ORDER BY ID DESC LIMIT $start, $limit";
+        $sql = "SELECT * FROM sanpham LIMIT $start, $limit";
         $result = mysqli_query($conn, $sql);
 
         while ($row = mysqli_fetch_array($result)) {
