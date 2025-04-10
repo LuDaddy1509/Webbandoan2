@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -127,34 +126,81 @@
 ?>
 
       <!-- Products -->
+      <?php
+include "connect.php";
+
+// Lấy giá trị 'Type' từ GET, nếu có
+$Type = isset($_GET['Type']) ? $_GET['Type'] : '';
+
+// Lấy số trang hiện tại
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$limit = 12;  // Số món ăn hiển thị trên mỗi trang
+$offset = ($page - 1) * $limit;
+
+// Nếu có giá trị 'Type', lấy tổng số món ăn theo loại
+if ($Type) {
+    $stmt_count = $conn->prepare("SELECT COUNT(*) as total FROM sanpham WHERE Type = ?");
+    $stmt_count->bind_param("s", $Type);
+    $stmt_count->execute();
+} else {
+    // Nếu không có giá trị 'Type', lấy tổng số món ăn (tất cả món ăn)
+    $stmt_count = $conn->prepare("SELECT COUNT(*) as total FROM sanpham");
+    $stmt_count->execute();
+}
+
+$count_result = $stmt_count->get_result();
+$row_count = $count_result->fetch_assoc();
+$total_records = $row_count['total'];
+$total_pages = ceil($total_records / $limit);
+
+// Truy vấn món ăn cho trang hiện tại
+if ($Type) {
+    // Lấy món ăn theo 'Type' và phân trang
+    $stmt = $conn->prepare("SELECT * FROM sanpham WHERE Type = ? LIMIT ? OFFSET ?");
+    $stmt->bind_param("sii", $Type, $limit, $offset);
+} else {
+    // Lấy tất cả món ăn (không phân loại theo 'Type') và phân trang
+    $stmt = $conn->prepare("SELECT * FROM sanpham LIMIT ? OFFSET ?");
+    $stmt->bind_param("ii", $limit, $offset);
+}
+
+$stmt->execute();
+$result = $stmt->get_result();
+?>
 
 
-      <div class="Products" id="product-list">
-          <div class="container">
-              <div class="row">
-                  <div class="col-xl-12">
-                      <div class="inner-title">Khám phá thực đơn của chúng tôi</div>
-                  </div> 
-
-                  <?php while ($row = $result->fetch_assoc()): ?>
-                  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
-                      <div class="inner-item">
-                          <a href="chitietsp.php?id=<?= $row['ID']; ?>" class="inner-img">
-                              <img src="<?= htmlspecialchars($row['Image']); ?>" />
-                          </a>
-                          <div class="inner-info">
-                              <div class="inner-ten"><?= htmlspecialchars($row['Name']); ?></div>
-                              <div class="inner-gia"><?= number_format($row['Price']); ?>.000 ₫</div>
-                              <a href="chitietsp.php?id=<?= $row['ID']; ?>" class="inner-muahang">
-                                  <i class="fa-solid fa-cart-plus"></i> ĐẶT MÓN
-                              </a>
-                          </div>
-                      </div>
-                  </div>
-                  <?php endwhile; ?>
-              </div> <!-- Đóng row đúng chỗ -->
+<div class="Products" id="product-list">
+  <div class="container">
+    <div class="row">
+      <?php if ($total_records > 0): ?>
+        <div class="col-xl-12">
+          <div class="inner-title">Khám phá thực đơn của chúng tôi</div>
+        </div>
+        <?php while ($row = $result->fetch_assoc()): ?>
+          <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
+            <div class="inner-item">
+              <a href="chitietsp.php?id=<?= $row['ID']; ?>" class="inner-img">
+                <img src="<?= htmlspecialchars($row['Image']); ?>" />
+              </a>
+              <div class="inner-info">
+                <div class="inner-ten"><?= htmlspecialchars($row['Name']); ?></div>
+                <div class="inner-gia"><?= number_format($row['Price']); ?>.000 ₫</div>
+                <a href="chitietsp.php?id=<?= $row['ID']; ?>" class="inner-muahang">
+                  <i class="fa-solid fa-cart-plus"></i> ĐẶT MÓN
+                </a>
+              </div>
+            </div>
           </div>
-      </div>
+        <?php endwhile; ?>
+      <?php else: ?>
+        <div class="col-xl-12">
+          <div class="home-products" id="home-products"><div class="no-result"><div class="no-result-h">Tìm kiếm không có kết quả</div><div class="no-result-p">Xin lỗi, chúng tôi không thể tìm được kết quả hợp với tìm kiếm của bạn</div><div class="no-result-i"><i class="fa-light fa-face-sad-cry"></i></div></div></div>
+        </div>
+      <?php endif; ?>
+    </div>
+  </div>
+</div>
+
 
               <!-- Đóng Products -->
 
@@ -166,18 +212,19 @@
     
 
     <!-- Phân trang -->
-<div id="pagination" class="Pagination">
+    <div id="pagination" class="Pagination">
   <div class="container">
     <ul>
       <?php
       for ($i = 1; $i <= $total_pages; $i++) {
           $active_class = ($i == $page) ? 'trang-chinh' : '';
-          echo '<li><a href="#" onclick="searchProducts(0, ' . $i . ')" class="inner-trang ' . $active_class . '">' . $i . '</a></li>';
+          echo '<li><a href="index.php?Type=' . urlencode($Type) . '&page=' . $i . '" class="inner-trang ' . $active_class . '">' . $i . '</a></li>';
       }
       ?>
     </ul>
   </div>
 </div>
+
 <!-- Đóng phân trang -->
  <!-- Footer -->
     <?php

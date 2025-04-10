@@ -42,3 +42,23 @@
           </li>
         </ul>
       </nav>
+
+      <script>
+  const sidebarItems = document.querySelectorAll('#sidebar .components li');
+  const currentPath = window.location.pathname;
+
+  // Kiểm tra URL hiện tại để đặt "active" khi tải trang
+  sidebarItems.forEach(item => {
+    const link = item.querySelector('a').getAttribute('href');
+    if (currentPath.includes(link)) {
+      sidebarItems.forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+    }
+
+    // Xử lý sự kiện click
+    item.addEventListener('click', function() {
+      sidebarItems.forEach(i => i.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+</script>
