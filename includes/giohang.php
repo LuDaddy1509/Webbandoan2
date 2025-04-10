@@ -108,7 +108,7 @@ if (isset($_POST['xoasp'])) {
   background-color: #e60000;
 }
 .modal-body {
-  max-height: 400px; /* hoặc 500px tuỳ ý */
+  max-height: 600px; /* hoặc 500px tuỳ ý */
   overflow-y: auto;
   padding-right: 10px; /* để không bị cắt thanh cuộn */
 }
