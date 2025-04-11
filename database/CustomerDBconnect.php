@@ -2,7 +2,7 @@
   $server='localhost';
   $user='root';
   $pass='';
-  $database='webbandoan2';
+  $database='hahaha';
   
   $conn=new mysqLi($server, $user, $pass, $database);
   // if($conn)
