@@ -67,7 +67,25 @@ ob_start();
               data-target="#cartModal">
                 <div class="cart-icon-menu">
                   <i class="fa-light fa-basket-shopping"></i>
-                  <span class="count-product-cart">0</span>
+                  <span class="count-product-cart">
+                  <?php 
+include "connect.php";
+if (isset($_SESSION['mySession'])) {
+    $makh = $_SESSION['makh'];
+    $sql = "SELECT SUM(soluong) AS total_quantity FROM giohang WHERE makh = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $makh);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    
+    echo htmlspecialchars($row['total_quantity'] ?? 0);
+} else {
+    echo "0";
+}
+?>
+
+                  </span>
                 </div>
                 <span>Giỏ hàng</span>
               </li>

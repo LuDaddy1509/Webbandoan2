@@ -170,26 +170,31 @@ $result = $stmt->get_result();
 <div class="Products" id="product-list">
   <div class="container">
     <div class="row">
-      <div class="col-xl-12">
-        <div class="inner-title">Khám phá thực đơn của chúng tôi</div>
-      </div>
-
-      <?php while ($row = $result->fetch_assoc()): ?>
-      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
-        <div class="inner-item">
-          <a href="chitietsp.php?id=<?= $row['ID']; ?>" class="inner-img">
-            <img src="<?= htmlspecialchars($row['Image']); ?>" />
-          </a>
-          <div class="inner-info">
-            <div class="inner-ten"><?= htmlspecialchars($row['Name']); ?></div>
-            <div class="inner-gia"><?= number_format($row['Price']); ?>.000 ₫</div>
-            <a href="chitietsp.php?id=<?= $row['ID']; ?>" class="inner-muahang">
-              <i class="fa-solid fa-cart-plus"></i> ĐẶT MÓN
-            </a>
-          </div>
+      <?php if ($total_records > 0): ?>
+        <div class="col-xl-12">
+          <div class="inner-title">Khám phá thực đơn của chúng tôi</div>
         </div>
-      </div>
-      <?php endwhile; ?>
+        <?php while ($row = $result->fetch_assoc()): ?>
+          <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
+            <div class="inner-item">
+              <a href="chitietsp.php?id=<?= $row['ID']; ?>" class="inner-img">
+                <img src="<?= htmlspecialchars($row['Image']); ?>" />
+              </a>
+              <div class="inner-info">
+                <div class="inner-ten"><?= htmlspecialchars($row['Name']); ?></div>
+                <div class="inner-gia"><?= number_format($row['Price']); ?>.000 ₫</div>
+                <a href="chitietsp.php?id=<?= $row['ID']; ?>" class="inner-muahang">
+                  <i class="fa-solid fa-cart-plus"></i> ĐẶT MÓN
+                </a>
+              </div>
+            </div>
+          </div>
+        <?php endwhile; ?>
+      <?php else: ?>
+        <div class="col-xl-12">
+          <div class="home-products" id="home-products"><div class="no-result"><div class="no-result-h">Tìm kiếm không có kết quả</div><div class="no-result-p">Xin lỗi, chúng tôi không thể tìm được kết quả hợp với tìm kiếm của bạn</div><div class="no-result-i"><i class="fa-light fa-face-sad-cry"></i></div></div></div>
+        </div>
+      <?php endif; ?>
     </div>
   </div>
 </div>

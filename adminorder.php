@@ -30,275 +30,315 @@
 
   <body>
     <?php
-    include_once "includes/headeradmin.php";
+    include_once "./includes/headeradmin.php";
      ?>
-      <!-- adminorder  -->
+       
+       <?php
+       if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+        include_once("./includes/headeradmin.php");
+    }
+include 'connect.php';
 
-      <div class="admin-order">
-        <div class="admin-control">
-          <div class="admin-control-left">
-            <select name="tinh-trang-user" id="tinh-trang-user">
-              <option value="0">Tất cả</option>
-              <option value="1">Chưa xử lý</option>
-              <option value="2">Đã xác nhận</option>
-              <option value="3">Đã giao thành công</option>
-              <option value="4">Đã huỷ</option>
-            </select>
-          </div>
-          <div class="admin-control-center">
-            <form action="">
-              <span class="search-btn"
-                ><i class="fa-light fa-magnifying-glass"></i
-              ></span>
-              <input
-                id="form-search-product"
-                type="text"
-                class="form-search-input"
-                placeholder="Tìm kiếm khách hàng..."
-              />
-            </form>
-          </div>
-          <div class="admin-control-right">
-            <form action="" class="fillter-date">
-              <div>
-                <label for="time-start">Từ</label>
-                <input
-                  type="date"
-                  class="form-control-date"
-                  id="time-start-user"
-                  onchange="showUser()"
-                />
-              </div>
-              <div>
-                <label for="time-end">Đến</label>
-                <input
-                  type="date"
-                  class="form-control-date"
-                  id="time-end-user"
-                  onchange="showUser()"
-                />
-              </div>
-            </form>
-            <a href="adminorder.html" class="reset-order"
-              ><i class="fa-light fa-arrow-rotate-right"></i
-            ></a>
-          </div>
-        </div>
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $ma_don_hang = isset($_POST["ma_don_hang"]) ? $_POST["ma_don_hang"] : "";
+    $trang_thai = isset($_POST["tinh_trang"]) ? $_POST["tinh_trang"] : "";
+    $tinh_thanh = isset($_POST["tinh_thanh"]) ? $_POST["tinh_thanh"] : "";
+    $quan_huyen = isset($_POST["quan_huyen"]) ? $_POST["quan_huyen"] : "";
+    $time_start = isset($_POST["time_start"]) ? $_POST["time_start"] : "";
+    $time_end = isset($_POST["time_end"]) ? $_POST["time_end"] : "";
 
-        <div class="table">
-          <table width="100%">
-            <thead>
-              <tr>
+    $query = "SELECT * FROM donhang WHERE 1=1";
+
+    if (!empty($ma_don_hang)) {
+        $query .= " AND madh = '$ma_don_hang'";
+    }
+    if (!empty($trang_thai)) {
+        $query .= " AND trangthai = '$trang_thai'";
+    }
+    if (!empty($tinh_thanh)) {
+        $query .= " AND tinh_thanhpho = '$tinh_thanh'";
+    }
+    if (!empty($quan_huyen)) {
+        $query .= " AND quan_huyen = '$quan_huyen'";
+    }
+    if (!empty($time_start) && !empty($time_end)) {
+        $query .= " AND ngaytao BETWEEN '$time_start' AND '$time_end'";
+    }
+
+    $result = mysqli_query($conn, $query);
+    if (!$result) {
+        die("Lỗi truy vấn SQL: " . mysqli_error($conn));
+    }
+    
+    if (mysqli_num_rows($result) > 0) {
+        echo "<table border='1'>";
+        echo "<tr><th>Mã ĐH</th><th>Mã KH</th><th>Ngày tạo</th><th>Tổng tiền</th><th>Trạng thái</th><th>Tỉnh/Thành</th><th>Quận/Huyện</th></tr>";
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo "<tr>
+                    <td>{$row['madh']}</td>
+                    <td>{$row['makh']}</td>
+                    <td>{$row['ngaytao']}</td>
+                    <td>{$row['tongtien']}</td>
+                    <td>{$row['trangthai']}</td>
+                    <td>{$row['tinh_thanhpho']}</td>
+                    <td>{$row['quan_huyen']}</td>
+                  </tr>";
+        }
+        echo "</table>";
+    } else {
+        echo "<p>Không tìm thấy kết quả.</p>";
+    }
+    exit; // Dừng script ở đây để không render lại HTML của trang
+}
+?>
+
+<div class="admin-order">
+    <div class="admin-control">
+        <form id="search-form">
+            <div>
+                <label>Mã đơn hàng:</label>
+                <input type="text" id="ma_don_hang" name="ma_don_hang" placeholder="Nhập mã đơn hàng">
+            </div>
+
+            <div>
+                <label>Trạng thái đơn hàng:</label>
+                <select id="tinh_trang" name="tinh_trang">
+                    <option value="">Tất cả</option>
+                    <option value="Chưa xác nhận">Chưa xác nhận</option>
+                    <option value="Đã xác nhận">Đã xác nhận</option>
+                    <option value="Đã giao thành công">Đã giao thành công</option>
+                    <option value="Đã hủy đơn">Đã hủy đơn</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Chọn tỉnh/thành:</label>
+                <select id="tinh_thanh" name="tinh_thanh">
+                    <option value="">Tất cả</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Chọn quận/huyện:</label>
+                <select id="quan_huyen" name="quan_huyen">
+                    <option value="">Tất cả</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Từ ngày:</label>
+                <input type="date" id="time_start" name="time_start">
+            </div>
+
+            <div>
+                <label>Đến ngày:</label>
+                <input type="date" id="time_end" name="time_end">
+            </div>
+
+            <button type="button" id="form-search-product">Tìm kiếm</button>
+        </form>
+    </div>
+
+    <div id="search-results"></div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const tinhThanhSelect = document.getElementById("tinh_thanh");
+    const quanHuyenSelect = document.getElementById("quan_huyen");
+    let danhSachTinhThanh = [];
+    let danhSachQuanHuyen = {};
+
+    // Tải toàn bộ danh sách tỉnh/thành và quận/huyện khi trang tải xong
+    async function loadData() {
+        const response = await fetch("https://provinces.open-api.vn/api/?depth=2");
+        const data = await response.json();
+        
+        danhSachTinhThanh = data; // Lưu danh sách tỉnh/thành vào biến
+
+        // Lưu danh sách quận/huyện dưới dạng key-value (tỉnh => danh sách quận/huyện)
+        data.forEach(tinh => {
+            danhSachQuanHuyen[tinh.name] = tinh.districts;
+            tinhThanhSelect.innerHTML += `<option value="${tinh.name}">${tinh.name}</option>`;
+        });
+    }
+
+    // Lọc quận/huyện khi chọn tỉnh/thành
+    tinhThanhSelect.addEventListener("change", function () {
+        const selectedTinh = tinhThanhSelect.value;
+        quanHuyenSelect.innerHTML = '<option value="">Tất cả</option>'; // Reset danh sách quận/huyện
+
+        if (selectedTinh && danhSachQuanHuyen[selectedTinh]) {
+            danhSachQuanHuyen[selectedTinh].forEach(huyen => {
+                quanHuyenSelect.innerHTML += `<option value="${huyen.name}">${huyen.name}</option>`;
+            });
+        }
+    });
+
+    (async function () {
+        await loadData();
+    })();
+
+    document.getElementById("form-search-product").addEventListener("click", function () {
+        const formData = new FormData(document.getElementById("search-form"));
+
+        fetch("adminorder.php", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("search-results").innerHTML = data;
+        })
+        .catch(error => console.error("Lỗi:", error));
+    });
+
+    loadTinhThanh();
+});
+</script>
+
+  
+
+
+        <?php
+include 'connect.php';
+
+// Truy vấn lấy dữ liệu từ bảng donhang
+$sql = "SELECT madh, makh, ngaytao, tongtien, trangthai FROM donhang";
+$result = $conn->query($sql);
+
+// Mảng ánh xạ trạng thái đơn hàng sang tên hiển thị và class CSS
+$status_map = [
+    'Chưa xác nhận' => ['Chưa xác nhận', 'status-no-complete'],
+    'Đã xác nhận' => ['Đã xác nhận', 'status-middle-complete'],
+    'Đã giao thành công' => ['Đã giao thành công', 'status-complete'],
+    'Đã hủy đơn' => ['Đã hủy đơn', 'status-destroy-complete']
+];
+
+$next_status = [
+    'Chưa xác nhận' => ['Đã xác nhận'],
+        'Đã xác nhận' => ['Đã giao thành công', 'Đã hủy đơn']
+];
+?>
+
+<div class="table">
+    <table width="100%">
+        <thead>
+            <tr>
                 <td>Mã đơn</td>
                 <td>Khách hàng</td>
                 <td>Ngày đặt</td>
                 <td>Tổng tiền</td>
                 <td>Trạng thái</td>
                 <td>Thao tác</td>
-              </tr>
-            </thead>
-            <tbody id="showOrder">
-              <tr>
-                <td>DH1</td>
-                <td>Thanh</td>
-                <td>20/11/2024</td>
-                <td>100.000 ₫</td>
-                <td>
-                  <span id="order-status-1" class="status-complete"
-                    >Đã giao thành công</span
-                  >
-                </td>
-                <td class="control">
-                  <a href="adminchitiet.html" class="btn-detail">
+                <td>Xem thêm</td>
+            </tr>
+        </thead>
+        <tbody id="showOrder">
+            <?php while ($row = $result->fetch_assoc()): ?>
+                <tr>
+                    <td><?php echo 'DH' . $row['madh']; ?></td>
+                    <td><?php echo $row['makh']; ?></td>
+                    <td><?php echo date('d/m/Y', strtotime($row['ngaytao'])); ?></td>
+                    <td><?php echo number_format($row['tongtien'], 0, ',', '.') . '.000 ₫'; ?></td>
+                    <td>
+                        <?php 
+                        $status = $row['trangthai'];
+                        $status_text = $status_map[$status][0] ?? 'Không xác định';
+                        $status_class = $status_map[$status][1] ?? 'status-unknown';
+                        ?>
+                        <span class="<?php echo $status_class; ?>" id="status-<?php echo $row['madh']; ?>">
+                            <?php echo $status_text; ?>
+                        </span>
+                    </td>
+                    <td class="control">
+                        <select id="update-status-<?php echo $row['madh']; ?>">
+                            <option value="">Chọn trạng thái</option>
+                            <?php if (isset($next_status[$status])): ?>
+                                <?php foreach ($next_status[$status] as $new_status): ?>
+                                    <option value="<?php echo $new_status; ?>"><?php echo $new_status; ?></option>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </select>
+                        <button onclick="updateStatus(<?php echo $row['madh']; ?>)">Cập nhật</button>
+                    </td>
+                    <td class="control">
+                  <a href="adminchitiet.php" class="btn-detail">
                     <i class="fa-regular fa-eye"></i> Chi tiết
                   </a>
                 </td>
-              </tr>
-              <tr>
-                <td>DH2</td>
-                <td>Nguyen Dai</td>
-                <td>12/11/2024</td>
-                <td>75.000 ₫</td>
-                <td><span class="status-complete">Đã giao thành công</span></td>
-                <td class="control">
-                  <a href="adminchitiet.html" class="btn-detail">
-                    <i class="fa-regular fa-eye"></i> Chi tiết
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td>DH3</td>
-                <td>Nguyen Hoang</td>
-                <td>28/11/2024</td>
-                <td>80.000 ₫</td>
-                <td><span class="status-middle-complete">Đã xác nhận</span></td>
-                <td class="control">
-                  <a href="adminchitiet.html" class="btn-detail">
-                    <i class="fa-regular fa-eye"></i> Chi tiết
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td>DH4</td>
-                <td>Dang Khoa</td>
-                <td>21/11/2024</td>
-                <td>540.000 ₫</td>
-                <td><span class="status-no-complete">Chưa xử lý</span></td>
-                <td class="control">
-                  <a href="adminchitiet.html" class="btn-detail">
-                    <i class="fa-regular fa-eye"></i> Chi tiết
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td>DH5</td>
-                <td>Lu Nhan</td>
-                <td>22/11/2024</td>
-                <td>75.000 ₫</td>
-                <td><span class="status-no-complete">Chưa xử lý</span></td>
-                <td class="control">
-                  <a href="adminchitiet.html" class="btn-detail">
-                    <i class="fa-regular fa-eye"></i> Chi tiết
-                  </a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+                </tr>
+            <?php endwhile; ?>
+        </tbody>
+    </table>
+</div>
 
-        <!-- Modal Admin Order -->
+<script>
+function updateStatus(madh) {
+    let selectElement = document.getElementById(`update-status-${madh}`);
+    let newStatus = selectElement.value;
+    if (!newStatus) {
+        alert("Vui lòng chọn trạng thái mới");
+        return;
+    }
 
-        <div
-          class="modal fade"
-          id="exampleModalCenter"
-          tabindex="-1"
-          role="dialog"
-          aria-labelledby="exampleModalCenterTitle"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <div class="inner-title">Chi tiết đơn hàng</div>
-                <button
-                  type="button"
-                  class="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <div class="row">
-                  <div class="col-xl-6 col-lg-6 col-md-6">
-                    <div class="inner-item">
-                      <div class="inner-info">
-                        <div class="inner-img">
-                          <img src="assets/img/products/banhmi.webp" />
-                        </div>
-                        <div class="inner-mota">
-                          <div class="inner-ten">Bánh Mì</div>
-                          <div class="inner-sl">SL: 1</div>
-                        </div>
-                      </div>
-                      <div class="inner-gia">20.000 ₫</div>
-                    </div>
-                    <div class="inner-item">
-                      <div class="inner-info">
-                        <div class="inner-img">
-                          <img src="assets/img/products/bunbohue.jpg" />
-                        </div>
-                        <div class="inner-mota">
-                          <div class="inner-ten">Bún bò huế</div>
-                          <div class="inner-sl">SL: 1</div>
-                        </div>
-                      </div>
-                      <div class="inner-gia">50.000 ₫</div>
-                    </div>
-                  </div>
-                  <div class="col-xl-6 col-xl-6 col-md-6">
-                    <div class="inner-pt">
-                      <div class="inner-cachthuc">
-                        <i class="fa-regular fa-calendar-days"></i>Ngày đặt hàng
-                      </div>
-                      <div class="inner-ketqua">20/11/2024</div>
-                    </div>
-                    <div class="inner-pt">
-                      <div class="inner-cachthuc">
-                        <i class="fa-solid fa-truck"></i>Hình thức giao
-                      </div>
-                      <div class="inner-ketqua">Giao tận nơi</div>
-                    </div>
-                    <div class="inner-pt">
-                      <div class="inner-cachthuc">
-                        <i class="fa-regular fa-credit-card"></i>PT thanh toán
-                      </div>
-                      <div class="inner-ketqua">Tiền mặt</div>
-                    </div>
-                    <div class="inner-pt">
-                      <div class="inner-cachthuc">
-                        <i class="fa-solid fa-person"></i>Người nhận
-                      </div>
-                      <div class="inner-ketqua">Phương Thanh</div>
-                    </div>
-                    <div class="inner-pt">
-                      <div class="inner-cachthuc">
-                        <i class="fa-solid fa-phone"></i>Số điện thoại
-                      </div>
-                      <div class="inner-ketqua">0909098386</div>
-                    </div>
-                    <div class="inner-diachi">
-                      <div class="inner-cachthuc">
-                        <i class="fa-solid fa-location-dot"></i>Địa chỉ nhận
-                      </div>
-                      <p class="inner-desc">
-                        273 An Dương Vương, Phường 3, Quận 5, TP Hồ Chí Minh
-                      </p>
-                    </div>
-                    <div class="inner-diachi">
-                      <div class="inner-cachthuc">
-                        <i class="fa-light fa-note-sticky"></i>Ghi chú
-                      </div>
-                      <p class="inner-desc"></p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <div class="inner-tien">
-                  <div class="inner-th">Tiền hàng <span>2 món</span></div>
-                  <div class="inner-st">70.000 ₫</div>
-                </div>
-                <div class="inner-vanchuyen">
-                  <span class="inner-vc1">Vận chuyển</span>
-                  <span class="inner-vc2">30.000 ₫</span>
-                </div>
-                <div class="inner-tonggia">
-                  <div class="inner-giaca">
-                    <div class="inner-chu">Thành tiền</div>
-                    <div class="inner-so">100.000 ₫</div>
-                  </div>
-                  <div class="inner-select">
-                    <label for="select">Trạng thái</label>
-                    <select name="Món mặn" id="select">
-                      <option>Chưa xử lý</option>
-                      <option>Đã xác nhận</option>
-                      <option selected>Đã giao thành công</option>
-                      <option>Đã huỷ</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="inner-capnhat">
-                  <button onclick="updateOrder()" class="inner-nut">
-                    <i class="fa-regular fa-floppy-disk"></i>Cập nhật trạng thái
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+    let formData = new FormData();
+    formData.append("madh", madh);
+    formData.append("newStatus", newStatus);
 
+    fetch("./includes/update_status.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+        if (data === "success") {
+            let statusElement = document.getElementById(`status-${madh}`);
+            statusElement.innerText = newStatus;
+
+            // Cập nhật class trạng thái
+            let statusClasses = {
+                "Chưa xác nhận": "status-no-complete",
+                "Đã xác nhận": "status-middle-complete",
+                "Đã giao thành công": "status-complete",
+                "Đã hủy đơn": "status-destroy-complete"
+            };
+            statusElement.className = statusClasses[newStatus] || "status-unknown";
+
+            // Cập nhật dropdown (next_status)
+            let nextStatusOptions = {
+                "Chưa xác nhận": ["Đã xác nhận", "Đã hủy đơn"],
+                "Đã xác nhận": ["Đã giao thành công", "Đã hủy đơn"],
+                "Đã giao thành công": [],
+                "Đã hủy đơn": []
+            };
+
+            // Xóa tất cả option cũ
+            selectElement.innerHTML = '<option value="">Chọn trạng thái</option>';
+
+            // Thêm các option mới tương ứng với trạng thái mới
+            if (nextStatusOptions[newStatus]) {
+                nextStatusOptions[newStatus].forEach(status => {
+                    let option = document.createElement("option");
+                    option.value = status;
+                    option.innerText = status;
+                    selectElement.appendChild(option);
+                });
+            }
+
+            alert("Cập nhật thành công!");
+        } else {
+            alert("Có lỗi xảy ra: " + data);
+        }
+    })
+    .catch(error => console.error("Lỗi: ", error));
+}
+
+
+</script>
+
+
+        
         <!-- End Modal Admin Order -->
       </div>
     </div>
