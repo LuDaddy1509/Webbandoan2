@@ -282,6 +282,7 @@
                 if($stmt->execute()){
                   $_SESSION['ten'] = $tenkh;
                   $_SESSION['sdt'] = $sdtkh;
+                  echo '<script>alert("đăng ký thành công!");</script>';
                   header ("location: login.php");
                   exit();
                 }

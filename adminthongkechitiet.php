@@ -29,51 +29,9 @@
   </head>
 
   <body>
-    <div class="wrapper d-flex align-items-stretch">
-      <nav id="sidebar">
-        <div class="custom-menu">
-          <button
-            type="button"
-            id="sidebarCollapse"
-            class="btn btn-primary"
-          ></button>
-        </div>
-        <div class="img bg-wrap text-center py-4">
-          <div class="user-logo">
-            <div class="inner-logo">
-              <img src="assets/img/logo.png" alt="logo" />
-            </div>
-          </div>
-        </div>
-        <ul class="list-unstyled components mb-5">
-          <li>
-            <a href="admin.html"
-              ><i class="fa-light fa-house"></i> Trang tổng quan</a
-            >
-          </li>
-          <li>
-            <a href="adminproduct.html"
-              ><i class="fa-light fa-pot-food"></i> Sản phẩm</a
-            >
-          </li>
-          <li>
-            <a href="admincustomer.html"
-              ><i class="fa-light fa-users"></i> Khách hàng</a
-            >
-          </li>
-          <li>
-            <a href="adminorder.html"
-              ><i class="fa-light fa-basket-shopping"></i> Đơn hàng</a
-            >
-          </li>
-          <li class="active">
-            <a href="adminstatistical.html"
-              ><i class="fa-light fa-chart-simple"></i> Thống kê</a
-            >
-          </li>
-        </ul>
-      </nav>
-
+     <?php 
+     include "includes/headeradmin.php";
+     ?>
       <!-- adminthongkechitiet  -->
 
       <div class="adminthongkechitiet">
@@ -125,6 +83,34 @@
           </div>
         </div>
 
+        <?php 
+include "connect.php";
+
+// Số đơn hàng mỗi trang
+$limit = 10;
+
+// Lấy số trang hiện tại từ URL, mặc định là 1
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+if ($page < 1) $page = 1;
+
+// Tính vị trí bắt đầu lấy dữ liệu
+$offset = ($page - 1) * $limit;
+
+// Lấy tổng số đơn hàng
+$totalSql = "SELECT COUNT(*) AS total FROM donhang";
+$totalResult = $conn->query($totalSql);
+$totalRow = $totalResult->fetch_assoc();
+$totalRecords = $totalRow['total'];
+$totalPages = ceil($totalRecords / $limit);
+
+// Lấy danh sách đơn hàng cho trang hiện tại
+$sql = "SELECT dh.madh, dh.ngaytao, dh.tongtien FROM donhang dh ORDER BY dh.ngaytao DESC LIMIT ? OFFSET ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("ii", $limit, $offset);
+$stmt->execute();
+$result = $stmt->get_result();
+?>
+
         <div class="table">
           <table width="100%">
             <thead>
@@ -136,193 +122,41 @@
               </tr>
             </thead>
             <tbody id="showOrder">
+             <?php while($row = $result->fetch_assoc()):?>
               <tr>
-                <td>HD1</td>
-                <td>20/11/2024</td>
-                <td>100.000 ₫</td>
+              <td><?= htmlspecialchars($row['madh']) ?></td>
+              <td><?= htmlspecialchars($row['ngaytao']) ?></td>
+              <td><?= number_format($row['tongtien'], 0, ',', '.') ?>.000₫</td>
                 <td class="control">
-                  <a href="adminthongkehoadon.html" class="btn-detail">
-                    <i class="fa-regular fa-eye"></i> Chi tiết
+                <a href="adminthongkehoadon.php?madh=<?= urlencode($row['madh']) ?>" class="btn-detail">
+                <i class="fa-regular fa-eye"></i> Chi tiết
                   </a>
                 </td>
               </tr>
-              <tr>
-                <td>HD2</td>
-                <td>12/11/2024</td>
-                <td>75.000 ₫</td>
-                <td class="control">
-                  <a href="adminthongkehoadon.html" class="btn-detail">
-                    <i class="fa-regular fa-eye"></i> Chi tiết
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td>HD3</td>
-                <td>28/11/2024</td>
-                <td>80.000 ₫</td>
-                <td class="control">
-                  <a href="adminthongkehoadon.html" class="btn-detail">
-                    <i class="fa-regular fa-eye"></i> Chi tiết
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td>HD4</td>
-                <td>21/11/2024</td>
-                <td>540.000 ₫</td>
-                <td class="control">
-                  <a href="adminthongkehoadon.html" class="btn-detail">
-                    <i class="fa-regular fa-eye"></i> Chi tiết
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td>HD5</td>
-                <td>22/11/2024</td>
-                <td>75.000 ₫</td>
-                <td class="control">
-                  <a href="adminthongkehoadon.html" class="btn-detail">
-                    <i class="fa-regular fa-eye"></i> Chi tiết
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td>HD6</td>
-                <td>28/11/2024</td>
-                <td>220.000 ₫</td>
-                <td class="control">
-                  <a href="adminthongkehoadon.html" class="btn-detail">
-                    <i class="fa-regular fa-eye"></i> Chi tiết
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td>HD7</td>
-                <td>30/11/2024</td>
-                <td>320.000 ₫</td>
-                <td class="control">
-                  <a href="adminthongkehoadon.html" class="btn-detail">
-                    <i class="fa-regular fa-eye"></i> Chi tiết
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td>HD8</td>
-                <td>5/12/2024</td>
-                <td>180.000 ₫</td>
-                <td class="control">
-                  <a href="adminthongkehoadon.html" class="btn-detail">
-                    <i class="fa-regular fa-eye"></i> Chi tiết
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td>HD9</td>
-                <td>16/22/2024</td>
-                <td>227.000 ₫</td>
-                <td class="control">
-                  <a href="adminthongkehoadon.html" class="btn-detail">
-                    <i class="fa-regular fa-eye"></i> Chi tiết
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td>HD10</td>
-                <td>24/12/2024</td>
-                <td>175.000 ₫</td>
-                <td class="control">
-                  <a href="adminthongkehoadon.html" class="btn-detail">
-                    <i class="fa-regular fa-eye"></i> Chi tiết
-                  </a>
-                </td>
-              </tr>
+              <?php endwhile; ?>
+
             </tbody>
           </table>
         </div>
 
         <!-- Modal statistical -->
-
-        <div
-          class="modal fade modal-form"
-          id="exampleModal"
-          tabindex="-1"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button
-                  type="button"
-                  class="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <table width="100%">
-                  <tr>
-                    <th>Mã đơn</th>
-                    <th>Số lượng</th>
-                    <th>Đơn giá</th>
-                    <th>Ngày đặt</th>
-                  </tr>
-                  <tr>
-                    <td>HD1</td>
-                    <td>1</td>
-                    <td>20.000 ₫</td>
-                    <td>20/11/2024</td>
-                  </tr>
-                  <tr>
-                    <td>HD3</td>
-                    <td>1</td>
-                    <td>20.000 ₫</td>
-                    <td>21/11/2024</td>
-                  </tr>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <!-- End Modal statistical -->
-
         <div class="Pagination">
-          <div class="container">
-            <ul>
-              <li>
-                <a
-                  href="adminthongkechitiet.html"
-                  class="inner-trang trang-chinh"
-                >
-                  1
-                </a>
-              </li>
-              <li>
-                <a href="adminthongkechitiet.html" class="inner-trang"> 2 </a>
-              </li>
-              <li>
-                <a href="adminthongkechitiet.html" class="inner-trang"> 3 </a>
-              </li>
-              <li>
-                <a href="adminthongkechitiet.html" class="inner-trang"> 4 </a>
-              </li>
-              <li>
-                <a href="adminthongkechitiet.html" class="inner-trang"> 5 </a>
-              </li>
-            </ul>
-          </div>
-        </div>
+  <ul>
+    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+    <li>
+      <a href="?page=<?= $i ?>" class="inner-trang <?= $i == $page ? 'trang-chinh' : '' ?>">
+        <?= $i ?>
+      </a>
+    </li>
+    <?php endfor; ?>
+  </ul>
+</div>
 
-        <!-- End Pagination -->
-      </div>
-    </div>
 
     <!-- End adminthongkechitiet  -->
 
-    <script src="admin/js/jquery.min.js"></script>
+    <script src="jquery.min.js"></script>
     <script src="admin/js/bootstrap.min.js"></script>
     <script src="admin/js/main.js"></script>
     <script src="admin/js/popper.js"></script>

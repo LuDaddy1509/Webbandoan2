@@ -142,7 +142,7 @@
                     class="order-statistical-item-content-h"
                     id="quantity-sale"
                   >
-                    11.820.000 ₫
+                    0.000 ₫
                   </h4>
                 </div>
                 <div class="order-statistical-item-icon">

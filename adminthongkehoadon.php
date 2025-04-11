@@ -29,53 +29,32 @@
   </head>
 
   <body>
-    <div class="wrapper d-flex align-items-stretch">
-      <nav id="sidebar">
-        <div class="custom-menu">
-          <button
-            type="button"
-            id="sidebarCollapse"
-            class="btn btn-primary"
-          ></button>
-        </div>
-        <div class="img bg-wrap text-center py-4">
-          <div class="user-logo">
-            <div class="inner-logo">
-              <img src="assets/img/logo.png" alt="logo" />
-            </div>
-          </div>
-        </div>
-        <ul class="list-unstyled components mb-5">
-          <li>
-            <a href="admin.html"
-              ><i class="fa-light fa-house"></i> Trang tổng quan</a
-            >
-          </li>
-          <li>
-            <a href="adminproduct.html"
-              ><i class="fa-light fa-pot-food"></i> Sản phẩm</a
-            >
-          </li>
-          <li>
-            <a href="admincustomer.html"
-              ><i class="fa-light fa-users"></i> Khách hàng</a
-            >
-          </li>
-          <li>
-            <a href="adminorder.html"
-              ><i class="fa-light fa-basket-shopping"></i> Đơn hàng</a
-            >
-          </li>
-          <li class="active">
-            <a href="adminstatistical.html"
-              ><i class="fa-light fa-chart-simple"></i> Thống kê</a
-            >
-          </li>
-        </ul>
-      </nav>
+
+  
+    <?php 
+    include "includes/headeradmin.php";
+    ?>
 
       <!-- admin-hoadon  -->
 
+      <?php 
+  include "connect.php";
+    $madh = $_GET['madh'];
+    
+    // ✅ Đổi $Sql thành $sql (hoặc ngược lại, nhưng phải thống nhất)
+    $sql = "SELECT ch.*, kh.tenkh, kh.diachi, kh.sodienthoai, sp.Name, sp.Image, dh.trangthai, dh.ngaytao 
+            FROM chitietdonhang ch 
+            JOIN donhang dh ON ch.madh = dh.madh 
+            JOIN khachhang kh ON dh.makh = kh.makh 
+            JOIN sanpham sp ON ch.masp = sp.ID 
+            WHERE ch.madh = ?";
+    
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $madh);
+    $stmt->execute();
+    $result = $stmt->get_result();
+?>
+    <?php while($row = $result->fetch_assoc()):?>
       <div class="admin-hoadon">
         <div class="hoadon">
           <div class="inner-head">
@@ -83,12 +62,12 @@
           </div>
           <div class="container">
             <div class="inner-chitiet">
-              <div class="inner-tt">Chi tiết đơn hàng HD1</div>
-              <div class="inner-vc">Ngày đặt hàng: 20/11/2024</div>
+              <div class="inner-tt">Chi tiết đơn hàng <?= htmlspecialchars($row['madh']);?></div>
+              <div class="inner-vc">Ngày đặt hàng: <?= htmlspecialchars($row['ngaytao']);?></div>
             </div>
             <div class="inner-trangthai">
               <div class="inner-ct">
-                Trạng thái thanh toán: <i>Đã thanh toán</i>
+                Trạng thái thanh toán: <i><?= $row['trangthai'];?></i>
               </div>
               <div class="inner-ngay">
                 Trạng thái vận chuyển: <i>Đã giao hàng</i>
@@ -99,12 +78,11 @@
                 <div class="inner-diachi">
                   <div class="inner-ten">ĐỊA CHỈ GIAO HÀNG</div>
                   <div class="inner-gth">
-                    <div class="inner-ten">CAO THÁI PHƯƠNG THANH</div>
+                    <div class="inner-ten"><?=  htmlspecialchars($row['tenkh']);?></div>
                     <div class="inner-dc">
-                      Địa chỉ: 273 An Dương Vương, Phường 3, Quận 5, TP Hồ Chí
-                      Minh
+                      Địa chỉ: <?= htmlspecialchars($row['diachi']);?>
                     </div>
-                    <div class="inner-sdt">Số điện thoại: 0909098386</div>
+                    <div class="inner-sdt">Số điện thoại: <?= htmlspecialchars($row['sodienthoai']);?></div>
                   </div>
                 </div>
               </div>
@@ -126,54 +104,48 @@
               </div>
             </div>
             <div class="inner-menu">
-              <div class="inner-item">
-                <div class="inner-info">
-                  <div class="inner-img">
-                    <img src="assets/img/products/banhmi.webp" />
-                  </div>
-                  <div class="inner-chu">
-                    <div class="inner-ten">Bánh mì</div>
-                    <div class="inner-sl">x1</div>
-                  </div>
-                </div>
-                <div class="inner-gia">20.000 ₫</div>
-              </div>
-              <div class="inner-item">
-                <div class="inner-info">
-                  <div class="inner-img">
-                    <img
-                      src="assets/img/products/bunbohue.jpg"
-                      width="80px"
-                      height="80px"
-                    />
-                  </div>
-                  <div class="inner-chu">
-                    <div class="inner-ten">Bún bò Huế</div>
-                    <div class="inner-sl">x1</div>
-                  </div>
-                </div>
-                <div class="inner-gia">50.000 ₫</div>
-              </div>
-              <div class="inner-tonggia">
-                <div class="inner-tien">
-                  <div class="inner-th">Tiền hàng <span>2 món</span></div>
-                  <div class="inner-st">70.000 ₫</div>
-                </div>
-                <div class="inner-vanchuyen">
-                  <span class="inner-vc1">Vận chuyển</span>
-                  <span class="inner-vc2">30.000 ₫</span>
-                </div>
-                <div class="inner-total">
-                  <span class="inner-tong1">Tổng tiền:</span>
-                  <span class="inner-tong2">100.000 ₫</span>
-                </div>
-              </div>
+            <?php 
+    $tongtien = 0;
+    $somon = 0;
+    while($row = $result->fetch_assoc()):
+      $thanhtien = $row['soluong'] * $row['dongia'];
+      $tongtien += $thanhtien;
+      $somon += $row['soluong'];
+  ?>
+    <div class="inner-item">
+      <div class="inner-info">
+        <div class="inner-img">
+          <img src="<?= htmlspecialchars($row['Image']); ?>" width="80px" height="80px" />
+        </div>
+        <div class="inner-chu">
+          <div class="inner-ten"><?= htmlspecialchars($row['Name']); ?></div>
+          <div class="inner-sl">x<?= $row['soluong']; ?></div>
+        </div>
+      </div>
+      <div class="inner-gia"><?= number_format($thanhtien, 0, ',', '.') ?>.000₫</div>
+    </div>
+  <?php endwhile; ?>
+  
+  <!-- Tổng cộng -->
+  <div class="inner-tonggia">
+    <div class="inner-tien">
+      <div class="inner-th">Tiền hàng <span><?= $somon ?> món</span></div>
+      <div class="inner-st"><?= number_format($tongtien, 0, ',', '.') ?>.000₫</div>
+    </div>
+    <div class="inner-vanchuyen">
+      <span class="inner-vc1">Vận chuyển</span>
+      <span class="inner-vc2">30.000 ₫</span>
+    </div>
+    <div class="inner-total">
+      <span class="inner-tong1">Tổng tiền:</span>
+      <span class="inner-tong2"><?= number_format($tongtien + 30, 0, ',', '.') ?>.000₫</span>
+    </div>
+  </div>      
             </div>
           </div>
         </div>
       </div>
-    </div>
-
+<?php endwhile; ?>
     <!-- End admin-hoadon  -->
 
     <script src="admin/js/jquery.min.js"></script>
