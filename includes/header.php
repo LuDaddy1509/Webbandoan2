@@ -279,13 +279,15 @@
                 $sql = "INSERT INTO Khachhang(tenkh,matkhau,diachi,sodienthoai) VALUES(?,?,?,?);";
                 $stmt = $conn->prepare($sql);
                 $stmt->bind_param("ssss",$tenkh,$pass,$diachikh,$sdtkh);
-                if($stmt->execute()){
+                if ($stmt->execute()) {
                   $_SESSION['ten'] = $tenkh;
                   $_SESSION['sdt'] = $sdtkh;
-                  echo '<script>alert("đăng ký thành công!");</script>';
-                  header ("location: login.php");
+                  echo '<script>
+                          alert("Đăng ký thành công!");
+                          window.location.href = "login.php";
+                        </script>';
                   exit();
-                }
+              }              
                 else {echo "đăng ký thất bại";}
                }
                else {
