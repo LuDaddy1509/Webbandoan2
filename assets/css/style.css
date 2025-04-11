@@ -2331,4 +2331,33 @@ button:focus {
   z-index: 12;
 }
 
+.Products .home-products {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.Products .no-result {
+  width: 100%;
+  text-align: center;
+  margin: 10px 0;
+}
+
+.Products .no-result-h {
+  font-size: 25px;
+  margin: 10px;
+}
+
+.Products .no-result-p {
+  width: 100%;
+  color: #757575;
+  text-align: center;
+}
+
+.Products .no-result i {
+  color: #757575;
+  font-size: 80px;
+  margin-top: 30px;
+}
+
 /* End SanPham */
