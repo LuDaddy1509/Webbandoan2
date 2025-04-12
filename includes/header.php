@@ -224,30 +224,18 @@
                     </div>
                   </div>
                   <div class="col-12">
-                <div class="form-group">
-                  <label for="tinh">Tỉnh/Thành phố</label>
-                  <select id="tinh" class="form-control" name="tinh" onchange="loadHuyen()">
-                    <option value="">Chọn tỉnh/thành phố</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="col-12">
-                <div class="form-group">
-                  <label for="huyen">Quận/Huyện</label>
-                  <select id="huyen" class="form-control" name="huyen">
-                    <option value="">Chọn quận/huyện</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="col-12">
-                <div class="form-group">
-                  <label for="dc">Địa chỉ cụ thể</label>
-                  <input type="text" id="dc" class="form-control" placeholder="Nhập địa chỉ (VD: 123 Nguyễn Trãi, P.5)" name="diachi" required />
-                </div>
-              </div>
-
+                    <div class="form-group">
+                      <label for="dc">Địa chỉ</label>
+                      <input
+                        type="text"
+                        id="dc"
+                        class="form-control"
+                        placeholder="Nhập địa chỉ"
+                        name="diachi"
+                        required
+                      />
+                    </div>
+                  </div>
                   <div class="col-12">
                     <div class="form-group">
                       <label for="mk2">Mật khẩu</label>
@@ -282,32 +270,27 @@
               <?php
               include "connect.php";
               if(isset($_POST['dangki'])){
-                $tenkh  = $_POST['ten'];
-                $sdtkh = $_POST['sdt'];
-                $tinhkh = $_POST['tinh_thanhpho'];  // Lấy tỉnh
-                $huyenkh = $_POST['quan_huyen']; // Lấy huyện
-                $diachikh = $_POST['diachi']; // Địa chỉ cụ thể
-                $pass = $_POST['password'];
-                $pass1 = $_POST['password1'];
-            
-                if($pass == $pass1){
-                    $sql = "INSERT INTO khachhang(tenkh, matkhau, tinh_thanhpho, quan_huyen, diachi, sodienthoai) VALUES (?, ?, ?, ?, ?, ?)";
-                    $stmt = $conn->prepare($sql);
-                    $stmt->bind_param("ssssss", $tenkh, $pass, $tinhkh, $huyenkh, $diachikh, $sdtkh);
-                    
-                    if($stmt->execute()){
-                        $_SESSION['ten'] = $tenkh;
-                        $_SESSION['sdt'] = $sdtkh;
-                        header("location: login.php");
-                        exit();
-                    } else {
-                        echo "Đăng ký thất bại";
-                    }
-                } else {
-                    echo "Mật khẩu nhập lại không khớp!";
+               $tenkh  = $_POST['ten'];
+               $sdtkh = $_POST['sdt'];
+               $diachikh = $_POST['diachi'];
+               $pass = $_POST['password'];
+               $pass1 = $_POST['password1'];
+               if($pass == $pass1){
+                $sql = "INSERT INTO Khachhang(tenkh,matkhau,diachi,sodienthoai) VALUES(?,?,?,?);";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("ssss",$tenkh,$pass,$diachikh,$sdtkh);
+                if($stmt->execute()){
+                  $_SESSION['ten'] = $tenkh;
+                  $_SESSION['sdt'] = $sdtkh;
+                  header ("location: login.php");
+                  exit();
                 }
-            }
-            
+                else {echo "đăng ký thất bại";}
+               }
+               else {
+                    echo "Mật khẩu nhập lại không khớp!";
+               }
+              }
               ?>
 
             </div>

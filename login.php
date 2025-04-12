@@ -188,6 +188,7 @@ $result = $stmt->get_result();
         </div>
       </div>
       <?php endwhile; ?>
+
     </div>
   </div>
 </div>
