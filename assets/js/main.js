@@ -14,6 +14,15 @@ function closeSearchAdvanced() {
   document.querySelector(".advanced-search").classList.toggle("open");
 }
 
+window.addEventListener("DOMContentLoaded", () => {
+  if (window.location.hash === "#scroll") {
+    const section = document.getElementById("home-service");
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  }
+});
+
 document.querySelectorAll(".inner-img a").forEach(function (item) {
   item.addEventListener("click", function (event) {
     event.preventDefault();
@@ -22,49 +31,6 @@ document.querySelectorAll(".inner-img a").forEach(function (item) {
 
 function dangKi() {
   alert("Đăng kí thành công");
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-  fetchTinhThanh();
-});
-
-function fetchTinhThanh() {
-  fetch("https://provinces.open-api.vn/api/?depth=2") // API lấy tỉnh/thành & huyện
-    .then(response => response.json())
-    .then(data => {
-      let tinhSelect = document.getElementById("tinh");
-      tinhSelect.innerHTML = '<option value="">Chọn tỉnh/thành phố</option>';
-      
-      data.forEach(tinh => {
-        let option = document.createElement("option");
-        option.value = tinh.code;  // Lưu mã tỉnh
-        option.textContent = tinh.name;
-        tinhSelect.appendChild(option);
-      });
-
-      // Lưu danh sách vào localStorage để dùng lại
-      localStorage.setItem("tinhData", JSON.stringify(data));
-    })
-    .catch(error => console.error("Lỗi tải dữ liệu tỉnh/thành:", error));
-}
-
-function loadHuyen() {
-  let tinhCode = document.getElementById("tinh").value;
-  let huyenSelect = document.getElementById("huyen");
-  
-  huyenSelect.innerHTML = '<option value="">Chọn quận/huyện</option>'; // Reset danh sách quận/huyện
-
-  let tinhData = JSON.parse(localStorage.getItem("tinhData"));
-  let selectedTinh = tinhData.find(tinh => tinh.code == tinhCode);
-
-  if (selectedTinh) {
-    selectedTinh.districts.forEach(huyen => {
-      let option = document.createElement("option");
-      option.value = huyen.name;
-      option.textContent = huyen.name;
-      huyenSelect.appendChild(option);
-    });
-  }
 }
 
 function thanhToan() {
@@ -157,6 +123,25 @@ document.addEventListener("DOMContentLoaded", function () {
       searchProducts();
     });
   }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  // Lấy tất cả các nút accordion
+  const accordionButtons = document.querySelectorAll(".PhuongThuc .btn");
+
+  accordionButtons.forEach((button) => {
+    button.addEventListener("click", function () {
+      // Xóa lớp grayscale khỏi tất cả các nút
+      accordionButtons.forEach((btn) => btn.classList.remove("grayscale"));
+
+      // Áp dụng lớp grayscale cho tất cả các nút trừ nút đang được nhấn
+      accordionButtons.forEach((btn) => {
+        if (btn !== this) {
+          btn.classList.add("grayscale");
+        }
+      });
+    });
+  });
 });
 
 function searchProducts(sortOrder = 0, page = 1) {

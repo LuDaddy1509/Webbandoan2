@@ -2,6 +2,13 @@
 
 /* sidebar */
 
+ul,
+li {
+  margin: 0;
+  list-style-type: none;
+  padding: 0;
+}
+
 .wrapper {
   line-height: normal;
   font-size: 16px;
@@ -96,46 +103,31 @@ h5,
   border: none;
 }
 
+.sidebar-list {
+  margin-top: 105px;
+}
+
 /* End sidebar */
 
 /* Tongquan */
 
+.page-title {
+  color: #fff;
+  background-color: var(--color-bg2);
+  text-align: center;
+  border-radius: 2rem;
+  padding: 0.5rem;
+  text-transform: uppercase;
+}
+
+.page-title {
+  font-weight: 600;
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+
 .Tongquan {
   padding: 35px;
-}
-
-.Tongquan .inner-gth .inner-right {
-  display: flex;
-  align-items: center;
-}
-
-.Tongquan .inner-gth .inner-right .inner-info {
-  display: flex;
-  align-items: center;
-  margin-left: 20px;
-  padding: 10px;
-  cursor: pointer;
-}
-
-.Tongquan .inner-gth .inner-right .inner-user {
-  background: #ddd;
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 5px;
-  font-size: 16px;
-}
-
-.Tongquan .inner-gth .inner-right .inner-thongbao {
-  margin-right: 5px;
-  font-size: 16px;
-}
-
-.Tongquan .inner-gth .inner-right .inner-admin {
-  font-size: 16px;
 }
 
 /* End Tongquan */
