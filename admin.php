@@ -34,22 +34,8 @@
     ?>
 
     <div class="Tongquan">
-        <div class="inner-gth d-flex justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">Tổng quan</h1>
-            <div class="inner-right">
-                <div class="inner-info">
-                    <div class="inner-thongbao">
-                        <i class="fa-regular fa-bell"></i>
-                    </div>
-                    <div class="inner-admin">Thông báo</div>
-                </div>
-                <div class="inner-info">
-                    <div class="inner-user">
-                        <i class="fa-solid fa-user"></i>
-                    </div>
-                    <div class="inner-admin">Admin</div>
-                </div>
-            </div>
+        <div class="inner-gth  pt-3 pb-2 mb-3">
+           <h1 class="page-title">Trang tổng quát của cửa hàng Đặc sản 3 miền</h1>
         </div>
 
         <div class="giaodien">

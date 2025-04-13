@@ -45,6 +45,7 @@ ob_start();
                   ></span>
                 </div>
                 <ul class="header-middle-right-menu">
+                  <li><a href="./admin.php"><i class="fa-light fa-gear"></i> Quản lý cửa hàng</a></li>
                   <li>
                   <a class="dropdown-item" href="account.php"
                     ><i class="fa-regular fa-circle-user"></i>Tài khoản của
@@ -52,12 +53,12 @@ ob_start();
                   >
                   </li>
                   <li>
-                  <a class="dropdown-item" href=""
+                  <a class="dropdown-item" href="productss.php"
                     ><i class="fa-solid fa-cart-shopping"></i>Đơn hàng đã mua</a
                   >
                   </li>
                   <li>
-                  <a  href="logout.php" class="dropdown-item">
+                  <a  href="logout.php" class="dropdown-item bordera">
                     <i class="fa-solid fa-right-from-bracket"></i>Thoát tài
                     khoản</a>
                   </li>
@@ -101,19 +102,19 @@ if (isset($_SESSION['mySession'])) {
   <div class="container">
     <ul class="menu-list">
       <li class="menu-list-item"><a href="login.php" class="menu-link">Trang chủ</a></li>
-      <li class="menu-list-item"><a href="login.php?Type=Món chay" class="menu-link">Món chay</a></li>
-      <li class="menu-list-item"><a href="login.php?Type=Món mặn" class="menu-link">Món mặn</a></li>
-      <li class="menu-list-item"><a href="login.php?Type=Món lẩu" class="menu-link">Món lẩu</a></li>
-      <li class="menu-list-item"><a href="login.php?Type=Món ăn vặt" class="menu-link">Món ăn vặt</a></li>
-      <li class="menu-list-item"><a href="login.php?Type=Món tráng miệng" class="menu-link">Món tráng miệng</a></li>
-      <li class="menu-list-item"><a href="login.php?Type=Nước uống" class="menu-link">Nước uống</a></li>
-      <li class="menu-list-item"><a href="login.php?Type=Hải sản" class="menu-link">Hải sản</a></li>
+      <li class="menu-list-item"><a href="login.php?Type=Món chay#scroll" class="menu-link">Món chay</a></li>
+      <li class="menu-list-item"><a href="login.php?Type=Món mặn#scroll" class="menu-link">Món mặn</a></li>
+      <li class="menu-list-item"><a href="login.php?Type=Món lẩu#scroll" class="menu-link">Món lẩu</a></li>
+      <li class="menu-list-item"><a href="login.php?Type=Món ăn vặt#scroll" class="menu-link">Món ăn vặt</a></li>
+      <li class="menu-list-item"><a href="login.php?Type=Món tráng miệng#scroll" class="menu-link">Món tráng miệng</a></li>
+      <li class="menu-list-item"><a href="login.php?Type=Nước uống#scroll" class="menu-link">Nước uống</a></li>
+      <li class="menu-list-item"><a href="login.php?Type=Hải sản#scroll" class="menu-link">Hải sản</a></li>
     </ul>
   </div>
 </nav>
 
 
-<div class="advanced-search" id="advanced-search" >
+    <div class="advanced-search" id="advanced-search" >
     <div class="container">
         <div class="advanced-search-category">
             <span>Phân loại</span>
@@ -154,8 +155,8 @@ if (isset($_SESSION['mySession'])) {
             <i class="fa-light fa-xmark"></i>
           </button>
         </div>
-      </div>
     </div>
+</div>
 
 
     

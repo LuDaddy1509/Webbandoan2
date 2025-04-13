@@ -175,13 +175,13 @@ $result = $stmt->get_result();
       <?php while ($row = $result->fetch_assoc()): ?>
       <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
         <div class="inner-item">
-          <a href="chitietsp.php?id=<?= $row['ID']; ?>" class="inner-img">
+          <a href="chitietsp-login.php?id=<?= $row['ID']; ?>" class="inner-img">
             <img src="<?= htmlspecialchars($row['Image']); ?>" />
           </a>
           <div class="inner-info">
             <div class="inner-ten"><?= htmlspecialchars($row['Name']); ?></div>
             <div class="inner-gia"><?= number_format($row['Price']); ?>.000 ₫</div>
-            <a href="chitietsp.php?id=<?= $row['ID']; ?>" class="inner-muahang">
+            <a href="chitietsp-login.php?id=<?= $row['ID']; ?>" class="inner-muahang">
               <i class="fa-solid fa-cart-plus"></i> ĐẶT MÓN
             </a>
           </div>
@@ -210,7 +210,7 @@ $result = $stmt->get_result();
       <?php
       for ($i = 1; $i <= $total_pages; $i++) {
           $active_class = ($i == $page) ? 'trang-chinh' : '';
-          echo '<li><a href="index.php?Type=' . urlencode($Type) . '&page=' . $i . '" class="inner-trang ' . $active_class . '">' . $i . '</a></li>';
+          echo '<li><a href="login.php?Type=' . urlencode($Type) . '&page=' . $i . '" class="inner-trang ' . $active_class . '">' . $i . '</a></li>';
       }
       ?>
     </ul>

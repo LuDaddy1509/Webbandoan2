@@ -280,7 +280,7 @@ header {
 .dropdown-item:hover {
   color: #16181b;
   text-decoration: none;
-  background-color: #f8f9fa;
+  background-color: #eee;
 }
 
 .cart-icon-menu {
@@ -344,6 +344,10 @@ header {
   padding: 8px 20px;
   color: var(--text-color);
   width: 100%;
+}
+
+.header-middle-right-menu .bordera {
+  border-top: 1px solid #eee;
 }
 
 .header-middle-right-menu li i {
