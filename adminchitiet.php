@@ -47,27 +47,27 @@
         </div>
         <ul class="list-unstyled components mb-5">
           <li>
-            <a href="admin.html"
+            <a href="admin.php"
               ><i class="fa-light fa-house"></i> Trang tổng quan</a
             >
           </li>
           <li>
-            <a href="adminproduct.html"
+            <a href="adminproduct.php"
               ><i class="fa-light fa-pot-food"></i> Sản phẩm</a
             >
           </li>
           <li>
-            <a href="admincustomer.html"
+            <a href="admincustomer.php"
               ><i class="fa-light fa-users"></i> Khách hàng</a
             >
           </li>
           <li class="active">
-            <a href="adminorder.html"
+            <a href="adminorder.php"
               ><i class="fa-light fa-basket-shopping"></i> Đơn hàng</a
             >
           </li>
           <li>
-            <a href="adminstatistical.html"
+            <a href="adminstatistical.php"
               ><i class="fa-light fa-chart-simple"></i> Thống kê</a
             >
           </li>
