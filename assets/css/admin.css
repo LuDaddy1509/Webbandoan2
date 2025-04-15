@@ -2,6 +2,70 @@
 
 /* sidebar */
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  text-decoration: none;
+}
+
+:root {
+  --red: #b5292f;
+  --lightest-gray: rgb(249, 249, 249);
+  --lighter-gray: rgb(240, 240, 240);
+  --light-gray: rgb(144, 144, 144);
+  --medium-gray: rgb(96, 96, 96);
+  --dark-gray: rgb(13, 13, 13);
+  --header-height: 60px;
+  --animation-duration: 200ms;
+  --animation-timing-curve: ease-in-out;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body::-webkit-scrollbar {
+  width: 3px;
+  /* height:50px; */
+}
+
+body::-webkit-scrollbar-track {
+  background-color: #fafafa;
+}
+
+body::-webkit-scrollbar-thumb {
+  /* background: rgba(0, 0, 0, 0); */
+  background: rgba(0, 0, 0, 0.45);
+  border-radius: 10px;
+  -webkit-box-shadow: rgba(255, 255, 255, 0.3) 0 0 0 1px;
+  box-shadow: rgba(255, 255, 255, 0.3) 0 0 0 1px;
+}
+
+body {
+  margin: 0;
+  font-family: "Roboto Condensed", sans-serif;
+  overflow-x: hidden;
+}
+
+button {
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+body,
+input,
+button,
+textarea,
+pre {
+  font-family: Roboto Condensed, sans-serif;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
 ul,
 li {
   margin: 0;

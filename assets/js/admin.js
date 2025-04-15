@@ -13,15 +13,17 @@ function deletingMonAn() {
   }
 }
 
-function khoaKhachHang(id) {
-  if (confirm("Bạn có chắc chắn muốn khóa khách hàng này?")) {
-    window.location.href = "admincustomer.php?action=lock&id=" + id;
+function khoaKhachHang() {
+  if (confirm("Bạn có chắc chắn muốn khóa người dùng này?")) {
+    alert("Khóa người dùng thành công !");
+    prompt;
   }
 }
 
-function unlockKhachHang(id) {
-  if (confirm("Bạn có chắc chắn muốn mở khóa khách hàng này?")) {
-    window.location.href = "admincustomer.php?action=unlock&id=" + id;
+function unclockkhoaKhachHang() {
+  if (confirm("Bạn có chắc chắn muốn mở người dùng này?")) {
+    alert("Mở người dùng thành công !");
+    prompt;
   }
 }
 
