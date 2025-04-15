@@ -224,18 +224,30 @@
                     </div>
                   </div>
                   <div class="col-12">
-                    <div class="form-group">
-                      <label for="dc">Địa chỉ</label>
-                      <input
-                        type="text"
-                        id="dc"
-                        class="form-control"
-                        placeholder="Nhập địa chỉ"
-                        name="diachi"
-                        required
-                      />
-                    </div>
-                  </div>
+                <div class="form-group">
+                  <label for="tinh">Tỉnh/Thành phố</label>
+                  <select id="tinh" class="form-control" name="tinh" onchange="loadHuyen()">
+                    <option value="">Chọn tỉnh/thành phố</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="form-group">
+                  <label for="huyen">Quận/Huyện</label>
+                  <select id="huyen" class="form-control" name="huyen">
+                    <option value="">Chọn quận/huyện</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="form-group">
+                  <label for="dc">Địa chỉ cụ thể</label>
+                  <input type="text" id="dc" class="form-control" placeholder="Nhập địa chỉ (VD: 123 Nguyễn Trãi, P.5)" name="diachi" required />
+                </div>
+              </div>
+
                   <div class="col-12">
                     <div class="form-group">
                       <label for="mk2">Mật khẩu</label>
@@ -268,33 +280,45 @@
                 </div>
               </form>
               <?php
-              include "connect.php";
-              if(isset($_POST['dangki'])){
-               $tenkh  = $_POST['ten'];
-               $sdtkh = $_POST['sdt'];
-               $diachikh = $_POST['diachi'];
-               $pass = $_POST['password'];
-               $pass1 = $_POST['password1'];
-               if($pass == $pass1){
-                $sql = "INSERT INTO Khachhang(tenkh,matkhau,diachi,sodienthoai) VALUES(?,?,?,?);";
-                $stmt = $conn->prepare($sql);
-                $stmt->bind_param("ssss",$tenkh,$pass,$diachikh,$sdtkh);
-                if ($stmt->execute()) {
-                  $_SESSION['ten'] = $tenkh;
-                  $_SESSION['sdt'] = $sdtkh;
-                  echo '<script>
-                          alert("Đăng ký thành công!");
-                          window.location.href = "login.php";
-                        </script>';
-                  exit();
-              }              
-                else {echo "đăng ký thất bại";}
-               }
-               else {
-                    echo "Mật khẩu nhập lại không khớp!";
-               }
-              }
-              ?>
+include "connect.php";
+if (isset($_POST['dangki'])) {
+    $tenkh = trim($_POST['ten'] ?? '');
+    $sdtkh = trim($_POST['sdt'] ?? '');
+    $tinhkh = trim($_POST['tinh'] ?? '');   // Sửa thành 'tinh' để khớp với form
+    $huyenkh = trim($_POST['huyen'] ?? ''); // Sửa thành 'huyen' để khớp với form
+    $diachikh = trim($_POST['diachi'] ?? '');
+    $pass = $_POST['password'] ?? '';
+    $pass1 = $_POST['password1'] ?? '';
+    // Kiểm tra mật khẩu
+    if ($pass === $pass1) {
+        // Gộp địa chỉ
+        $diachi_full = "$diachikh, $huyenkh, $tinhkh";
+
+        // Chuẩn bị câu lệnh SQL
+        $sql = "INSERT INTO khachhang (tenkh, matkhau, diachi, sodienthoai) VALUES (?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssss", $tenkh, $pass, $diachi_full, $sdtkh);
+
+        if ($stmt->execute()) {
+            $_SESSION['ten'] = $tenkh;
+            $_SESSION['sdt'] = $sdtkh;
+            $stmt->close();
+            $conn->close();
+            header("Location: login.php");
+            exit();
+        } else {
+            $_SESSION['error'] = "Đăng ký thất bại: " . $stmt->error;
+        }
+
+        $stmt->close();
+    } else {
+        $_SESSION['error'] = "Mật khẩu nhập lại không khớp!";
+    }
+}
+
+$conn->close();
+ob_end_flush();
+?>
 
             </div>
           </div>

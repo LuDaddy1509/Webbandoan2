@@ -31,6 +31,7 @@
   <body>
     <?php
     include_once "includes/headeradmin.php"; 
+
     ?>
 
       <!-- adminstatistical  -->
@@ -95,370 +96,135 @@
             ></a>
           </div>
         </div>
-
-        <div class="order-statistical">
-          <div class="row">
-            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-              <div class="order-statistical-item">
-                <div class="order-statistical-item-content">
-                  <p class="order-statistical-item-content-desc">
-                    Sản phẩm được bán ra
-                  </p>
-                  <h4
-                    class="order-statistical-item-content-h"
-                    id="quantity-product"
-                  >
-                    22
-                  </h4>
-                </div>
-                <div class="order-statistical-item-icon">
-                  <i class="fa-light fa-salad"></i>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-              <div class="order-statistical-item">
-                <div class="order-statistical-item-content">
-                  <p class="order-statistical-item-content-desc">
-                    Số lượng bán ra
-                  </p>
-                  <h4
-                    class="order-statistical-item-content-h"
-                    id="quantity-order"
-                  >
-                    379
-                  </h4>
-                </div>
-                <div class="order-statistical-item-icon">
-                  <i class="fa-light fa-file-lines"></i>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-              <div class="order-statistical-item">
-                <div class="order-statistical-item-content">
-                  <p class="order-statistical-item-content-desc">Doanh thu</p>
-                  <h4
-                    class="order-statistical-item-content-h"
-                    id="quantity-sale"
-                  >
-                    0.000 ₫
-                  </h4>
-                </div>
-                <div class="order-statistical-item-icon">
-                  <i class="fa-light fa-dollar-sign"></i>
-                </div>
-              </div>
-            </div>
-          </div>
+        <?php
+include "connect.php";
+$sql1 = "SELECT COUNT(DISTINCT masp) AS tong_sp_khong_trung FROM chitietdonhang";
+$result1 = $conn->query($sql1);
+$tong_sp_khong_trung = ($result1 && $row1 = $result1->fetch_assoc()) ? $row1['tong_sp_khong_trung'] : 0;
+$sql2 = "SELECT SUM(soluong) AS tong_soluong_san_pham FROM chitietdonhang";
+$result2 = $conn->query($sql2);
+$tong_soluong_san_pham = ($result2 && $row2 = $result2->fetch_assoc()) ? $row2['tong_soluong_san_pham'] : 0;
+$sql3 = "SELECT SUM(tongtien) AS tong_doanh_thu FROM donhang";
+$result3 = $conn->query($sql3);
+$tong_doanh_thu = ($result3 && $row3 = $result3->fetch_assoc()) ? $row3['tong_doanh_thu'] : 0;
+?>
+<div class="order-statistical">
+  <div class="row">
+    <!-- Sản phẩm bán ra -->
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+      <div class="order-statistical-item">
+        <div class="order-statistical-item-content">
+          <p class="order-statistical-item-content-desc">Sản phẩm được bán ra</p>
+          <h4 class="order-statistical-item-content-h" id="quantity-product">
+            <?= htmlspecialchars($tong_sp_khong_trung); ?>
+          </h4>
         </div>
-        <div class="table">
-          <table width="100%">
-            <thead>
-              <tr>
-                <td>STT</td>
-                <td>Tên món</td>
-                <td>Số lượng bán</td>
-                <td>Doanh thu</td>
-                <td></td>
-              </tr>
-            </thead>
-            <tbody id="showTk">
-              <tr>
-                <td>1</td>
-                <td>
-                  <div class="prod-img-title">
-                    <img
-                      class="prd-img-tbl"
-                      src="./assets/img/products/banhmi.webp"
-                      alt=""
-                    />
-                    <p>Bánh Mì</p>
-                  </div>
-                </td>
-                <td>200</td>
-                <td>4.000.000 ₫</td>
-                <td>
-                  <a
-                    href="adminthongkechitiet.html"
-                    class="btn-detail product-order-detail"
-                  >
-                    <i class="fa-regular fa-eye"></i> Chi tiết
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>
-                  <div class="prod-img-title">
-                    <img
-                      class="prd-img-tbl"
-                      src="./assets/img/products/phobo.jpg"
-                      alt=""
-                    />
-                    <p>Phở Bò</p>
-                  </div>
-                </td>
-                <td>50</td>
-                <td>2.500.000 ₫</td>
-                <td>
-                  <a
-                    href="adminthongkechitiet.html"
-                    class="btn-detail product-order-detail"
-                  >
-                    <i class="fa-regular fa-eye"></i> Chi tiết
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>
-                  <div class="prod-img-title">
-                    <img
-                      class="prd-img-tbl"
-                      src="./assets/img/products/bunbohue.jpg"
-                      alt=""
-                    />
-                    <p>Bún Bò Huế</p>
-                  </div>
-                </td>
-                <td>48</td>
-                <td>2.400.000 ₫</td>
-                <td>
-                  <button
-                    class="btn-detail product-order-detail"
-                    data-toggle="modal"
-                    data-target="#exampleModal"
-                    data-id="46"
-                  >
-                    <i class="fa-regular fa-eye"></i> Chi tiết
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td>4</td>
-                <td>
-                  <div class="prod-img-title">
-                    <img
-                      class="prd-img-tbl"
-                      src="./assets/img/products/miquang.jpg"
-                      alt=""
-                    />
-                    <p>Mì Quảng</p>
-                  </div>
-                </td>
-                <td>35</td>
-                <td>1.400.000 ₫</td>
-                <td>
-                  <button
-                    class="btn-detail product-order-detail"
-                    data-toggle="modal"
-                    data-target="#exampleModal"
-                    data-id="6"
-                  >
-                    <i class="fa-regular fa-eye"></i> Chi tiết
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td>
-                  <div class="prod-img-title">
-                    <img
-                      class="prd-img-tbl"
-                      src="./assets/img/products/banhbotloc.webp"
-                      alt=""
-                    />
-                    <p>Bánh bột lọc Huế</p>
-                  </div>
-                </td>
-                <td>22</td>
-                <td>660.000 ₫</td>
-                <td>
-                  <button
-                    class="btn-detail product-order-detail"
-                    data-toggle="modal"
-                    data-target="#exampleModal"
-                    data-id="46"
-                  >
-                    <i class="fa-regular fa-eye"></i> Chi tiết
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td>6</td>
-                <td>
-                  <div class="prod-img-title">
-                    <img
-                      class="prd-img-tbl"
-                      src="./assets/img/products/chaca.jpg"
-                      alt=""
-                    />
-                    <p>Chả cá Lã Vọng</p>
-                  </div>
-                </td>
-                <td>14</td>
-                <td>560.000 ₫</td>
-                <td>
-                  <button
-                    class="btn-detail product-order-detail"
-                    data-toggle="modal"
-                    data-target="#exampleModal"
-                    data-id="46"
-                  >
-                    <i class="fa-regular fa-eye"></i> Chi tiết
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td>7</td>
-                <td>
-                  <div class="prod-img-title">
-                    <img
-                      class="prd-img-tbl"
-                      src="./assets/img/products/goicuon.jpg"
-                      alt=""
-                    />
-                    <p>Gỏi cuốn</p>
-                  </div>
-                </td>
-                <td>10</td>
-                <td>300.000 ₫</td>
-                <td>
-                  <button
-                    class="btn-detail product-order-detail"
-                    data-toggle="modal"
-                    data-target="#exampleModal"
-                    data-id="46"
-                  >
-                    <i class="fa-regular fa-eye"></i> Chi tiết
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- Modal statistical -->
-
-        <div
-          class="modal fade modal-form"
-          id="exampleModal"
-          tabindex="-1"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button
-                  type="button"
-                  class="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <table width="100%">
-                  <tr>
-                    <th>Mã đơn</th>
-                    <th>Số lượng</th>
-                    <th>Đơn giá</th>
-                    <th>Ngày đặt</th>
-                  </tr>
-                  <tr>
-                    <td>DH1</td>
-                    <td>1</td>
-                    <td>20.000 ₫</td>
-                    <td>20/11/2024</td>
-                  </tr>
-                  <tr>
-                    <td>DH3</td>
-                    <td>1</td>
-                    <td>20.000 ₫</td>
-                    <td>21/11/2024</td>
-                  </tr>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- End Modal statistical -->
-
-        <div class="Pagination">
-          <div class="container">
-            <ul>
-              <li>
-                <a href="adminstatistical.html" class="inner-trang trang-chinh">
-                  1
-                </a>
-              </li>
-              <li>
-                <a href="adminstatistical.html" class="inner-trang"> 2 </a>
-              </li>
-              <li>
-                <a href="adminstatistical.html" class="inner-trang"> 3 </a>
-              </li>
-              <li>
-                <a href="adminstatistical.html" class="inner-trang"> 4 </a>
-              </li>
-              <li>
-                <a href="adminstatistical.html" class="inner-trang"> 5 </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- End Pagination -->
-
-        <div class="inner-thongke">
-          <div class="row">
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-              <div class="order-statistical-item">
-                <div class="order-statistical-item-content">
-                  <p class="order-statistical-item-content-desc">
-                    Sản phẩm bán chạy nhất
-                  </p>
-                  <h4
-                    class="order-statistical-item-content-h"
-                    id="quantity-product"
-                  >
-                    Bánh Mì (đã bán 200)
-                  </h4>
-                </div>
-                <div class="order-statistical-item-icon">
-                  <i class="fa-solid fa-money-bill-trend-up"></i>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-              <div class="order-statistical-item">
-                <div class="order-statistical-item-content">
-                  <p class="order-statistical-item-content-desc">
-                    Sản phẩm bán ế nhất
-                  </p>
-                  <h4
-                    class="order-statistical-item-content-h"
-                    id="quantity-order"
-                  >
-                    Gỏi cuốn (đã bán 10)
-                  </h4>
-                </div>
-                <div class="order-statistical-item-icon">
-                  <i class="fa-regular fa-chart-line-down"></i>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="order-statistical-item-icon">
+          <i class="fa-light fa-salad"></i>
         </div>
       </div>
     </div>
 
-    <!-- End adminstatistical  -->
+    <!-- Số lượng bán ra -->
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+      <div class="order-statistical-item">
+        <div class="order-statistical-item-content">
+          <p class="order-statistical-item-content-desc">Số lượng bán ra</p>
+          <h4 class="order-statistical-item-content-h" id="quantity-order">
+            <?= htmlspecialchars($tong_soluong_san_pham); ?>
+          </h4>
+        </div>
+        <div class="order-statistical-item-icon">
+          <i class="fa-light fa-file-lines"></i>
+        </div>
+      </div>
+    </div>
 
+    <!-- Doanh thu -->
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+      <div class="order-statistical-item">
+        <div class="order-statistical-item-content">
+          <p class="order-statistical-item-content-desc">Doanh thu</p>
+          <h4 class="order-statistical-item-content-h" id="quantity-sale">
+            <?= number_format($tong_doanh_thu, 0, ',', '.') . '.000₫'; ?>
+          </h4>
+        </div>
+        <div class="order-statistical-item-icon">
+          <i class="fa-light fa-dollar-sign"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        <div class="table">
+          <table width="100%">
+            <thead>
+              <tr>
+                <td>Mã khách hàng</td>
+                <td>Tên khách hàng</td>
+                <td>Doanh thu</td>
+                <td>Đơn hàng</td>
+              </tr>
+            </thead>
+            <?php
+include "connect.php";
+$limit = 10;
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$page = max($page, 1);
+$offset = ($page - 1) * $limit;
+$total_result = $conn->query("SELECT COUNT(*) as total FROM khachhang");
+$total_row = $total_result->fetch_assoc();
+$total_kh = $total_row['total'];
+$total_pages = ceil($total_kh / $limit);
+$stmt = $conn->prepare("SELECT * FROM khachhang LIMIT ? OFFSET ?");
+$stmt->bind_param("ii", $limit, $offset);
+$stmt->execute();
+$result = $stmt->get_result();
+while ($row = $result->fetch_assoc()): 
+?>
+            <tbody>
+              <tr>
+                <td><?= $row['makh'];?></td>
+                <td><?= $row['tenkh'];?></td>
+                <td>
+                  <?php 
+                  include "connect.php";
+                  $makh = intval($row['makh']);
+                  $sql1 = "SELECT SUM(tongtien) AS totalPrice FROM donhang WHERE makh = ?;";
+                  $stmt1 = $conn->prepare($sql1);
+                  $stmt1->bind_param("i",$makh);
+                  $stmt1->execute();
+                  $result1 = $stmt1->get_result();
+                  $row1 = $result1->fetch_assoc();
+                  $totalPrice = $row1['totalPrice'];
+                  echo number_format($totalPrice, 0, ',', '.') . '.000₫';?>
+                </td>
+                <td>
+                  <a
+                    href=""
+                    class="btn-detail product-order-detail"
+                  >
+                    <i class="fa-regular fa-eye"></i> Chi tiết
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+            <?php endwhile; ?>
+          </table>
+        </div>
+        <div class="Pagination">
+  <div class="container">
+    <ul>
+      <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+        <li>
+          <a href="?page=<?= $i ?>" class="inner-trang <?= ($i == $page) ? 'trang-chinh' : '' ?>">
+            <?= $i ?>
+          </a>
+        </li>
+      <?php endfor; ?>
+    </ul>
+  </div>
+</div>
     <script src="admin/js/jquery.min.js"></script>
     <script src="admin/js/bootstrap.min.js"></script>
     <script src="admin/js/main.js"></script>

@@ -113,7 +113,7 @@ if (isset($_POST['xoasp'])) {
   padding-right: 10px; /* để không bị cắt thanh cuộn */
 }
 .scrollable-modal-body {
-  max-height: 400px;
+  max-height: 510px;
   overflow-y: auto;
 }
 

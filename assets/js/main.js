@@ -24,6 +24,49 @@ function dangKi() {
   alert("Đăng kí thành công");
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+  fetchTinhThanh();
+});
+
+function fetchTinhThanh() {
+  fetch("https://provinces.open-api.vn/api/?depth=2")
+    .then((response) => response.json())
+    .then((data) => {
+      let tinhSelect = document.getElementById("tinh");
+      tinhSelect.innerHTML = '<option value="">Chọn tỉnh/thành phố</option>';
+
+      data.forEach((tinh) => {
+        let option = document.createElement("option");
+        option.value = tinh.name; // Lưu tên tỉnh (chuỗi)
+        option.textContent = tinh.name;
+        tinhSelect.appendChild(option);
+      });
+
+      // Lưu danh sách vào localStorage để dùng lại
+      localStorage.setItem("tinhData", JSON.stringify(data));
+    })
+    .catch((error) => console.error("Lỗi tải dữ liệu tỉnh/thành:", error));
+}
+
+function loadHuyen() {
+  let tinhName = document.getElementById("tinh").value; // Lấy tên tỉnh
+  let huyenSelect = document.getElementById("huyen");
+
+  huyenSelect.innerHTML = '<option value="">Chọn quận/huyện</option>'; // Reset danh sách quận/huyện
+
+  let tinhData = JSON.parse(localStorage.getItem("tinhData"));
+  let selectedTinh = tinhData.find((tinh) => tinh.name === tinhName); // Tìm tỉnh bằng tên
+
+  if (selectedTinh) {
+    selectedTinh.districts.forEach((huyen) => {
+      let option = document.createElement("option");
+      option.value = huyen.name;
+      option.textContent = huyen.name;
+      huyenSelect.appendChild(option);
+    });
+  }
+}
+
 function thanhToan() {
   alert("Món ăn đã được thêm vào giỏ hàng !");
 }

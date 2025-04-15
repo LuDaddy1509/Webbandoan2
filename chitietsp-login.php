@@ -130,7 +130,7 @@ function giamsoluong() {
               </div>
             </div>
           </div>
-          <?php 
+          <?php
 include "connect.php";
 
 if (isset($_POST['addProduct']) && isset($_GET['id'])) {
@@ -178,8 +178,9 @@ if (isset($_POST['addProduct']) && isset($_GET['id'])) {
         $stmt4 = $conn->prepare($update_giohang);
         $stmt4->bind_param("iii", $soluong_moi, $makh, $masp);
         if ($stmt4->execute()) {
-          header("location: login.php");
-          exit();
+            // Chuyển hướng về trang chi tiết sản phẩm với cùng ID
+            header("Location: chitietsp-login.php?id=$masp");
+            exit();
         } else {
             echo "<script>alert('⚠️ Lỗi khi cập nhật số lượng!');</script>";
         }
@@ -189,8 +190,9 @@ if (isset($_POST['addProduct']) && isset($_GET['id'])) {
         $stmt5 = $conn->prepare($insert);
         $stmt5->bind_param("iiid", $makh, $masp, $soluong, $dongia);
         if ($stmt5->execute()) {
-          header("location: login.php");
-          exit();
+            // Chuyển hướng về trang chi tiết sản phẩm với cùng ID
+            header("Location: chitietsp-login.php?id=$masp");
+            exit();
         } else {
             echo "<script>alert('⚠️ Lỗi khi thêm vào giỏ hàng!');</script>";
         }

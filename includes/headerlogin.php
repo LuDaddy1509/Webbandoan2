@@ -101,13 +101,13 @@ if (isset($_SESSION['mySession'])) {
   <div class="container">
     <ul class="menu-list">
       <li class="menu-list-item"><a href="login.php" class="menu-link">Trang chủ</a></li>
-      <li class="menu-list-item"><a href="index.php?Type=Món chay" class="menu-link">Món chay</a></li>
-      <li class="menu-list-item"><a href="index.php?Type=Món mặn" class="menu-link">Món mặn</a></li>
-      <li class="menu-list-item"><a href="index.php?Type=Món lẩu" class="menu-link">Món lẩu</a></li>
-      <li class="menu-list-item"><a href="index.php?Type=Món ăn vặt" class="menu-link">Món ăn vặt</a></li>
-      <li class="menu-list-item"><a href="index.php?Type=Món tráng miệng" class="menu-link">Món tráng miệng</a></li>
-      <li class="menu-list-item"><a href="index.php?Type=Nước uống" class="menu-link">Nước uống</a></li>
-      <li class="menu-list-item"><a href="index.php?Type=Hải sản" class="menu-link">Hải sản</a></li>
+      <li class="menu-list-item"><a href="login.php?Type=Món chay" class="menu-link">Món chay</a></li>
+      <li class="menu-list-item"><a href="login.php?Type=Món mặn" class="menu-link">Món mặn</a></li>
+      <li class="menu-list-item"><a href="login.php?Type=Món lẩu" class="menu-link">Món lẩu</a></li>
+      <li class="menu-list-item"><a href="login.php?Type=Món ăn vặt" class="menu-link">Món ăn vặt</a></li>
+      <li class="menu-list-item"><a href="login.php?Type=Món tráng miệng" class="menu-link">Món tráng miệng</a></li>
+      <li class="menu-list-item"><a href="login.php?Type=Nước uống" class="menu-link">Nước uống</a></li>
+      <li class="menu-list-item"><a href="login.php?Type=Hải sản" class="menu-link">Hải sản</a></li>
     </ul>
   </div>
 </nav>

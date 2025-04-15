@@ -692,6 +692,14 @@ tbody tr td {
   display: inline-block;
 }
 
+.status-destroy-complete {
+  background-color: #b22eff;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 15px;
+  display: inline-block;
+}
 /* Modal Add Customer */
 
 .admin-customer .modal-body label {
