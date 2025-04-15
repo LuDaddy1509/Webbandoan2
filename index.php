@@ -22,7 +22,6 @@
     />
     <link rel="stylesheet" href="assets/css/base.css" />
     <link rel="stylesheet" href="assets/css/style.css" />
-    <link rel="stylesheet" href="./assets/css/toast-message.css" />
 
     <title>Đặc sản 3 miền</title>
     <link href="./assets/img/logo.png" rel="icon" type="image/x-icon" />

@@ -188,6 +188,7 @@ $result = $stmt->get_result();
         </div>
       </div>
       <?php endwhile; ?>
+
     </div>
   </div>
 </div>
@@ -209,7 +210,7 @@ $result = $stmt->get_result();
       <?php
       for ($i = 1; $i <= $total_pages; $i++) {
           $active_class = ($i == $page) ? 'trang-chinh' : '';
-          echo '<li><a href="index.php?Type=' . urlencode($Type) . '&page=' . $i . '" class="inner-trang ' . $active_class . '">' . $i . '</a></li>';
+          echo '<li><a href="login.php?Type=' . urlencode($Type) . '&page=' . $i . '" class="inner-trang ' . $active_class . '">' . $i . '</a></li>';
       }
       ?>
     </ul>

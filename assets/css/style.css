@@ -40,6 +40,121 @@ body {
   position: relative;
 }
 
+body,
+input,
+button,
+textarea,
+pre {
+  font-family: Roboto Condensed, sans-serif;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Custom radio buttons */
+input[type="radio"] + label {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  padding-left: 30px;
+  margin-right: 15px;
+}
+
+input[type="radio"] + label:before {
+  content: "";
+  display: block;
+  width: 22px;
+  height: 22px;
+  margin-right: 14px;
+  position: absolute;
+  top: -3px;
+  left: 0;
+  border: 1px solid #aaa;
+  background-color: #fff;
+  border-radius: 50%;
+}
+
+input[type="radio"] {
+  display: none !important;
+}
+
+input[type="radio"]:checked + label:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 3px;
+  left: 6px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--red);
+}
+
+input[type="radio"]:checked + label:before {
+  border: 1px solid var(--red);
+}
+
+/* Custom checkbox */
+input[type="checkbox"] + label {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  padding-left: 30px;
+  margin-right: 15px;
+  font-size: 13px;
+}
+
+input[type="checkbox"] + label:before {
+  content: "";
+  display: block;
+  width: 18px;
+  height: 18px;
+  margin-right: 14px;
+  position: absolute;
+  top: -3px;
+  left: 0;
+  border: 1px solid #aaa;
+  background-color: #fff;
+  border-radius: 3px;
+}
+
+input[type="checkbox"] {
+  display: none !important;
+}
+
+input[type="checkbox"]:checked + label:after {
+  content: "\f00c";
+  font-family: "Font Awesome 6 Pro";
+  font-size: 15px;
+  line-height: 16px;
+  color: var(--white);
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 4px;
+  width: 16px;
+  height: 16px;
+}
+
+input[type="checkbox"]:checked + label:before {
+  border: 1px solid var(--red);
+  background-color: var(--red);
+}
+
+.dnone {
+  display: none !important;
+}
+
 /* Header Menu */
 header {
   background-color: #fff;
@@ -165,7 +280,7 @@ header {
 .dropdown-item:hover {
   color: #16181b;
   text-decoration: none;
-  background-color: #f8f9fa;
+  background-color: #eee;
 }
 
 .cart-icon-menu {
@@ -229,6 +344,10 @@ header {
   padding: 8px 20px;
   color: var(--text-color);
   width: 100%;
+}
+
+.header-middle-right-menu .bordera {
+  border-top: 1px solid #eee;
 }
 
 .header-middle-right-menu li i {
@@ -498,7 +617,6 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
 }
 
 .header-middle .modal.right .inner-product img {
@@ -516,10 +634,41 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 10px;
 }
 
 .header-middle .modal.right .inner-info .inner-ten {
   font-size: 15px;
+}
+
+.header-middle .modal.right .product-note {
+  font-size: 14px;
+  color: #808080;
+  font-style: italic;
+  margin-top: 5px;
+  margin-bottom: 0;
+}
+
+.header-middle .modal.right .product-note i {
+  margin-right: 5px;
+}
+
+.header-middle .modal.right .cart-item-delete {
+  border: none;
+  outline: none;
+  background-color: var(--color-bg2);
+  padding: 5px 10px;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  position: relative;
+  font-size: 14px;
+}
+
+.header-middle .modal.right .cart-item-delete::before {
+  content: "\f1f8";
+  font-family: "Font Awesome 6 Pro";
+  margin-right: 5px;
 }
 
 .header-middle .modal.right .buttons_added {
@@ -2329,6 +2478,35 @@ button:focus {
 
 .modal-backdrop {
   z-index: 12;
+}
+
+.Products .home-products {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.Products .no-result {
+  width: 100%;
+  text-align: center;
+  margin: 10px 0;
+}
+
+.Products .no-result-h {
+  font-size: 25px;
+  margin: 10px;
+}
+
+.Products .no-result-p {
+  width: 100%;
+  color: #757575;
+  text-align: center;
+}
+
+.Products .no-result i {
+  color: #757575;
+  font-size: 80px;
+  margin-top: 30px;
 }
 
 /* End SanPham */
