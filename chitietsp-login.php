@@ -15,7 +15,6 @@
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
-
     <link
       rel="stylesheet"
       href="assets/font-awesome-pro-v6-6.2.0/css/all.min.css"
@@ -96,25 +95,12 @@
                     />
                     <span id="tang" onclick="tangsoluong()" class="inner-cong">+</span>
                   </div>
-                  <button type="submit" onclick="thongbao()" class="inner-nut" name="addProduct">
-                    Thêm vào giỏ hàng
+                  <button type="submit" onclick="thongbao()" class="inner-nut" name="addProduct" data-id="<?php $row['ID'];?>">
+                    Thêm vào giỏ hàng 
                   </button>
                 </div>
                 </form>
               </div>
-              <script>
-                function tangsoluong() {
-    let input = document.getElementById("tanggiam");
-    input.value = parseInt(input.value) + 1;
-}
-
-function giamsoluong() {
-    let input = document.getElementById("tanggiam");
-    if (parseInt(input.value) > 1) {
-        input.value = parseInt(input.value) - 1;
-    }
-}
-              </script>
               <div class="col-xl-12">
                 <div class="inner-thongtin">
                   <div class="inner-nut">
@@ -304,8 +290,6 @@ if ($conn->connect_error) {
 // Lấy 4 sản phẩm ngẫu nhiên
 $sql = "SELECT * FROM sanpham ORDER BY RAND() LIMIT 4";
 $result = $conn->query($sql);
-
-// Hiển thị sản phẩm
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         echo '
@@ -327,16 +311,8 @@ if ($result->num_rows > 0) {
 } else {
     echo "Không có sản phẩm nào!";
 }
-
 $conn->close();
 ?>
-
-
-
-
-
-
-
         </div>
       </div>
     </div>
@@ -345,4 +321,24 @@ $conn->close();
 <?php
 include_once "includes/footer.php";
 ?>
+<script>
+   function tangsoluong() {
+    let input = document.getElementById("tanggiam");
+    input.value = parseInt(input.value) + 1;
+}
+function giamsoluong() {
+    let input = document.getElementById("tanggiam");
+    if (parseInt(input.value) > 1) {
+        input.value = parseInt(input.value) - 1;
+    }
+}
+$(document).ready(function(){
+  $('.inner-nut').click(function(){
+    var id = $(this).data('id');
+    $.post('capnhatgh.php',{ action: 'add' , id: id },function(response){
+      alert(response.message)
+    },'json');
+  });
+});
+</script>
 </html>

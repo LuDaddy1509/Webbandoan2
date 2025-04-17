@@ -1,8 +1,8 @@
  <!-- header top  -->
-<?php
+<!-- <?php
    session_start();
    ob_start();
-?>
+?> -->
  <header>
       <div class="header-middle">
       <div class="container">

@@ -64,37 +64,35 @@ ob_start();
                   </li>
                 </ul>
               </li>
-              <li class="header-middle-right-item open" data-toggle="modal"  
-              data-target="#cartModal">
-                <div class="cart-icon-menu">
-                  <i class="fa-light fa-basket-shopping"></i>
-                  <span class="count-product-cart">
-                  <?php 
-include "connect.php";
-if (isset($_SESSION['mySession'])) {
-    $makh = $_SESSION['makh'];
-    $sql = "SELECT SUM(soluong) AS total_quantity FROM giohang WHERE makh = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $makh);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $row = $result->fetch_assoc();
-    
-    echo htmlspecialchars($row['total_quantity'] ?? 0);
-} else {
-    echo "0";
-}
-?>
-
-                  </span>
-                </div>
-                <span>Giỏ hàng</span>
-              </li>
+              <li class="header-middle-right-item">
+    <a href="<?php echo isset($_SESSION['makh']) ? 'giohang.php?makh=' . urlencode($_SESSION['makh']) : 'login.php'; ?>" class="cart-link">
+        <div class="cart-icon-menu">
+            <i class="fa-light fa-basket-shopping"></i>
+            <span class="count-product-cart">
+                <?php
+                include "connect.php";
+                if (isset($_SESSION['mySession']) && isset($_SESSION['makh'])) {
+                    $makh = $_SESSION['makh'];
+                    $sql = "SELECT SUM(soluong) AS total_quantity FROM giohang WHERE makh = ?";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bind_param("i", $makh);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    $row = $result->fetch_assoc();
+                    echo htmlspecialchars($row['total_quantity'] ?? 0);
+                } else {
+                    echo "0";
+                }
+                ?>
+            </span>
+        </div>
+    </a>
+    <span>Giỏ hàng</span>
+</li>
             </ul>
           </div>
         </div>
         <?php
-        include "includes/giohang.php"; 
         ?>
       </div>
     </header>
