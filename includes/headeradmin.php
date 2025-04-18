@@ -32,7 +32,7 @@
             >
           </li>
           <li>
-            <a href="adminorder.php"
+            <a href="adminthongkechitiet.php"
               ><i class="fa-light fa-basket-shopping"></i> Đơn hàng</a
             >
           </li>
