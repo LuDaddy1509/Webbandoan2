@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 15, 2025 at 06:40 AM
+-- Generation Time: Apr 18, 2025 at 05:36 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -61,18 +61,20 @@ CREATE TABLE `donhang` (
   `makh` int(255) NOT NULL,
   `tongtien` int(255) NOT NULL,
   `trangthai` enum('chưa xác nhận','đã xác nhận','đã giao','thành công','hủy đơn') NOT NULL,
-  `ngaytao` date DEFAULT curdate()
+  `ngaytao` date DEFAULT curdate(),
+  `PT` enum('Chuyển khoản','Tiền mặt') NOT NULL DEFAULT 'Tiền mặt',
+  `ghichu` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `donhang`
 --
 
-INSERT INTO `donhang` (`madh`, `makh`, `tongtien`, `trangthai`, `ngaytao`) VALUES
-(5, 9, 150, 'đã xác nhận', '2025-04-11'),
-(6, 10, 575, 'đã xác nhận', '2025-04-11'),
-(7, 6, 95, 'đã xác nhận', '2025-04-13'),
-(8, 7, 425, 'đã xác nhận', '2025-04-13');
+INSERT INTO `donhang` (`madh`, `makh`, `tongtien`, `trangthai`, `ngaytao`, `PT`, `ghichu`) VALUES
+(5, 9, 150, 'đã xác nhận', '2025-04-11', 'Tiền mặt', ''),
+(6, 10, 575, 'đã xác nhận', '2025-04-11', 'Tiền mặt', ''),
+(7, 6, 95, 'đã xác nhận', '2025-04-13', 'Tiền mặt', ''),
+(8, 7, 425, 'đã xác nhận', '2025-04-13', 'Tiền mặt', '');
 
 -- --------------------------------------------------------
 
@@ -328,7 +330,7 @@ ALTER TABLE `donhang`
 -- AUTO_INCREMENT for table `giohang`
 --
 ALTER TABLE `giohang`
-  MODIFY `magiohang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
+  MODIFY `magiohang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=154;
 
 --
 -- AUTO_INCREMENT for table `khachhang`
