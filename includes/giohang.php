@@ -35,18 +35,18 @@ $total_price = 0;
           <div class="cart-item">
 
             <div class="inner-product">
-              <img src="<?= htmlspecialchars($row['Image']); ?>" alt="Product Image" />
+<div class="inner-ten"><?= htmlspecialchars($row['Name']); ?></div>
               <div class="inner-gia"><?= number_format($row['Price'], 0, ',', '.'); ?>.000₫</div>
             </div>
+            <p class="product-note"><i class="fa-light fa-pencil"></i><span>Không có ghi chú</span></p>
             <div class="inner-info">
-              <div class="inner-ten"><?= htmlspecialchars($row['Name']); ?></div>
+              <button class="cart-item-delete" onclick="deleteCartItem(2,this)">Xóa</button>
               <div class="buttons_added">
               <form action="" method="post">
   <input type="hidden" name="masp" value="<?= $row['ID'];?>">
   <input class="minus is-form" type="button" value="-" />
-  <input class="input-qty" type="text" value="<?= $row['soluong']; ?>" />
+  <input class="input-qty" max="100" min="1"  type="number" value="<?= $row['soluong']; ?>">
   <input class="plus is-form" type="button" value="+" />
-  <button type="submit" name="xoasp" class="bn-delete-product">Xoá</button>
 </form>
 
           </div>
@@ -54,7 +54,12 @@ $total_price = 0;
           </div>
           <?php endwhile; ?>
         <?php else: ?>
-          <p>🛒 Giỏ hàng của bạn đang trống.</p>
+          <div class="inner-icon">
+                <i class="fa-solid fa-cart-xmark"></i>
+              </div>
+              <div class="inner-desc">
+                Không có sản phẩm nào trong giỏ hàng của bạn
+              </div>
         <?php endif; ?>
       </div>
       <?php
@@ -93,29 +98,7 @@ if (isset($_POST['xoasp'])) {
   </div>
 </div>
 <style>
-  .bn-delete-product {
-  background-color: #ff4d4d;
-  color: white;
-  border: none;
-  padding: 6px 10px;
-  margin-left: 10px;
-  cursor: pointer;
-  border-radius: 4px;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
-}
-.bn-delete-product:hover {
-  background-color: #e60000;
-}
-.modal-body {
-  max-height: 400px; /* hoặc 500px tuỳ ý */
-  overflow-y: auto;
-  padding-right: 10px; /* để không bị cắt thanh cuộn */
-}
 .scrollable-modal-body {
-  max-height: 400px;
   overflow-y: auto;
 }
-
-
 </style>
