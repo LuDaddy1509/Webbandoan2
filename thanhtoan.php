@@ -81,17 +81,6 @@
                           />
                         </div>
                       </div>
-                      <div class="col-xl-8">
-                        <div class="form-group">
-                          <label for="email">Email:</label>
-                          <input
-                            type="email"
-                            id="email"
-                            class="form-control"
-                            value="thanh.ctp@sgu.edu.vn"
-                          />
-                        </div>
-                      </div>
                       <div class="col-xl-4">
                         <div class="form-group">
                           <label for="sdt">Số điện thoại:</label>
