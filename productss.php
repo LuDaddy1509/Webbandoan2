@@ -55,7 +55,6 @@
                 <th>Địa chỉ</th>
                 <th>Giá trị đơn hàng</th>
                 <th>TT thanh toán</th>
-                <th>TT vận chuyển</th>
               </tr>
               <tr>
                 <td><a class="active" href="chitiet.php">DH1</a></td>
@@ -63,7 +62,6 @@
                 <td>273 An Dương Vương, Phường 3, Quận 5, TP Hồ Chí Minh</td>
                 <td>100.000 ₫</td>
                 <td>Đã thu tiền</td>
-                <td>Đã chuyển</td>
               </tr>
             </table>
           </div>
