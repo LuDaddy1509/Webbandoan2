@@ -114,12 +114,13 @@
                       </div>
                       <div class="col-xl-12">
                         <div class="form-group">
-                          <label for="diachi">Địa chỉ:</label>
+                          <label for="diachi">Địa chỉ nhận:</label>
                           <input
                             type="text"
                             id="diachi"
                             class="form-control"
                             value="<?= htmlspecialchars($row['diachi']); ?>"
+                            name="diachinhan"
                           />
                         </div>
                       </div>
@@ -204,11 +205,12 @@ if (isset($_SESSION['makh']) && isset($_POST['thanhtoan']) && isset($_POST['pttt
     $pt = $_POST['pttt'];
     $tongtien = $_POST['tongtien'];
     $ghichu = isset($_POST['ghichu']) ? $_POST['ghichu'] : "";
+    $diachinhan = isset($_POST['diachinhan'])? $_POST['diachinhan'] : '';
 
     // Thêm đơn hàng vào bảng donhang
-    $sql = "INSERT INTO donhang(makh, tongtien, PT, ghichu) VALUES (?, ?, ?, ?)";
+    $sql = "INSERT INTO donhang(makh, tongtien, PT, ghichu,diachinhan) VALUES (?, ?, ?, ?,?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("iiss", $makh, $tongtien, $pt, $ghichu);
+    $stmt->bind_param("iisss", $makh, $tongtien, $pt, $ghichu,$diachinhan);
 
     if ($stmt->execute()) {
         $last_id = $conn->insert_id;
