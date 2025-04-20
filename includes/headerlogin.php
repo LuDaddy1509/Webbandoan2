@@ -45,7 +45,6 @@ ob_start();
                   ></span>
                 </div>
                 <ul class="header-middle-right-menu">
-                  <li><a href="./admin.php"><i class="fa-light fa-gear"></i> Quản lý cửa hàng</a></li>
                   <li>
                   <a class="dropdown-item" href="account.php"
                     ><i class="fa-regular fa-circle-user"></i>Tài khoản của

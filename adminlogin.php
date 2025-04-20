@@ -1,3 +1,10 @@
+<?php
+        session_start();
+        if (isset($_SESSION['error'])) {
+            echo '<p class="error-message">' . $_SESSION['error'] . '</p>';
+            unset($_SESSION['error']);
+        }
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -228,6 +235,12 @@
         font-size: var(--small-font-size);
       }
 
+      .error-message {
+        color: #ff3333;
+        text-align: center;
+        margin-bottom: 1rem;
+      }
+
       @media screen and (min-width: 576px) {
         .login {
           justify-content: center;
@@ -247,24 +260,28 @@
     <div class="login">
       <img src="assets/img/banner.jpg" alt="login image" class="login__img" />
 
-      <form action="admin.php" class="login__form">
+      <form action="login_process.php" method="POST" class="login__form">
         <div class="logo">
           <img src="assets/img/logo.png" />
         </div>
 
         <h1 class="login__title">Đăng nhập quản trị</h1>
+
+       
+
         <div class="login__content">
           <div class="login__box">
             <i class="bx bx-lock-alt login__icon"></i>
             <div class="login__box-input">
               <input
-                type="email"
+                type="text"
                 required
                 class="login__input"
-                id="login-email"
-                placeholder=""
+                id="login-username"
+                name="username"
+                value=""
               />
-              <label for="login-email" class="login__label">Username</label>
+              <label for="login-username" class="login__label">Username</label>
             </div>
           </div>
 
@@ -276,7 +293,8 @@
                 required
                 class="login__input"
                 id="login-pass"
-                placeholder=""
+                name="password"
+                value=""
               />
               <label for="login-pass" class="login__label">Password</label>
               <i class="ri-eye-off-line login__eye" id="login-eye"></i>
@@ -290,6 +308,7 @@
               type="checkbox"
               class="login__check-input"
               id="remember-me"
+              name="remember"
             />
             <label for="remember-me" class="login__check-label"
               >Remember me</label
@@ -302,6 +321,7 @@
     </div>
 
     <script>
+      // Password visibility toggle
       const showHiddenPass = (loginPass, loginEye) => {
         const input = document.getElementById(loginPass);
         const iconEye = document.getElementById(loginEye);
@@ -325,6 +345,57 @@
       };
 
       showHiddenPass("login-pass", "login-eye");
+
+      // Remember me functionality
+      function setCookie(name, value, days) {
+        let expires = "";
+        if (days) {
+          const date = new Date();
+          date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+          expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+      }
+
+      function getCookie(name) {
+        const nameEQ = name + "=";
+        const ca = document.cookie.split(';');
+        for(let i = 0; i < ca.length; i++) {
+          let c = ca[i];
+          while (c.charAt(0) == ' ') {
+            c = c.substring(1, c.length);
+          }
+          if (c.indexOf(nameEQ) == 0) {
+            return c.substring(nameEQ.length, c.length);
+          }
+        }
+        return null;
+      }
+
+      // Auto-fill username and password from cookies
+      window.onload = function() {
+        const username = getCookie("username");
+        const password = getCookie("password");
+        if (username && password) {
+          document.getElementById("login-username").value = username;
+          document.getElementById("login-pass").value = password;
+          document.getElementById("remember-me").checked = true;
+        }
+      };
+
+      // Save credentials to cookies when form is submitted
+      document.querySelector(".login__form").addEventListener("submit", function() {
+        if (document.getElementById("remember-me").checked) {
+          const username = document.getElementById("login-username").value;
+          const password = document.getElementById("login-pass").value;
+          setCookie("username", username, 30); // Store for 30 days
+          setCookie("password", password, 30);
+        } else {
+          // Clear cookies if "Remember me" is not checked
+          setCookie("username", "", -1);
+          setCookie("password", "", -1);
+        }
+      });
     </script>
   </body>
 </html>
