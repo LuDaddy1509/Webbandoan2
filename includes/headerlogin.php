@@ -52,10 +52,11 @@ ob_start();
                   >
                   </li>
                   <li>
-                  <a class="dropdown-item" href="productss.php"
-                    ><i class="fa-solid fa-cart-shopping"></i>Đơn hàng đã mua</a
-                  >
-                  </li>
+  <a class="dropdown-item" href="<?= isset($_SESSION['makh']) ? 'productss.php?makh=' . urlencode($_SESSION['makh']) : 'login.php'; ?>">
+    <i class="fa-solid fa-cart-shopping"></i> Đơn hàng đã mua
+  </a>
+</li>
+
                   <li>
                   <a  href="logout.php" class="dropdown-item bordera">
                     <i class="fa-solid fa-right-from-bracket"></i>Thoát tài
