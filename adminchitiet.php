@@ -29,7 +29,7 @@
   </head>
 
   <body>
-      <?php
+  <?php
     include_once "./connect.php"; // Kết nối database
     include_once "./includes/headeradmin.php"; // Header admin
 
@@ -39,9 +39,9 @@
     // Truy vấn chi tiết đơn hàng
     $sql = "
         SELECT 
-            ctdh.mactdh, ctdh.masp, ctdh.soluong, ctdh.dongia, 
+            ctdh.mactdh, ctdh.masp, ctdh.soluong, ctdh.giabanle, 
             sp.Name AS ten_sanpham, sp.Image AS anh_sanpham,
-            dh.ngaytao, dh.PT, dh.ghichu, dh.trangthai, dh.tongtien AS tongtien_dh,
+            dh.ngaytao, dh.phuongthuc, dh.ghichu, dh.trangthai, dh.tongtien AS tongtien_dh,
             kh.tenkh, kh.sodienthoai, kh.diachi
         FROM chitietdonhang ctdh
         JOIN sanpham sp ON ctdh.masp = sp.ID
@@ -94,7 +94,7 @@
                                                     <div class="inner-sl">SL: <?php echo intval($item['soluong']); ?></div>
                                                 </div>
                                             </div>
-                                            <div class="inner-gia"><?php echo $item['dongia']; ?>.000 ₫</div>
+                                            <div class="inner-gia"><?php echo $item['giabanle']; ?>.000 ₫</div>
                                         </div>
                                     <?php endforeach; ?>
                                 <?php else: ?>
@@ -109,7 +109,7 @@
                                     </div>
                                     <div class="inner-pt">
                                         <div class="inner-cachthuc"><i class="fa-regular fa-credit-card"></i> PT thanh toán</div>
-                                        <div class="inner-ketqua"><?php echo htmlspecialchars($order_info['PT'] ?: 'Không xác định'); ?></div>
+                                        <div class="inner-ketqua"><?php echo htmlspecialchars($order_info['phuongthuc'] ?: 'Không xác định'); ?></div>
                                     </div>
                                     <div class="inner-pt">
                                         <div class="inner-cachthuc"><i class="fa-solid fa-person"></i> Người nhận</div>
