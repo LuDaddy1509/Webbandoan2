@@ -68,7 +68,7 @@
     $order_info = $order_details[0] ?? null; // Lấy thông tin đơn hàng từ dòng đầu tiên
 
     // Phí vận chuyển mặc định
-    $phi_van_chuyen = 30;
+    $phi_van_chuyen = 0;
     ?>
        <div class="admin-chitiet">
         <div class="order-chitiet">

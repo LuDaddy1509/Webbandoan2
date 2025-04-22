@@ -44,12 +44,6 @@
         </ul>
 
         <ul class="sidebar-list">
-          <li class="sidebar-list-item user-logout">
-            <a href="login.php" class="sidebar-link">
-              <div class="sidebar-icon"><i class="fa-thin fa-circle-chevron-left"></i></div>
-              <div class="hidden-sidebar">Trang chủ</div>
-            </a>
-          </li>
          <!-- Assuming this is part of a larger admin.php file -->
           <li class="sidebar-list-item user-logout">
             <a href="#" class="sidebar-link">
