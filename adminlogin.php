@@ -1,9 +1,6 @@
 <?php
         session_start();
-        if (isset($_SESSION['error'])) {
-            echo '<p class="error-message">' . $_SESSION['error'] . '</p>';
-            unset($_SESSION['error']);
-        }
+       
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -315,7 +312,12 @@
             >
           </div>
         </div>
-
+        <?php
+         if (isset($_SESSION['error'])) {
+            echo '<p class="error-message">' . $_SESSION['error'] . '</p>';
+            unset($_SESSION['error']);
+        }
+         ?>
         <button type="submit" class="login__button">Login</button>
       </form>
     </div>
@@ -388,8 +390,8 @@
         if (document.getElementById("remember-me").checked) {
           const username = document.getElementById("login-username").value;
           const password = document.getElementById("login-pass").value;
-          setCookie("username", username, 0.0007); // Store for ~1 minute
-          setCookie("password", password, 0.0007);
+          setCookie("username", username, 30); 
+          setCookie("password", password, 30);
         } else {
           // Clear cookies if "Remember me" is not checked
           setCookie("username", "", -1);

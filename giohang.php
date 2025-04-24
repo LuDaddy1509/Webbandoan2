@@ -168,10 +168,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="mt-4">
-                        <p class="text-md">Ghi chú cho người bán</p>
-                        <textarea class="form-control mt-2" placeholder="Chúng tôi có thể giúp gì cho bạn?" rows="5"></textarea>
-                    </div>
+                   
                 </div>
                 <div class="col-md-4">
                     <div class="card bg-cream p-4 mb-4">
