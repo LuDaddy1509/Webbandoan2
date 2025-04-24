@@ -48,7 +48,7 @@
           <li class="sidebar-list-item user-logout">
             <a href="#" class="sidebar-link">
               <div class="sidebar-icon"><i class="fa-light fa-circle-user"></i></div>
-              <div class="hidden-sidebar" id="name-acc">Lữ Học Nhân</div>
+              <div class="hidden-sidebar" id="name-acc">Đăng nhập</div>
             </a>
           </li>
 

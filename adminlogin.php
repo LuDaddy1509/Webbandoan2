@@ -388,8 +388,8 @@
         if (document.getElementById("remember-me").checked) {
           const username = document.getElementById("login-username").value;
           const password = document.getElementById("login-pass").value;
-          setCookie("username", username, 30); // Store for 30 days
-          setCookie("password", password, 30);
+          setCookie("username", username, 0.0007); // Store for ~1 minute
+          setCookie("password", password, 0.0007);
         } else {
           // Clear cookies if "Remember me" is not checked
           setCookie("username", "", -1);

@@ -3,7 +3,7 @@ session_start();
 
 // Database connection
 try {
-    $pdo = new PDO("mysql:host=127.0.0.1;dbname=webbandoan2;charset=utf8", "root", "");
+    $pdo = new PDO("mysql:host=127.0.0.1;dbname=webbandoan222;zcharset=utf8", "root", "");
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     die("Connection failed: " . $e->getMessage());
@@ -103,12 +103,38 @@ $total = ($subtotal * 1000) + $shippingCost;
                         <div class="hidden-sidebar" id="name-acc">Lữ Học Nhân</div>
                     </a>
                 </li>
-                <li class="sidebar-list-item user-logout">
-                    <a href="index.php" class="sidebar-link" id="logout-acc">
-                        <div class="sidebar-icon"><i class="fa-light fa-arrow-right-from-bracket"></i></div>
-                        <div class="hidden-sidebar">Đăng xuất</div>
-                    </a>
-                </li>
+                <script>
+            // Function to get cookie by name
+            function getCookie(name) {
+              const nameEQ = name + "=";
+              const ca = document.cookie.split(';');
+              for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') {
+                  c = c.substring(1, c.length);
+                }
+                if (c.indexOf(nameEQ) == 0) {
+                  return c.substring(nameEQ.length, c.length);
+                }
+              }
+              return null;
+            }
+
+            // Update username display from cookie
+            window.onload = function() {
+              const username = getCookie("username");
+              const nameElement = document.getElementById("name-acc");
+              if (username && nameElement) {
+                nameElement.textContent = username;
+              }
+            };
+          </script>
+           <li class="sidebar-list-item user-logout">
+            <a href="adminlogin.php" class="sidebar-link" id="logout-acc">
+              <div class="sidebar-icon"><i class="fa-light fa-arrow-right-from-bracket"></i></div>
+              <div class="hidden-sidebar">Đăng xuất</div>
+            </a>
+          </li>
             </ul>
         </nav>
 
