@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th4 21, 2025 lúc 10:27 AM
+-- Thời gian đã tạo: Th4 24, 2025 lúc 08:39 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.0.30
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Cơ sở dữ liệu: `webbandoan2`
+-- Cơ sở dữ liệu: `webbandoan222`
 --
 
 -- --------------------------------------------------------
@@ -47,7 +47,8 @@ INSERT INTO `chitietdonhang` (`mactdh`, `madh`, `masp`, `soluong`, `giabanle`) V
 (4, 7, 1, 1, 50),
 (5, 7, 2, 1, 20),
 (7, 10, 14, 1, 10),
-(8, 11, 27, 1, 50);
+(8, 11, 27, 1, 50),
+(9, 12, 2, 1, 20);
 
 -- --------------------------------------------------------
 
@@ -78,8 +79,9 @@ INSERT INTO `donhang` (`madh`, `makh`, `ngaytao`, `tongtien`, `ghichu`, `diachi`
 (6, 13, '2025-04-19 08:05:29', 50, '', '12345', 'Tiền mặt', 'Đã giao thành công'),
 (7, 13, '2025-04-19 10:04:18', 70, '', '12345', 'Tiền mặt', 'Chưa xác nhận'),
 (8, 13, '2025-04-21 08:07:24', 50, '1', '123 B, Quận 1, Thành phố Hồ Chí Minh', 'Tiền mặt', 'Chưa xác nhận'),
-(10, 13, '2025-04-21 08:14:58', 10, '', '12345', 'Tiền mặt', 'Chưa xác nhận'),
-(11, 13, '2025-04-21 08:22:47', 50, '', '12345', 'Tiền mặt', 'Đã xác nhận');
+(10, 13, '2025-04-21 08:14:58', 10, '', '12345', 'Tiền mặt', 'Đã giao thành công'),
+(11, 13, '2025-04-21 08:22:47', 50, '', '12345', 'Tiền mặt', 'Đã giao thành công'),
+(12, 23, '2025-04-24 06:14:38', 20, '', '321, Quận Tân Phú, Thành phố Hồ Chí Minh', 'Tiền mặt', 'Đã giao thành công');
 
 -- --------------------------------------------------------
 
@@ -119,7 +121,7 @@ INSERT INTO `giohang` (`magiohang`, `makh`, `masp`, `soluong`, `dongia`) VALUES
 --
 
 CREATE TABLE `khachhang` (
-  `makh` int(11) NOT NULL,
+  `makh` int(255) NOT NULL,
   `tenkh` varchar(100) NOT NULL,
   `matkhau` varchar(20) NOT NULL,
   `diachi` varchar(100) NOT NULL,
@@ -136,7 +138,8 @@ INSERT INTO `khachhang` (`makh`, `tenkh`, `matkhau`, `diachi`, `sodienthoai`, `t
 (12, 'nhan', 'nhan1234', 'quan tan phu', '0775177636', 'Active', '2025-04-19'),
 (13, 'KK', '12345', '12345', '12345', 'Active', '2025-04-19'),
 (14, 'kkkkkk', '090909', '090909', '090909', 'Active', '2025-04-19'),
-(22, 'Đăng Khoa', '0987', '123', '0987654321', 'Active', '2025-04-19');
+(22, 'Đăng Khoa', '0987', '123', '0987654321', 'Active', '2025-04-19'),
+(23, 'nguyenvana', '321', '321', '321', 'Active', '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -229,7 +232,7 @@ INSERT INTO `sanpham` (`ID`, `Name`, `Image`, `Price`, `Describtion`, `Type`, `V
 (24, 'Bánh đập hến xào', 'assets\\img\\products\\banhdaphenxao.jpg', 45, 'Bánh đập giòn tan kết hợp với hến xào thơm ngon.', 'món mặn', 1),
 (25, 'Cá lóc nướng trui', 'assets\\img\\products\\calocnuongtrui.jpg', 110, 'Cá lóc nướng nguyên con, ăn kèm rau sống và bún.', 'hải sản', 1),
 (26, 'Lẩu mắm miền Tây', 'assets\\img\\products\\laumam.jpg', 180, 'Lẩu mắm đậm đà, ăn kèm rau đồng quê và bún tươi.', 'hải sản', 1),
-(27, 'Bánh tét lá cẩm', 'assets/img/products/1745057669_banhtetlacam.jpg', 50, 'Bánh tét dẻo thơm, nhân đậu xanh và thịt ba rọi.', 'món tráng miệng', 1),
+(27, 'Bánh tét lá cẩm', 'assets/img/products/1745057669_banhtetlacam.jpg\'.jpeg', 50, 'Bánh tét dẻo thơm, nhân đậu xanh và thịt ba rọi.', 'món tráng miệng', 1),
 (28, 'Gỏi gà măng cụt', 'assets\\img\\products\\goigamangcut.jpg', 90, 'Gà ta xé phay, trộn cùng măng cụt giòn ngọt.', 'món mặn', 1),
 (29, 'Bánh xèo Nam Bộ', 'assets\\img\\products\\banhxeonambo.jpg', 70, 'Bánh xèo vàng giòn, nhân đầy tôm, thịt và giá.', 'món mặn', 1),
 (30, 'Gỏi củ hủ dừa', 'assets\\img\\products\\goicuhudua.jpg', 65, 'Củ hủ dừa giòn ngọt, trộn cùng tôm thịt và rau thơm.', 'món mặn', 1),
@@ -295,6 +298,12 @@ ALTER TABLE `giohang`
   ADD PRIMARY KEY (`magiohang`);
 
 --
+-- Chỉ mục cho bảng `khachhang`
+--
+ALTER TABLE `khachhang`
+  ADD PRIMARY KEY (`makh`);
+
+--
 -- Chỉ mục cho bảng `nhanvien`
 --
 ALTER TABLE `nhanvien`
@@ -308,19 +317,25 @@ ALTER TABLE `nhanvien`
 -- AUTO_INCREMENT cho bảng `chitietdonhang`
 --
 ALTER TABLE `chitietdonhang`
-  MODIFY `mactdh` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `mactdh` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT cho bảng `donhang`
 --
 ALTER TABLE `donhang`
-  MODIFY `madh` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `madh` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT cho bảng `giohang`
 --
 ALTER TABLE `giohang`
-  MODIFY `magiohang` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `magiohang` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT cho bảng `khachhang`
+--
+ALTER TABLE `khachhang`
+  MODIFY `makh` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -234,8 +234,8 @@
 
       .error-message {
         color: #ff3333;
-        text-align: center;
         margin-bottom: 1rem;
+        font-size: 15px;
       }
 
       @media screen and (min-width: 576px) {

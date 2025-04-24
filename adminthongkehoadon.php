@@ -3,7 +3,7 @@ session_start();
 
 // Database connection
 try {
-    $pdo = new PDO("mysql:host=127.0.0.1;dbname=webbandoan222;zcharset=utf8", "root", "");
+    $pdo = new PDO("mysql:host=127.0.0.1;dbname=webbandoan2;zcharset=utf8", "root", "");
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     die("Connection failed: " . $e->getMessage());
@@ -72,38 +72,59 @@ $total = ($subtotal * 1000) + $shippingCost;
 </head>
 <body>
     <div class="wrapper d-flex align-items-stretch">
-        <nav id="sidebar">
-            <div class="custom-menu">
-                <button type="button" id="sidebarCollapse" class="btn btn-primary"></button>
+      <nav id="sidebar">
+        <div class="custom-menu">
+          <button
+            type="button"
+            id="sidebarCollapse"
+            class="btn btn-primary"
+          ></button>
+        </div>
+        <div class="img bg-wrap text-center py-4">
+          <div class="user-logo">
+            <div class="inner-logo">
+              <img src="assets/img/logo.png" alt="logo" />
             </div>
-            <div class="img bg-wrap text-center py-4">
-                <div class="user-logo">
-                    <div class="inner-logo">
-                        <img src="assets/img/logo.png" alt="logo" />
-                    </div>
-                </div>
-            </div>
-            <ul class="list-unstyled components mb-5">
-                <li><a href="admin.php"><i class="fa-light fa-house"></i> Trang tổng quan</a></li>
-                <li><a href="adminproduct.php"><i class="fa-light fa-pot-food"></i> Sản phẩm</a></li>
-                <li><a href="admincustomer.php"><i class="fa-light fa-users"></i> Khách hàng</a></li>
-                <li><a href="adminorder.php"><i class="fa-light fa-basket-shopping"></i> Đơn hàng</a></li>
-                <li class="active"><a href="adminstatistical.php"><i class="fa-light fa-chart-simple"></i> Thống kê</a></li>
-            </ul>
-            <ul class="sidebar-list">
-                <li class="sidebar-list-item user-logout">
-                    <a href="login.php" class="sidebar-link">
-                        <div class="sidebar-icon"><i class="fa-thin fa-circle-chevron-left"></i></div>
-                        <div class="hidden-sidebar">Trang chủ</div>
-                    </a>
-                </li>
-                <li class="sidebar-list-item user-logout">
-                    <a href="#" class="sidebar-link">
-                        <div class="sidebar-icon"><i class="fa-light fa-circle-user"></i></div>
-                        <div class="hidden-sidebar" id="name-acc">Lữ Học Nhân</div>
-                    </a>
-                </li>
-                <script>
+          </div>
+        </div>
+        <ul class="list-unstyled components mb-5">
+          <li>
+            <a href="admin.php"
+              ><i class="fa-light fa-house"></i> Trang tổng quan</a
+            >
+          </li>
+          <li>
+            <a href="adminproduct.php"
+              ><i class="fa-light fa-pot-food"></i> Sản phẩm</a
+            >
+          </li>
+          <li>
+            <a href="admincustomer.php"
+              ><i class="fa-light fa-users"></i> Khách hàng</a
+            >
+          </li>
+          <li>
+            <a href="adminorder.php"
+              ><i class="fa-light fa-basket-shopping"></i> Đơn hàng</a
+            >
+          </li>
+          <li class="active">
+            <a href="adminstatistical.php"
+              ><i class="fa-light fa-chart-simple"></i> Thống kê</a
+            >
+          </li>
+        </ul>
+
+        <ul class="sidebar-list">
+         <!-- Assuming this is part of a larger admin.php file -->
+          <li class="sidebar-list-item user-logout">
+            <a href="#" class="sidebar-link">
+              <div class="sidebar-icon"><i class="fa-light fa-circle-user"></i></div>
+              <div class="hidden-sidebar" id="name-acc">Khoa</div>
+            </a>
+          </li>
+
+          <script>
             // Function to get cookie by name
             function getCookie(name) {
               const nameEQ = name + "=";
@@ -129,14 +150,34 @@ $total = ($subtotal * 1000) + $shippingCost;
               }
             };
           </script>
-           <li class="sidebar-list-item user-logout">
+          <li class="sidebar-list-item user-logout">
             <a href="adminlogin.php" class="sidebar-link" id="logout-acc">
               <div class="sidebar-icon"><i class="fa-light fa-arrow-right-from-bracket"></i></div>
               <div class="hidden-sidebar">Đăng xuất</div>
             </a>
           </li>
-            </ul>
-        </nav>
+        </ul>
+      </nav>
+
+      <script>
+  const sidebarItems = document.querySelectorAll('#sidebar .components li');
+  const currentPath = window.location.pathname;
+
+  // Kiểm tra URL hiện tại để đặt "active" khi tải trang
+  sidebarItems.forEach(item => {
+    const link = item.querySelector('a').getAttribute('href');
+    if (currentPath.includes(link)) {
+      sidebarItems.forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+    }
+
+    // Xử lý sự kiện click
+    item.addEventListener('click', function() {
+      sidebarItems.forEach(i => i.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+</script>
 
         <div class="admin-hoadon">
             <div class="hoadon">
