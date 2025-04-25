@@ -103,7 +103,7 @@
 include "connect.php";
 
 // Số sản phẩm trên mỗi trang
-$limit = 12;
+$limit = 8;
 
 // Trang hiện tại (mặc định là 1)
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -135,7 +135,7 @@ $Type = isset($_GET['Type']) ? $_GET['Type'] : '';
 
 // Lấy số trang hiện tại
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$limit = 12;
+$limit = 8;
 $offset = ($page - 1) * $limit;
 
 // Lấy tổng số bản ghi

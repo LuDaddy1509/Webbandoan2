@@ -30,11 +30,12 @@
                     <i class="fa-light fa-magnifying-glass"></i>
                 </span>
                 <input type="text" class="form-search-input" id="search-input" placeholder="Tìm kiếm món ăn...">
-                <button class="filter-btn" id="toggle-filter-btn">
-                    <i class="fa-light fa-filter-list"></i><span>Lọc</span>
-                </button>
+                
             </form>
         </div>
+        <button class="filter-btn" id="toggle-filter-btn">
+                    <i class="fa-light fa-filter-list"></i><span>Lọc</span>
+                </button>
           <div class="header-middle-right">
             <ul class="header-middle-right-list">
               <li class="header-middle-right-item dropdown open">
@@ -109,14 +110,77 @@
         </div>
 
         <div class="advanced-search-price">
-            <span>Giá từ</span>
-            <input type="number" placeholder="tối thiểu" id="min-price">
-            <span>đến</span>
-            <input type="number" placeholder="tối đa" id="max-price">
-            <button type="button" id="advanced-search-price-btn">
-                <i class="fa-light fa-magnifying-glass-dollar"></i> 
-            </button>
-        </div>
+        <span>Giá từ</span>
+        <input type="text" placeholder="tối thiểu" id="min-price">
+        <span>đến</span>
+        <input type="text" placeholder="tối đa" id="max-price">
+        <button type="button" id="advanced-search-price-btn">
+            <i class="fa-light fa-magnifying-glass-dollar"></i> 
+        </button>
+      </div>
+
+      <script>
+function formatCurrencyLive(input) {
+    const value = input.value;
+
+    // Vị trí con trỏ hiện tại
+    const caret = input.selectionStart;
+
+    // Loại bỏ dấu chấm và ký tự không phải số
+    const raw = value.replace(/\D/g, '');
+
+    // Nếu rỗng thì return
+    if (!raw) {
+        input.value = '';
+        return;
+    }
+
+    // Format lại
+    const formatted = raw.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+    // Tính toán vị trí con trỏ mới
+    let newCaret = caret;
+    let numDotsBefore = (value.slice(0, caret).match(/\./g) || []).length;
+    let numDotsAfter = (formatted.slice(0, caret).match(/\./g) || []).length;
+
+    newCaret += (numDotsAfter - numDotsBefore);
+
+    // Gán giá trị mới và đặt lại con trỏ
+    input.value = formatted;
+    input.setSelectionRange(newCaret, newCaret);
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    const inputs = [document.getElementById('min-price'), document.getElementById('max-price')];
+
+    inputs.forEach(input => {
+        // Gõ đến đâu format đến đó
+        input.addEventListener('input', () => formatCurrencyLive(input));
+
+        // Ngăn không cho nhập chữ
+        input.addEventListener('keydown', (e) => {
+            const allowedKeys = [
+                'Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'
+            ];
+            if (!/[0-9]/.test(e.key) && !allowedKeys.includes(e.key)) {
+                e.preventDefault();
+            }
+        });
+
+        // Ngăn dán ký tự không phải số
+        input.addEventListener('paste', (e) => {
+            e.preventDefault();
+            const text = (e.clipboardData || window.clipboardData).getData('text');
+            const numbers = text.replace(/\D/g, '');
+            document.execCommand("insertText", false, numbers);
+        });
+    });
+});
+</script>
+
+
+
+        
 
         <div class="advanced-search-control">
             <button id="sort-ascending" onclick="searchProducts(1)">

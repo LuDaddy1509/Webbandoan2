@@ -28,11 +28,36 @@
   </head>
 
   <body>
-  <?php
-  include_once "includes/headerlogin.php";
-  ?>
-    <!-- Banner -->
+    <?php
+    
+    include_once "connect.php";
 
+    // Kiểm tra trạng thái tài khoản nếu đã đăng nhập
+    if (isset($_SESSION['sodienthoai'])) {
+        $sodienthoai = $_SESSION['sodienthoai'];
+        $stmt = $conn->prepare("SELECT trangthai FROM khachhang WHERE sodienthoai = ?");
+        $stmt->bind_param("s", $sodienthoai);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows == 1) {
+            $row = $result->fetch_assoc();
+            if ($row['trangthai'] == 'Locked') {
+                // Hiển thị thông báo và chuyển hướng
+                echo '<div class="alert alert-danger text-center">Tài khoản của bạn đã bị khóa</div>';
+                $stmt->close();
+                $conn->close();
+                header("Location: index.php");
+                exit();
+            }
+        }
+        $stmt->close();
+    }
+    $conn->close();
+
+    include_once "includes/headerlogin.php";
+    ?>
+    <!-- Banner -->
     <div class="Banner">
       <div class="container">
         <div class="inner-img">
@@ -40,11 +65,9 @@
         </div>
       </div>
     </div>
-
     <!-- End Banner -->
 
     <!-- Service -->
-
     <div class="home-service" id="home-service">
       <div class="container">
         <div class="row">
@@ -95,12 +118,12 @@
         </div>
       </div>
     </div>
-<!-- End Service -->
-<?php
+    <!-- End Service -->
+    <?php
     include "connect.php";
 
     // Số sản phẩm trên mỗi trang
-    $limit = 12;
+    $limit = 8;
 
     // Xác định trang hiện tại (mặc định là 1)
     $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -109,117 +132,116 @@
     // Tính OFFSET
     $offset = ($page - 1) * $limit;
 
-    // Truy vấn danh sách sản phẩm theo phân trang
+    // Truy vấn danh sách sản phẩm theo phận trang
     $stmt = $conn->prepare("SELECT * FROM sanpham LIMIT ? OFFSET ?");
     $stmt->bind_param("ii", $limit, $offset);
     $stmt->execute();
     $result = $stmt->get_result();
-     // Lấy tổng số sản phẩm để tính tổng số trang (chỉ cần tính 1 lần)
-     $total_result = $conn->query("SELECT COUNT(*) as total FROM sanpham");
-     $total_row = $total_result->fetch_assoc();
-     $total_products = $total_row['total'];
-     $total_pages = ($total_products > 0) ? ceil($total_products / $limit) : 1;
-?>
+    // Lấy tổng số sản phẩm để tính tổng số trang (chỉ cần tính 1 lần)
+    $total_result = $conn->query("SELECT COUNT(*) as total FROM sanpham");
+    $total_row = $total_result->fetch_assoc();
+    $total_products = $total_row['total'];
+    $total_pages = ($total_products > 0) ? ceil($total_products / $limit) : 1;
+    ?>
 
-      <!-- Products -->
-      <?php
-include "connect.php";
+    <!-- Products -->
+    <?php
+    include "connect.php";
 
-// Lấy giá trị 'Type' từ GET, nếu có
-$Type = isset($_GET['Type']) ? $_GET['Type'] : '';
+    // Lấy giá trị 'Type' từ GET, nếu có
+    $Type = isset($_GET['Type']) ? $_GET['Type'] : '';
 
-// Lấy số trang hiện tại
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$limit = 12;  // Số món ăn hiển thị trên mỗi trang
-$offset = ($page - 1) * $limit;
+    // Lấy số trang hiện tại
+    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+    $limit = 8;  // Số món ăn hiển thị trên mỗi trang
+    $offset = ($page - 1) * $limit;
 
-// Nếu có giá trị 'Type', lấy tổng số món ăn theo loại
-if ($Type) {
-    $stmt_count = $conn->prepare("SELECT COUNT(*) as total FROM sanpham WHERE Type = ?");
-    $stmt_count->bind_param("s", $Type);
-    $stmt_count->execute();
-} else {
-    // Nếu không có giá trị 'Type', lấy tổng số món ăn (tất cả món ăn)
-    $stmt_count = $conn->prepare("SELECT COUNT(*) as total FROM sanpham");
-    $stmt_count->execute();
-}
+    // Nếu có giá trị 'Type', lấy tổng số món ăn theo loại
+    if ($Type) {
+        $stmt_count = $conn->prepare("SELECT COUNT(*) as total FROM sanpham WHERE Type = ?");
+        $stmt_count->bind_param("s", $Type);
+        $stmt_count->execute();
+    } else {
+        // Nếu không có giá trị 'Type', lấy tổng số món ăn (tất cả món ăn)
+        $stmt_count = $conn->prepare("SELECT COUNT(*) as total FROM sanpham");
+        $stmt_count->execute();
+    }
 
-$count_result = $stmt_count->get_result();
-$row_count = $count_result->fetch_assoc();
-$total_records = $row_count['total'];
-$total_pages = ceil($total_records / $limit);
+    $count_result = $stmt_count->get_result();
+    $row_count = $count_result->fetch_assoc();
+    $total_records = $row_count['total'];
+    $total_pages = ceil($total_records / $limit);
 
-// Truy vấn món ăn cho trang hiện tại
-if ($Type) {
-    // Lấy món ăn theo 'Type' và phân trang
-    $stmt = $conn->prepare("SELECT * FROM sanpham WHERE Type = ? LIMIT ? OFFSET ?");
-    $stmt->bind_param("sii", $Type, $limit, $offset);
-} else {
-    // Lấy tất cả món ăn (không phân loại theo 'Type') và phân trang
-    $stmt = $conn->prepare("SELECT * FROM sanpham LIMIT ? OFFSET ?");
-    $stmt->bind_param("ii", $limit, $offset);
-}
+    // Truy vấn món ăn cho trang hiện tại
+    if ($Type) {
+        // Lấy món ăn theo 'Type' và phân trang
+        $stmt = $conn->prepare("SELECT * FROM sanpham WHERE Type = ? LIMIT ? OFFSET ?");
+        $stmt->bind_param("sii", $Type, $limit, $offset);
+    } else {
+        // Lấy tất cả món ăn (không phân loại theo 'Type') và phân trang
+        $stmt = $conn->prepare("SELECT * FROM sanpham LIMIT ? OFFSET ?");
+        $stmt->bind_param("ii", $limit, $offset);
+    }
 
-$stmt->execute();
-$result = $stmt->get_result();
-?>
+    $stmt->execute();
+    $result = $stmt->get_result();
+    ?>
 
-
-<div class="Products" id="product-list">
-  <div class="container">
-    <div class="row">
-      <div class="col-xl-12">
-        <div class="inner-title">Khám phá thực đơn của chúng tôi</div>
-      </div>
-
-      <?php while ($row = $result->fetch_assoc()): ?>
-      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
-        <div class="inner-item">
-          <a href="chitietsp-login.php?id=<?= $row['ID']; ?>" class="inner-img">
-            <img src="<?= htmlspecialchars($row['Image']); ?>" />
-          </a>
-          <div class="inner-info">
-            <div class="inner-ten"><?= htmlspecialchars($row['Name']); ?></div>
-            <div class="inner-gia"><?= number_format($row['Price']); ?>.000 ₫</div>
-            <a href="chitietsp-login.php?id=<?= $row['ID']; ?>" class="inner-muahang">
-              <i class="fa-solid fa-cart-plus"></i> ĐẶT MÓN
-            </a>
+    <div class="Products" id="product-list">
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-12">
+            <div class="inner-title">Khám phá thực đơn của chúng tôi</div>
           </div>
+
+          <?php while ($row = $result->fetch_assoc()): ?>
+          <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
+            <div class="inner-item">
+              <a href="chitietsp-login.php?id=<?= $row['ID']; ?>" class="inner-img">
+                <img src="<?= htmlspecialchars($row['Image']); ?>" />
+              </a>
+              <div class="inner-info">
+                <div class="inner-ten"><?= htmlspecialchars($row['Name']); ?></div>
+                <div class="inner-gia"><?= number_format($row['Price']); ?>.000 ₫</div>
+                <a href="chitietsp-login.php?id=<?= $row['ID']; ?>" class="inner-muahang">
+                  <i class="fa-solid fa-cart-plus"></i> ĐẶT MÓN
+                </a>
+              </div>
+            </div>
+          </div>
+          <?php endwhile; ?>
         </div>
       </div>
-      <?php endwhile; ?>
-
     </div>
-  </div>
-</div>
+    <!-- Đóng Products -->
 
-
-              <!-- Đóng Products -->
-
-    
-<!-- Kết quả tìm kiếm -->
-<div id="search-results"></div>
-
-
-    
+    <!-- Kết quả tìm kiếm -->
+    <div id="search-results"></div>
 
     <!-- Phân trang -->
     <div id="pagination" class="Pagination">
-  <div class="container">
-    <ul>
-      <?php
-      for ($i = 1; $i <= $total_pages; $i++) {
-          $active_class = ($i == $page) ? 'trang-chinh' : '';
-          echo '<li><a href="login.php?Type=' . urlencode($Type) . '&page=' . $i . '" class="inner-trang ' . $active_class . '">' . $i . '</a></li>';
-      }
-      ?>
-    </ul>
-  </div>
-</div>
+      <div class="container">
+        <ul>
+          <?php
+          for ($i = 1; $i <= $total_pages; $i++) {
+              $active_class = ($i == $page) ? 'trang-chinh' : '';
+              echo '<li><a href="login.php?Type=' . urlencode($Type) . '&page=' . $i . '" class="inner-trang ' . $active_class . '">' . $i . '</a></li>';
+          }
+          ?>
+        </ul>
+      </div>
+    </div>
+    <!-- Đóng phân trang -->
 
-<!-- Đóng phân trang -->
- <!-- Footer -->
+    <!-- Footer -->
     <?php
     include_once "includes/footer.php";
-     ?>
-  <!-- Close Header -->
+    ?>
+    <!-- Close Footer -->
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>

@@ -199,22 +199,22 @@ if (isset($_POST['addproduct'])) {
             </div>
         </div>
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-        <form action="" method="POST" enctype="multipart/form-data">
-            <div class="inner-item">
+        <form action="addproduct.php" method="POST" enctype="multipart/form-data">
+        <div class="inner-item">
                 <div class="inner-img">
                     <img id="preview" src="assets/img/admin/blank-image.png" />
                 </div>
                 <div class="inner-choose">
-                    <label for="choose">
-                        <i class="fa-light fa-cloud-arrow-up"></i> Chọn hình ảnh
-                    </label>
-                    <input
-                        id="choose"
-                        type="file"
-                        accept="image/png, image/jpg, image/jpeg, image/gif"
-                        name="Images"
-                        onchange="previewImage(event)"
-                    />
+                  <label for="choose">
+                    <i class="fa-light fa-cloud-arrow-up"></i> Chọn hình ảnh
+                  </label>
+                  <input
+                    id="choose"
+                    type="file"
+                    accept="image/png, image/jpg, image/jpeg, image/gif"
+                    name="Images"
+                    onchange="previewImage(event)"
+                  />
                 </div>
             </div>
         </div>
@@ -256,15 +256,16 @@ if (isset($_POST['addproduct'])) {
     </div>
 </div>
 
-<script>
-function previewImage(event) {
-    var reader = new FileReader();
-    reader.onload = function(){
-        var output = document.getElementById('preview');
-        output.src = reader.result;
-    };
-    reader.readAsDataURL(event.target.files[0]);
-}
+    <script>
+          function previewImage(event) {
+            var reader = new FileReader();
+            reader.onload = function(){
+              var output = document.getElementById('preview');
+              output.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+          }
+        </script>
 </script>
 
 
