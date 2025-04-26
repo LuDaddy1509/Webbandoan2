@@ -110,14 +110,14 @@
         </div>
 
         <div class="advanced-search-price">
-        <span>Giá từ</span>
-        <input type="text" placeholder="tối thiểu" id="min-price">
-        <span>đến</span>
-        <input type="text" placeholder="tối đa" id="max-price">
-        <button type="button" id="advanced-search-price-btn">
-            <i class="fa-light fa-magnifying-glass-dollar"></i> 
-        </button>
-      </div>
+    <span>Giá từ</span>
+    <input type="text" placeholder="tối thiểu" id="min-price">
+    <span>đến</span>
+    <input type="text" placeholder="tối đa" id="max-price">
+    <button type="button" id="advanced-search-price-btn">
+        <i class="fa-light fa-magnifying-glass-dollar"></i> 
+    </button>
+</div>
 
       <script>
 function formatCurrencyLive(input) {
