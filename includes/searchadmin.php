@@ -11,7 +11,7 @@ if ($conn->connect_error) {
 }
 
 // Nhận dữ liệu từ request
-$name = isset($_POST["name"]) ? trim($_POST["name"]) : '';
+$search = isset($_POST["search"]) ? trim($_POST["search"]) : '';
 $category = isset($_POST["category"]) ? trim($_POST["category"]) : '';
 $min_price_raw = isset($_POST["min_price"]) ? $_POST["min_price"] : '';
 $max_price_raw = isset($_POST["max_price"]) ? $_POST["max_price"] : '';
@@ -37,9 +37,9 @@ $params = [];
 $types = "";
 
 // Tìm kiếm theo tên
-if (!empty($name)) {
+if (!empty($search)) {
     $conditions[] = "(Name LIKE ?)";
-    $params[] = "%$name%";
+    $params[] = "%$search%";
     $types .= "s";
 }
 
@@ -69,9 +69,9 @@ if (!empty($conditions)) {
 
 // Sắp xếp theo giá
 if ($sort_order == 1) {
-    $sql .= " ORDER BY price ASC";
+    $sql .= " ORDER BY Price ASC";
 } elseif ($sort_order == 2) {
-    $sql .= " ORDER BY price DESC";
+    $sql .= " ORDER BY Price DESC";
 }
 
 // Tính tổng số sản phẩm

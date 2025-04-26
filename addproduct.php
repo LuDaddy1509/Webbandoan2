@@ -4,7 +4,12 @@ include "connect.php"; // Kết nối database
 // Kiểm tra xem form đã được submit và các trường bắt buộc có tồn tại không
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['Name']) && isset($_POST['Price']) && isset($_POST['Describtion']) && isset($_POST['Type'])) {
     $name = mysqli_real_escape_string($conn, $_POST['Name']);
-    $price = mysqli_real_escape_string($conn, $_POST['Price']);
+    
+    // Xử lý giá: bỏ dấu chấm, bỏ 3 số 0 cuối, ép kiểu về số
+    $price_input = $_POST['Price'];
+    $price_cleaned = str_replace('.', '', $price_input); // Bỏ dấu chấm
+    $price = (double)($price_cleaned / 1000); // Bỏ 3 số 0 cuối và ép kiểu về số
+    
     $desc = mysqli_real_escape_string($conn, $_POST['Describtion']);
     $type = mysqli_real_escape_string($conn, $_POST['Type']);
 
