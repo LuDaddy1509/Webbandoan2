@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             </div>
             <div class="header-middle-center">
                 <form id="search-form" class="form-search" method="GET" action="login.php">
-                    <span class="search-btn" onclick="submitSearchForm()">
+                    <span class="search-btn" onclick="submitSearchForm(event)">
                         <i class="fa-light fa-magnifying-glass"></i>
                     </span>
                     <input type="text" class="form-search-input" id="search-input" name="keyword" placeholder="Tìm kiếm món ăn..." value="<?php echo isset($_GET['keyword']) ? htmlspecialchars($_GET['keyword']) : ''; ?>">
