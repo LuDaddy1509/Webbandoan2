@@ -58,38 +58,41 @@
 
           $total_pages = ceil($total_products / $limit);
 
-          $sql = "SELECT * FROM sanpham LIMIT $start, $limit";
-          $result = mysqli_query($conn, $sql);
+                  
+        $sql = "SELECT * FROM sanpham LIMIT $start, $limit";
+        $result = mysqli_query($conn, $sql);
 
-          while ($row = mysqli_fetch_array($result)) {
-          ?>
-            <div class="col-12">
-              <div class="list" data-id="<?= $row['ID']; ?>">
-                <div class="list-left">
-                  <img src="<?php echo $row['Image']; ?>" alt="<?php echo $row['Name']; ?>" />
-                  <div class="list-info">
-                    <h4><?php echo $row['Name']; ?></h4>
-                    <p><?php echo $row['Describtion']; ?></p>
-                    <div class="list-category"><?php echo $row['Type']; ?></div>
-                  </div>
+        while ($row = mysqli_fetch_array($result)) {
+          // Kiểm tra Visible
+          $borderStyle = ($row['Visible'] == 0) ? 'style="border: 1px solid red;"' : '';
+        ?>
+          <div class="col-12">
+            <div class="list" data-id="<?= $row['ID']; ?>" <?= $borderStyle; ?>>
+              <div class="list-left">
+                <img src="<?php echo $row['Image']; ?>" alt="<?php echo $row['Name']; ?>" />
+                <div class="list-info">
+                  <h4><?php echo $row['Name']; ?></h4>
+                  <p><?php echo $row['Describtion']; ?></p>
+                  <div class="list-category"><?php echo $row['Type']; ?></div>
                 </div>
-                <div class="list-right">
-                  <div class="list-price"><?php echo $row['Price'] . ".000₫"; ?></div>
-                  <div class="list-control">
-                    <div class="list-tool">
-                      <a href="adminchangeproduct.php?id=<?= $row['ID']; ?>" class="btn-edit">
-                        <i class="fa-light fa-pen-to-square"></i>
-                      </a>
-                      <button class="btn-delete" onclick="confirmDelete(<?= $row['ID']; ?>)">
-                        <i class="fa-regular fa-trash"></i>
-                      </button>
-                    </div>
+              </div>
+              <div class="list-right">
+                <div class="list-price"><?php echo $row['Price'] . ".000₫"; ?></div>
+                <div class="list-control">
+                  <div class="list-tool">
+                    <a href="adminchangeproduct.php?id=<?= $row['ID']; ?>" class="btn-edit">
+                      <i class="fa-light fa-pen-to-square"></i>
+                    </a>
+                    <button class="btn-delete" onclick="confirmDelete(<?= $row['ID']; ?>)">
+                      <i class="fa-regular fa-trash"></i>
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
-          <?php } ?>
-        </div>
+          </div>
+        <?php } ?>
+      </div>
 
         <div class="Pagination">
           <div class="container">
