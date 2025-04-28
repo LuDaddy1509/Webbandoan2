@@ -159,11 +159,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         </div>
         <div class="advanced-search-price">
             <span>Giá từ</span>
-            <input type="text" placeholder="tối thiểu" id="min-price" name="min_price" 
-                   value="<?php echo $min_price !== '' ? number_format($min_price, 0, ',', '.') : ''; ?>">
+            <select id="min-price" name="min_price">
+    <option value="">Tối thiểu</option>
+    <option value="5" <?= (isset($min_price) && $min_price == 5) ? 'selected' : ''; ?>>5.000₫</option>
+    <option value="10" <?= (isset($min_price) && $min_price == 10) ? 'selected' : ''; ?>>10.000₫</option>
+    <option value="30" <?= (isset($min_price) && $min_price == 30) ? 'selected' : ''; ?>>30.000₫</option>
+    <option value="40" <?= (isset($min_price) && $min_price == 40) ? 'selected' : ''; ?>>40.000₫</option>
+    <option value="50" <?= (isset($min_price) && $min_price == 50) ? 'selected' : ''; ?>>50.000₫</option>
+    <option value="60" <?= (isset($min_price) && $min_price == 60) ? 'selected' : ''; ?>>60.000₫</option>
+</select>
             <span>đến</span>
-            <input type="text" placeholder="tối đa" id="max-price" name="max_price" 
-                   value="<?php echo $max_price !== '' ? number_format($max_price, 0, ',', '.') : ''; ?>">
+            <select id="max-price" name="max_price">
+    <option value="">Tối đa</option>
+    <option value="5" <?= (isset($max_price) && $max_price == 5) ? 'selected' : ''; ?>>5.000₫</option>
+    <option value="10" <?= (isset($max_price) && $max_price == 10) ? 'selected' : ''; ?>>10.000₫</option>
+    <option value="30" <?= (isset($max_price) && $max_price == 30) ? 'selected' : ''; ?>>30.000₫</option>
+    <option value="40" <?= (isset($max_price) && $max_price == 40) ? 'selected' : ''; ?>>40.000₫</option>
+    <option value="50" <?= (isset($max_price) && $max_price == 50) ? 'selected' : ''; ?>>50.000₫</option>
+    <option value="60" <?= (isset($max_price) && $max_price == 60) ? 'selected' : ''; ?>>60.000₫</option>
+</select>
             <button type="submit" id="advanced-search-price-btn">
                 <i class="fa-light fa-magnifying-glass-dollar"></i>
             </button>
