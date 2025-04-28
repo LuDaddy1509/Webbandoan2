@@ -68,7 +68,7 @@ $customers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Calculate total customers and revenue (multiply by 1000 to append three zeros)
 $total_customers = count($customers);
-$total_revenue = array_sum(array_column($customers, 'total')) * 1000;
+$total_revenue = array_sum(array_column($customers, 'total'));
 
 // Prepare and execute paginated query
 $stmt_paginated = $pdo->prepare($sql_paginated);
