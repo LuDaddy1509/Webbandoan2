@@ -145,7 +145,7 @@
             products.forEach(function (product) {
               html += `
                 <div class="col-12">
-                  <div class="list" data-id="${product.ID}">
+                  <div class="list" style="${product.Visible == 0 ? 'border: 1px solid red;' : ''}" data-id="${product.ID}">
                     <div class="list-left">
                       <img src="${product.Image}" alt="${product.Name}" />
                       <div class="list-info">
