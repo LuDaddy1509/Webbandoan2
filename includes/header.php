@@ -172,6 +172,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 </div>
 
 <script>
+// Gửi từ ô tìm kiếm đơn giản lên ô tìm kiếm nâng cao
 function submitSearchForm(event) {
     event.preventDefault();
     const searchInput = document.getElementById('search-input').value;
@@ -179,30 +180,46 @@ function submitSearchForm(event) {
     document.getElementById('search-form').submit();
 }
 
-document.getElementById('advanced-search-form').addEventListener('submit', function() {
+// Nếu người dùng submit form nâng cao
+document.getElementById('advanced-search-form').addEventListener('submit', function(event) {
+    // Ngăn submit mặc định
+    event.preventDefault();
+    // Đồng bộ keyword
     const searchInput = document.getElementById('search-input').value;
     document.getElementById('advanced-keyword').value = searchInput;
+
+    // Trước khi submit, format giá về dạng số không dấu chấm
+    var minPriceInput = document.getElementById('min-price');
+    var maxPriceInput = document.getElementById('max-price');
+    minPriceInput.value = minPriceInput.value.replace(/\./g, '');
+    maxPriceInput.value = maxPriceInput.value.replace(/\./g, '');
+
+    // Submit form
+    this.submit();
 });
 
+// Format tự động khi gõ giá
 function formatPrice(input) {
-    let value = input.value.replace(/\D/g, '');
+    let value = input.value.replace(/\D/g, ''); // Xóa tất cả ký tự không phải số
     if (value) {
-        value = parseInt(value).toLocaleString('vi-VN');
-        input.value = value;
+        value = parseInt(value).toLocaleString('vi-VN'); // Thêm dấu chấm ngăn cách
     }
+    input.value = value;
 }
 
+// Gắn sự kiện tự format khi người dùng gõ vào ô min-price và max-price
 document.getElementById('min-price').addEventListener('input', function() {
     formatPrice(this);
 });
-
 document.getElementById('max-price').addEventListener('input', function() {
     formatPrice(this);
 });
 
+// Ẩn ô tìm kiếm nâng cao
 function closeSearchAdvanced() {
     document.getElementById('advanced-search').style.display = 'none';
 }
 </script>
+
 
     <!-- End header top  -->

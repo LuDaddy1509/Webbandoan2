@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             </div>
             <div class="header-middle-center">
                 <form id="search-form" class="form-search" method="GET" action="login.php">
-                    <span class="search-btn" onclick="submitSearchForm(event)">
+                    <span class="search-btn" onclick="submitSearchForm()">
                         <i class="fa-light fa-magnifying-glass"></i>
                     </span>
                     <input type="text" class="form-search-input" id="search-input" name="keyword" placeholder="Tìm kiếm món ăn..." value="<?php echo isset($_GET['keyword']) ? htmlspecialchars($_GET['keyword']) : ''; ?>">
@@ -158,29 +158,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             </select>
         </div>
         <div class="advanced-search-price">
-            <span>Giá từ</span>
-            <select id="min-price" name="min_price">
-    <option value="">Tối thiểu</option>
-    <option value="5" <?= (isset($min_price) && $min_price == 5) ? 'selected' : ''; ?>>5.000₫</option>
-    <option value="10" <?= (isset($min_price) && $min_price == 10) ? 'selected' : ''; ?>>10.000₫</option>
-    <option value="30" <?= (isset($min_price) && $min_price == 30) ? 'selected' : ''; ?>>30.000₫</option>
-    <option value="40" <?= (isset($min_price) && $min_price == 40) ? 'selected' : ''; ?>>40.000₫</option>
-    <option value="50" <?= (isset($min_price) && $min_price == 50) ? 'selected' : ''; ?>>50.000₫</option>
-    <option value="60" <?= (isset($min_price) && $min_price == 60) ? 'selected' : ''; ?>>60.000₫</option>
-</select>
-            <span>đến</span>
-            <select id="max-price" name="max_price">
-    <option value="">Tối đa</option>
-    <option value="5" <?= (isset($max_price) && $max_price == 5) ? 'selected' : ''; ?>>5.000₫</option>
-    <option value="10" <?= (isset($max_price) && $max_price == 10) ? 'selected' : ''; ?>>10.000₫</option>
-    <option value="30" <?= (isset($max_price) && $max_price == 30) ? 'selected' : ''; ?>>30.000₫</option>
-    <option value="40" <?= (isset($max_price) && $max_price == 40) ? 'selected' : ''; ?>>40.000₫</option>
-    <option value="50" <?= (isset($max_price) && $max_price == 50) ? 'selected' : ''; ?>>50.000₫</option>
-    <option value="60" <?= (isset($max_price) && $max_price == 60) ? 'selected' : ''; ?>>60.000₫</option>
-</select>
-            <button type="submit" id="advanced-search-price-btn">
-                <i class="fa-light fa-magnifying-glass-dollar"></i>
-            </button>
+        <span>Giá từ</span>
+<input type="text" placeholder="Tối thiểu" id="min-price" name="min_price" 
+    value="<?php echo $min_price !== '' ? number_format($min_price, 0, ',', '.') : ''; ?>">
+<span>đến</span>
+<input type="text" placeholder="Tối đa" id="max-price" name="max_price" 
+    value="<?php echo $max_price !== '' ? number_format($max_price, 0, ',', '.') : ''; ?>">
+<button type="submit" id="advanced-search-price-btn">
+    <i class="fa-light fa-magnifying-glass-dollar"></i>
+</button>
         </div>
         <div class="advanced-search-control">
             <button type="submit" name="sort" value="asc" title="Sắp xếp giá tăng dần">
@@ -205,6 +191,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 </div>
 
 <script>
+// Gửi từ ô tìm kiếm đơn giản lên ô tìm kiếm nâng cao
 function submitSearchForm(event) {
     event.preventDefault();
     const searchInput = document.getElementById('search-input').value;
@@ -212,27 +199,42 @@ function submitSearchForm(event) {
     document.getElementById('search-form').submit();
 }
 
-document.getElementById('advanced-search-form').addEventListener('submit', function() {
+// Nếu người dùng submit form nâng cao
+document.getElementById('advanced-search-form').addEventListener('submit', function(event) {
+    // Ngăn submit mặc định
+    event.preventDefault();
+    // Đồng bộ keyword
     const searchInput = document.getElementById('search-input').value;
     document.getElementById('advanced-keyword').value = searchInput;
+
+    // Trước khi submit, format giá về dạng số không dấu chấm
+    var minPriceInput = document.getElementById('min-price');
+    var maxPriceInput = document.getElementById('max-price');
+    minPriceInput.value = minPriceInput.value.replace(/\./g, '');
+    maxPriceInput.value = maxPriceInput.value.replace(/\./g, '');
+
+    // Submit form
+    this.submit();
 });
 
+// Format tự động khi gõ giá
 function formatPrice(input) {
-    let value = input.value.replace(/\D/g, '');
+    let value = input.value.replace(/\D/g, ''); // Xóa tất cả ký tự không phải số
     if (value) {
-        value = parseInt(value).toLocaleString('vi-VN');
-        input.value = value;
+        value = parseInt(value).toLocaleString('vi-VN'); // Thêm dấu chấm ngăn cách
     }
+    input.value = value;
 }
 
+// Gắn sự kiện tự format khi người dùng gõ vào ô min-price và max-price
 document.getElementById('min-price').addEventListener('input', function() {
     formatPrice(this);
 });
-
 document.getElementById('max-price').addEventListener('input', function() {
     formatPrice(this);
 });
 
+// Ẩn ô tìm kiếm nâng cao
 function closeSearchAdvanced() {
     document.getElementById('advanced-search').style.display = 'none';
 }

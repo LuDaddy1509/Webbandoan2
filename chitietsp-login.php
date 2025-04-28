@@ -77,7 +77,7 @@
                     >
                   </div>
                   <form action="" method="post">
-                  <div class="inner-gia"><?php echo $row['Price'] ?>.000 ₫</div>
+                  <div class="inner-gia"><?php echo number_format($row['Price'], 0, ',', '.'); ?>₫</div>
                   <div class="inner-desc">
                     <?php echo $row['Describtion'] ?>
                   </div>
