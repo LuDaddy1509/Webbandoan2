@@ -7,11 +7,13 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Function to clean price input (remove thousand separators)
+// Function to clean price input (remove non-numeric characters)
 function cleanPrice($price) {
     if (empty($price)) return '';
-    // Remove dots and any non-numeric characters
-    return str_replace('.', '', $price);
+    // Remove all non-numeric characters
+    $cleaned = preg_replace('/[^0-9]/', '', $price);
+    // Convert to integer
+    return $cleaned !== '' ? (int)$cleaned : '';
 }
 
 // Process form submission
@@ -26,10 +28,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $min_price = isset($_GET['min_price']) ? cleanPrice($_GET['min_price']) : '';
     $max_price = isset($_GET['max_price']) ? cleanPrice($_GET['max_price']) : '';
 
-    if (!is_numeric($min_price) && $min_price !== '') {
+    // Validate price inputs
+    if ($min_price !== '' && !is_numeric($min_price)) {
         $min_price = '';
     }
-    if (!is_numeric($max_price) && $max_price !== '') {
+    if ($max_price !== '' && !is_numeric($max_price)) {
         $max_price = '';
     }
 
@@ -85,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="<?= isset($_SESSION['makh']) ? 'productss.php?makh=' . urlencode($_SESSION['makh']) : 'login.php'; ?>">
+                                <a class="dropdown-item" href="<?php echo isset($_SESSION['makh']) ? 'productss.php?makh=' . urlencode($_SESSION['makh']) : 'login.php'; ?>">
                                     <i class="fa-solid fa-cart-shopping"></i> Đơn hàng đã mua
                                 </a>
                             </li>
@@ -112,6 +115,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                                         $result = $stmt->get_result();
                                         $row = $result->fetch_assoc();
                                         echo htmlspecialchars($row['total_quantity'] ?? 0);
+                                        $stmt->close();
+                                        $conn->close();
                                     } else {
                                         echo "0";
                                     }
@@ -176,9 +181,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 <i class="fa-regular fa-arrow-down-wide-short"></i>
             </button>
             <button>
-              <a href="login.php">
-              <i class="fa-light fa-arrow-rotate-right"></i>
-              </a>
+                <a href="login.php">
+                    <i class="fa-light fa-arrow-rotate-right"></i>
+                </a>
             </button>
             <button type="button" onclick="closeSearchAdvanced()">
                 <i class="fa-light fa-xmark"></i>
@@ -205,6 +210,10 @@ document.getElementById('advanced-search-form').addEventListener('submit', funct
     event.preventDefault();
     // Đồng bộ keyword
     const searchInput = document.getElementById('search-input').value;
+
+    // Chuyển giá trị hiển thị thành giá trị thô
+    minPriceInput.value = getRawPrice(minPriceInput.value);
+    maxPriceInput.value = getRawPrice(maxPriceInput.value);
     document.getElementById('advanced-keyword').value = searchInput;
 
     // Trước khi submit, format giá về dạng số không dấu chấm
