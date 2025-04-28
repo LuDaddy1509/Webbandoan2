@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
           </div>
           </div>
 <div class="header-middle-center">
-<form id="search-form" class="form-search" method="GET" action="login.php">
+<form id="search-form" class="form-search" method="GET" action="index.php">
         <span class="search-btn" onclick="submitSearchForm(event)">
             <i class="fa-light fa-magnifying-glass"></i>
         </span>
