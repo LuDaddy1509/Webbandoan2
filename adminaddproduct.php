@@ -243,44 +243,44 @@ if (isset($_POST['addproduct'])) {
                     </div>
                     <script>
                       document.getElementById('sell').addEventListener('input', function(e) {
-    // Lấy giá trị nhập vào, loại bỏ các ký tự không phải số
-    let value = e.target.value.replace(/\D/g, '');
-    
-    // Định dạng số với dấu chấm mỗi 3 chữ số
-    if (value) {
-        value = parseInt(value).toString(); // Chuyển thành chuỗi số nguyên
-        let formattedValue = '';
-        for (let i = value.length - 1, count = 0; i >= 0; i--) {
-            formattedValue = value[i] + formattedValue;
-            count++;
-            if (count % 3 === 0 && i !== 0) {
-                formattedValue = '.' + formattedValue;
-            }
-        }
-        e.target.value = formattedValue;
-    }
-});
+                      // Lấy giá trị nhập vào, loại bỏ các ký tự không phải số
+                      let value = e.target.value.replace(/\D/g, '');
+                      
+                      // Định dạng số với dấu chấm mỗi 3 chữ số
+                      if (value) {
+                          value = parseInt(value).toString(); // Chuyển thành chuỗi số nguyên
+                          let formattedValue = '';
+                          for (let i = value.length - 1, count = 0; i >= 0; i--) {
+                              formattedValue = value[i] + formattedValue;
+                              count++;
+                              if (count % 3 === 0 && i !== 0) {
+                                  formattedValue = '.' + formattedValue;
+                              }
+                          }
+                          e.target.value = formattedValue;
+                      }
+                  });
 
-// Xử lý khi người dùng xóa hoặc chỉnh sửa
-document.getElementById('sell').addEventListener('keydown', function(e) {
-    if (e.key === 'Backspace' || e.key === 'Delete') {
-        setTimeout(() => {
-            let value = e.target.value.replace(/\D/g, '');
-            if (value) {
-                value = parseInt(value).toString();
-                let formattedValue = '';
-                for (let i = value.length - 1, count = 0; i >= 0; i--) {
-                    formattedValue = value[i] + formattedValue;
-                    count++;
-                    if (count % 3 === 0 && i !== 0) {
-                        formattedValue = '.' + formattedValue;
-                    }
-                }
-                e.target.value = formattedValue;
-            }
-        }, 0);
-    }
-});
+                  // Xử lý khi người dùng xóa hoặc chỉnh sửa
+                  document.getElementById('sell').addEventListener('keydown', function(e) {
+                      if (e.key === 'Backspace' || e.key === 'Delete') {
+                          setTimeout(() => {
+                              let value = e.target.value.replace(/\D/g, '');
+                              if (value) {
+                                  value = parseInt(value).toString();
+                                  let formattedValue = '';
+                                  for (let i = value.length - 1, count = 0; i >= 0; i--) {
+                                      formattedValue = value[i] + formattedValue;
+                                      count++;
+                                      if (count % 3 === 0 && i !== 0) {
+                                          formattedValue = '.' + formattedValue;
+                                      }
+                                  }
+                                  e.target.value = formattedValue;
+                              }
+                          }, 0);
+                      }
+                  });
                     </script>
                     <div class="form-group">
                         <label for="desc">Mô tả</label>
