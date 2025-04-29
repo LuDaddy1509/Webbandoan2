@@ -152,8 +152,8 @@ if ($conn->connect_error) {
     die("Kết nối thất bại: " . $conn->connect_error);
 }
 
-// Truy vấn lấy 4 món ăn nổi bật ngẫu nhiên
-$sql = "SELECT ID, Name, Image, Price FROM sanpham ORDER BY RAND() LIMIT 4";
+// Truy vấn lấy 4 món ăn nổi bật ngẫu nhiên với điều kiện Visible = 1
+$sql = "SELECT ID, Name, Image, Price FROM sanpham WHERE Visible = 1 ORDER BY RAND() LIMIT 4";
 $result = $conn->query($sql);
 
 if (!$result) {
@@ -216,8 +216,8 @@ if ($conn->connect_error) {
     die("Kết nối thất bại: " . $conn->connect_error);
 }
 
-// Lấy 4 sản phẩm ngẫu nhiên
-$sql = "SELECT * FROM sanpham ORDER BY RAND() LIMIT 4";
+// Lấy 4 sản phẩm ngẫu nhiên với điều kiện Visible = 1
+$sql = "SELECT * FROM sanpham WHERE Visible = 1 ORDER BY RAND() LIMIT 4";
 $result = $conn->query($sql);
 
 // Hiển thị sản phẩm
@@ -245,7 +245,6 @@ if ($result->num_rows > 0) {
 
 $conn->close();
 ?>
-
         </div>
       </div>
     </div>

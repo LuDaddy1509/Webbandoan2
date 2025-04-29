@@ -168,7 +168,6 @@
                             </tbody>
                         </table>
                     </div>
-                   
                 </div>
                 <div class="col-md-4">
                     <div class="card bg-cream p-4 mb-4">
@@ -179,10 +178,10 @@
                     </div>
                     <div class="card bg-light-gray p-4">
                         <span>Mã giảm giá</span>
-                        <p class="mt-2 mb-4 text-sm text-muted">* Giảm giá sẽ được tính và áp dụng khi thanh toán</p>
+                        <p class="mt- DELTA text-sm text-muted">* Giảm giá sẽ được tính và áp dụng khi thanh toán</p>
                         <input class="form-control h-10 mb-4" placeholder="Coupon code" type="text">
                         <p class="font-weight-bold">Total: <?= number_format($tong) ?>đ</p>
-                        <form action="<?php echo isset($_SESSION['makh']) ? 'thanhtoan.php?makh=' . urlencode($_SESSION['makh']) : 'giohang.php'; ?>" method="post">
+                        <form id="checkout-form" action="<?php echo isset($_SESSION['makh']) ? 'thanhtoan.php?makh=' . urlencode($_SESSION['makh']) : 'giohang.php'; ?>" method="post">
                             <button type="submit" class="btn btn-block mt-4 rounded-pill">Thanh toán</button>
                         </form>
                     </div>
@@ -230,6 +229,29 @@ $(document).ready(function() {
         let id = row.data('id');
         $.post('xoa_giohang.php', { masp: id }, function() {
             location.reload();
+        });
+    });
+
+    $('#checkout-form').submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: 'checkvisible.php',
+            method: 'POST',
+            dataType: 'json',
+            success: function(response) {
+                if (response.status === 'error') {
+                    let message = 'Các sản phẩm sau đã ngừng kinh doanh và cần được xóa khỏi giỏ hàng trước khi thanh toán:\n\n';
+                    response.discontinued.forEach(function(item) {
+                        message += '- ' + item + '\n';
+                    });
+                    alert(message);
+                } else {
+                    $('#checkout-form').unbind('submit').submit();
+                }
+            },
+            error: function() {
+                alert('Đã có lỗi xảy ra khi kiểm tra giỏ hàng. Vui lòng thử lại.');
+            }
         });
     });
 });

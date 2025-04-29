@@ -222,9 +222,8 @@ if ($conn->connect_error) {
     die("Kết nối thất bại: " . $conn->connect_error);
 }
 
-// Truy vấn lấy 4 món ăn nổi bật ngẫu nhiên
-$sql = "SELECT ID, Name, Image, Price FROM sanpham ORDER BY RAND() LIMIT 4";
-$result = $conn->query($sql);
+// Truy vấn lấy 4 món ăn nổi bật ngẫu nhiên với điều kiện Visible = 1
+$sql = "SELECT ID, Name, Image, Price FROM sanpham WHERE Visible = 1 ORDER BY RAND() LIMIT 4";
 $result = $conn->query($sql);
 
 if (!$result) {
@@ -238,7 +237,7 @@ if ($result->num_rows > 0) {
     
     while ($row = $result->fetch_assoc()) {
         echo "<div class='inner-item'>";
-        echo "<a href='chitietsp-login.php?id=" . $row["ID"] . "' class='inner-anh'>";
+        echo "<a href='chitietsp.php?id=" . $row["ID"] . "' class='inner-anh'>";
         echo "<img src='" . $row["Image"] . "' alt='" . $row["Name"] . "'>";
         echo "</a>";
         echo "<div class='inner-mota'>";
@@ -256,7 +255,6 @@ if ($result->num_rows > 0) {
 // Đóng kết nối database
 $conn->close();
 ?>
-
 
           </div>
         </div>
@@ -287,21 +285,23 @@ if ($conn->connect_error) {
     die("Kết nối thất bại: " . $conn->connect_error);
 }
 
-// Lấy 4 sản phẩm ngẫu nhiên
-$sql = "SELECT * FROM sanpham ORDER BY RAND() LIMIT 4";
+// Lấy 4 sản phẩm ngẫu nhiên với điều kiện Visible = 1
+$sql = "SELECT * FROM sanpham WHERE Visible = 1 ORDER BY RAND() LIMIT 4";
 $result = $conn->query($sql);
+
+// Hiển thị sản phẩm
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         echo '
         <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
             <div class="inner-item">
-              <a href="chitietsp-login.php?id='.$row['ID'].'" class="inner-img">
+              <a href="chitietsp.php?id='.$row['ID'].'" class="inner-img">
                 <img src="'.$row['Image'].'" />
               </a>
               <div class="inner-info">
                 <div class="inner-ten">'.$row['Name'].'</div>
-                <div class="inner-gia">'.number_format($row['Price'], 0, ',', '.').'₫</div>
-                <a href="chitietsp-login.php?id='.$row['ID'].'" class="inner-muahang">
+                <div class="inner-gia">'.number_format($row['Price'], 0, ',', '.').' ₫</div>
+                <a href="chitietsp.php?id='.$row['ID'].'" class="inner-muahang">
                   <i class="fa-solid fa-cart-plus"></i> ĐẶT MÓN
                 </a>
               </div>
@@ -311,6 +311,7 @@ if ($result->num_rows > 0) {
 } else {
     echo "Không có sản phẩm nào!";
 }
+
 $conn->close();
 ?>
         </div>
