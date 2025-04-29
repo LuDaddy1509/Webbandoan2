@@ -217,7 +217,7 @@ $is_search = !empty($keyword) || !empty($category) || !empty($Type) || $min_pric
                                 </a>
                                 <div class="inner-info">
                                     <div class="inner-ten"><?= htmlspecialchars($row['Name']); ?></div>
-                                    <div class="inner-gia"><?= number_format($row['Price'], 0, ',', '.'); ?> ₫</div>
+                                    <div class="inner-gia"><?= number_format($row['Price'], 0, '.', '.'); ?>₫</div>
                                     <a href="chitietsp.php?id=<?= $row['ID']; ?>" class="inner-muahang">
                                         <i class="fa-solid fa-cart-plus"></i> ĐẶT MÓN
                                     </a>

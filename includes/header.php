@@ -159,6 +159,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 </div>
 
 <script>
+// Gửi từ ô tìm kiếm đơn giản lên ô tìm kiếm nâng cao
 function submitSearchForm(event) {
     event.preventDefault();
     const searchInput = document.getElementById('search-input').value;
@@ -191,17 +192,26 @@ document.getElementById('advanced-search-form').addEventListener('submit', funct
     minPriceInput.value = getRawPrice(minPriceInput.value);
     maxPriceInput.value = getRawPrice(maxPriceInput.value);
     document.getElementById('advanced-keyword').value = searchInput;
+
+    // Trước khi submit, format giá về dạng số không dấu chấm
+    var minPriceInput = document.getElementById('min-price');
+    var maxPriceInput = document.getElementById('max-price');
+    minPriceInput.value = minPriceInput.value.replace(/\./g, '');
+    maxPriceInput.value = maxPriceInput.value.replace(/\./g, '');
+
+    // Submit form
+    this.submit();
 });
 
 // Định dạng giá khi người dùng nhập
 document.getElementById('min-price').addEventListener('input', function() {
     formatPrice(this);
 });
-
 document.getElementById('max-price').addEventListener('input', function() {
     formatPrice(this);
 });
 
+// Ẩn ô tìm kiếm nâng cao
 function closeSearchAdvanced() {
     document.getElementById('advanced-search').style.display = 'none';
 }

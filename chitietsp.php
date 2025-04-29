@@ -77,7 +77,7 @@
                       ><i class="fa-solid fa-check"></i>Còn món</span
                     >
                   </div>
-                  <div class="inner-gia"><?php echo number_format($row['Price'], 0, ',', '.'); ?> ₫</div>
+                  <div class="inner-gia"><?= number_format($row['Price'], 0, ',', '.'); ?>₫</div>
                   <div class="inner-desc">
                     <?php echo $row['Describtion'] ?>
                   </div>

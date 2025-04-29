@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             </div>
             <div class="header-middle-center">
                 <form id="search-form" class="form-search" method="GET" action="login.php">
-                    <span class="search-btn" onclick="submitSearchForm(event)">
+                    <span class="search-btn" onclick="submitSearchForm()">
                         <i class="fa-light fa-magnifying-glass"></i>
                     </span>
                     <input type="text" class="form-search-input" id="search-input" name="keyword" placeholder="Tìm kiếm món ăn..." value="<?php echo isset($_GET['keyword']) ? htmlspecialchars($_GET['keyword']) : ''; ?>">
@@ -163,15 +163,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             </select>
         </div>
         <div class="advanced-search-price">
-            <span>Giá từ</span>
-            <input type="text" placeholder="tối thiểu" id="min-price" name="min_price" 
-                   value="<?php echo $min_price !== '' ? number_format($min_price, 0, ',', '.') : ''; ?>">
-            <span>đến</span>
-            <input type="text" placeholder="tối đa" id="max-price" name="max_price" 
-                   value="<?php echo $max_price !== '' ? number_format($max_price, 0, ',', '.') : ''; ?>">
-            <button type="submit" id="advanced-search-price-btn">
-                <i class="fa-light fa-magnifying-glass-dollar"></i>
-            </button>
+        <span>Giá từ</span>
+<input type="text" placeholder="Tối thiểu" id="min-price" name="min_price" 
+    value="<?php echo $min_price !== '' ? number_format($min_price, 0, '.', '.') : ''; ?>">
+<span>đến</span>
+<input type="text" placeholder="Tối đa" id="max-price" name="max_price" 
+    value="<?php echo $max_price !== '' ? number_format($max_price, 0, '.', '.') : ''; ?>">
+<button type="submit" id="advanced-search-price-btn">
+    <i class="fa-light fa-magnifying-glass-dollar"></i>
+</button>
         </div>
         <div class="advanced-search-control">
             <button type="submit" name="sort" value="asc" title="Sắp xếp giá tăng dần">
@@ -196,6 +196,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 </div>
 
 <script>
+// Gửi từ ô tìm kiếm đơn giản lên ô tìm kiếm nâng cao
 function submitSearchForm(event) {
     event.preventDefault();
     const searchInput = document.getElementById('search-input').value;
@@ -203,42 +204,46 @@ function submitSearchForm(event) {
     document.getElementById('search-form').submit();
 }
 
-// Hàm định dạng giá để hiển thị
-function formatPrice(input) {
-    let value = input.value.replace(/\D/g, ''); // Loại bỏ ký tự không phải số
-    if (value) {
-        input.value = parseInt(value).toLocaleString('vi-VN'); // Hiển thị định dạng 10.000
-    } else {
-        input.value = '';
-    }
-}
-
-// Hàm lấy giá trị thô trước khi gửi form
-function getRawPrice(value) {
-    return value.replace(/\D/g, ''); // Loại bỏ dấu chấm, chỉ giữ số
-}
-
-// Synchronize giá trị thô khi gửi form
-document.getElementById('advanced-search-form').addEventListener('submit', function() {
-    const minPriceInput = document.getElementById('min-price');
-    const maxPriceInput = document.getElementById('max-price');
+// Nếu người dùng submit form nâng cao
+document.getElementById('advanced-search-form').addEventListener('submit', function(event) {
+    // Ngăn submit mặc định
+    event.preventDefault();
+    // Đồng bộ keyword
     const searchInput = document.getElementById('search-input').value;
 
     // Chuyển giá trị hiển thị thành giá trị thô
     minPriceInput.value = getRawPrice(minPriceInput.value);
     maxPriceInput.value = getRawPrice(maxPriceInput.value);
     document.getElementById('advanced-keyword').value = searchInput;
+
+    // Trước khi submit, format giá về dạng số không dấu chấm
+    var minPriceInput = document.getElementById('min-price');
+    var maxPriceInput = document.getElementById('max-price');
+    minPriceInput.value = minPriceInput.value.replace(/\./g, '');
+    maxPriceInput.value = maxPriceInput.value.replace(/\./g, '');
+
+    // Submit form
+    this.submit();
 });
 
-// Định dạng giá khi người dùng nhập
+// Format tự động khi gõ giá
+function formatPrice(input) {
+    let value = input.value.replace(/\D/g, ''); // Xóa tất cả ký tự không phải số
+    if (value) {
+        value = parseInt(value).toLocaleString('vi-VN'); // Thêm dấu chấm ngăn cách
+    }
+    input.value = value;
+}
+
+// Gắn sự kiện tự format khi người dùng gõ vào ô min-price và max-price
 document.getElementById('min-price').addEventListener('input', function() {
     formatPrice(this);
 });
-
 document.getElementById('max-price').addEventListener('input', function() {
     formatPrice(this);
 });
 
+// Ẩn ô tìm kiếm nâng cao
 function closeSearchAdvanced() {
     document.getElementById('advanced-search').style.display = 'none';
 }
