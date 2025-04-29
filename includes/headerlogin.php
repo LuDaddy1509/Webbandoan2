@@ -165,10 +165,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         <div class="advanced-search-price">
         <span>Giá từ</span>
 <input type="text" placeholder="Tối thiểu" id="min-price" name="min_price" 
-    value="<?php echo $min_price !== '' ? number_format($min_price, 0, ',', '.') : ''; ?>">
+    value="<?php echo $min_price !== '' ? number_format($min_price, 0, '.', '.') : ''; ?>">
 <span>đến</span>
 <input type="text" placeholder="Tối đa" id="max-price" name="max_price" 
-    value="<?php echo $max_price !== '' ? number_format($max_price, 0, ',', '.') : ''; ?>">
+    value="<?php echo $max_price !== '' ? number_format($max_price, 0, '.', '.') : ''; ?>">
 <button type="submit" id="advanced-search-price-btn">
     <i class="fa-light fa-magnifying-glass-dollar"></i>
 </button>
